@@ -1,4 +1,5 @@
 <resources>
+<!--  按钮样式  -->
 
     <!-- 窗口按钮 -->
     <style name="button_1">

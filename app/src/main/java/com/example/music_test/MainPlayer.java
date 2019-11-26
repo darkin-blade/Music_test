@@ -18,7 +18,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.IOException;
 
-public class MainActivity extends AppCompatActivity {
+public class MainPlayer extends AppCompatActivity {
     public String appPath;
     public MediaPlayer player;// 媒体播放器
     public SeekBar seekBar;// 进度条
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main_player);
 
         initApp();
         initPlayer();// 初始化播放器
@@ -67,14 +67,14 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {// 开始拖动
-                mainToast("start touch");
+//                mainToast("start touch");
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {// 停止拖动
-                mainToast("end touch");
-                if (player.isPlaying()) {// 在播放时才有效
-                    ;
+//                mainToast("end touch");
+                if (player.isPlaying()) {// 在播放时才有效 TODO 调整player进度
+                    mainToast(seekBar.getProgress() + "%");
                 }
             }
         });
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void mainToast(String log) {
-        Toast toast = Toast.makeText(MainActivity.this, log, Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(MainPlayer.this, log, Toast.LENGTH_SHORT);
         View view = toast.getView();
         TextView textView = view.findViewById(android.R.id.message);
         textView.setTextColor(Color.rgb(0x00, 0x00, 0x00));
