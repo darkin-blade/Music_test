@@ -4,7 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothProfile;
+import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.media.AudioManager;
@@ -19,12 +23,20 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
 
 public class MainPlayer extends AppCompatActivity {
     public String appPath;
     public MediaPlayer player;// 媒体播放器
     public SeekBar seekBar;// 进度条
     public BluetoothAdapter bluetoothAdapter;// TODO 蓝牙
+    public BluetoothSocket bluetoothSocket;// TODO
+    public List<BluetoothDevice> bluetoothDevices;// TODO 所有配对的设备
+    public BluetoothProfile.ServiceListener serviceListener;// TODO
+    public OutputStream outputStream;
+    public InputStream inputStream;
 
     public Button button_1;// `播放/暂停`按钮
     public Button button_2;// `开启蓝牙`按钮
@@ -111,8 +123,10 @@ public class MainPlayer extends AppCompatActivity {
                 // 开启蓝牙
                 if (bluetoothAdapter.isEnabled() == false) {
                     bluetoothAdapter.enable();
+                    bluetoothAdapter.getProfileProxy(MainPlayer.this, serviceListener, BluetoothProfile.A2DP);// TODO 开始连接
                 } else {
-                    mainToast("bluetooth is already enabled");
+                    bluetoothAdapter.disable();
+                    bluetoothAdapter.getProfileProxy(MainPlayer.this, serviceListener, BluetoothProfile.A2DP);// TODO 开始连接
                 }
             }
         });
@@ -120,6 +134,28 @@ public class MainPlayer extends AppCompatActivity {
 
     public void initBluetooth() {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        serviceListener = new BluetoothProfile.ServiceListener() {
+            @Override
+            public void onServiceConnected(int profile, BluetoothProfile proxy) {
+                infoLog("profile: " + profile);
+                bluetoothDevices = proxy.getConnectedDevices();
+                for (int i = 0; i < bluetoothDevices.size(); i ++) {
+                    infoLog("device: " + bluetoothDevices.get(i).getName());
+                }
+
+                if (bluetoothDevices.size() > 0) {
+                    mainToast("device: " + bluetoothDevices.get(0).getName());
+
+                }
+            }
+
+            @Override
+            public void onServiceDisconnected(int profile) {
+                if (player.isPlaying()) {
+                    player.pause();
+                }
+            }
+        };
     }
 
     public void test1() {
@@ -160,7 +196,14 @@ public class MainPlayer extends AppCompatActivity {
     }
 
     @Override
+    public void onResume() {
+        BluetoothReceiver receiver = new BluetoothReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(android.net.conn);
+        super.onResume();
+    }
 
+    @Override
     public void onBackPressed() {// TODO 返回就停止
         player.stop();// 停止
         super.onBackPressed();
