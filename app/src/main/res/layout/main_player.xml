@@ -48,7 +48,7 @@
                 android:layout_marginRight="2dp"/>
             <Button
                 android:id="@+id/button_2"
-                android:text="TODO"
+                android:text="Bluetooth"
                 style="@style/button_2"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="2dp"/>

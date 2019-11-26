@@ -3,6 +3,7 @@ package com.example.music_test;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -23,7 +24,10 @@ public class MainPlayer extends AppCompatActivity {
     public String appPath;
     public MediaPlayer player;// 媒体播放器
     public SeekBar seekBar;// 进度条
+    public BluetoothAdapter bluetoothAdapter;// TODO 蓝牙
+
     public Button button_1;// `播放/暂停`按钮
+    public Button button_2;// `开启蓝牙`按钮
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,7 @@ public class MainPlayer extends AppCompatActivity {
         initApp();
         initPlayer();// 初始化播放器
         initSeekBar();// 初始化进度条
+        initBluetooth();// 初始化蓝牙
         test1();
     }
 
@@ -85,7 +90,6 @@ public class MainPlayer extends AppCompatActivity {
     public void initButton() {
         button_1 = findViewById(R.id.button_1);// 播放按钮
 
-        // 添加监听
         button_1.setOnClickListener(new View.OnClickListener() {// `播放/暂停`功能
             @Override
             public void onClick(View v) {
@@ -98,6 +102,24 @@ public class MainPlayer extends AppCompatActivity {
                 }
             }
         });
+
+        button_2 = findViewById(R.id.button_2);// 蓝牙按钮
+
+        button_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 开启蓝牙
+                if (bluetoothAdapter.isEnabled() == false) {
+                    bluetoothAdapter.enable();
+                } else {
+                    mainToast("bluetooth is already enabled");
+                }
+            }
+        });
+    }
+
+    public void initBluetooth() {
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     }
 
     public void test1() {
