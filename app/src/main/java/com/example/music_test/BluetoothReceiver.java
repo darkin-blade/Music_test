@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 public class BluetoothReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+        MainPlayer.infoLog("on receive");// TODO 删掉
         String action = intent.getAction();
         if (action != null) {
             switch (action) {

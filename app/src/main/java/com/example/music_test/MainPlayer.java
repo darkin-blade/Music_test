@@ -31,6 +31,7 @@ public class MainPlayer extends AppCompatActivity {
     public String appPath;
     public MediaPlayer player;// 媒体播放器
     public SeekBar seekBar;// 进度条
+    public BluetoothReceiver receiver;// 接收蓝牙信号
     public BluetoothAdapter bluetoothAdapter;// TODO 蓝牙
     public BluetoothSocket bluetoothSocket;// TODO
     public List<BluetoothDevice> bluetoothDevices;// TODO 所有配对的设备
@@ -132,6 +133,7 @@ public class MainPlayer extends AppCompatActivity {
 
     public void initBluetooth() {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        receiver = new BluetoothReceiver();// TODO 接收蓝牙信号
     }
 
     public void test1() {
@@ -173,7 +175,14 @@ public class MainPlayer extends AppCompatActivity {
 
     @Override
     public void onResume() {
+        receiver.registerHeadsetReceiver(this);
         super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        receiver.unregisterHeadsetReceiver(this);
+        super.onPause();
     }
 
     @Override
