@@ -43,25 +43,25 @@
 
             <Button
                 android:id="@+id/button_1"
-                android:text="Back"
-                style="@style/button_7"
+                android:text="Play"
+                style="@style/button_1"
                 android:layout_marginRight="2dp"/>
             <Button
                 android:id="@+id/button_2"
-                android:text="Cancel"
-                style="@style/button_6"
+                android:text="TODO"
+                style="@style/button_2"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="2dp"/>
             <Button
                 android:id="@+id/button_3"
-                android:text="Recognize"
-                style="@style/button_5"
+                android:text="TODO"
+                style="@style/button_6"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="2dp"/>
             <Button
                 android:id="@+id/button_4"
-                android:text="Open"
-                style="@style/button_2"
+                android:text="TODO"
+                style="@style/button_7"
                 android:layout_marginLeft="2dp"/>
         </LinearLayout>
 

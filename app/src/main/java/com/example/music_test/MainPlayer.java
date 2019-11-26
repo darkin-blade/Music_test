@@ -11,6 +11,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ public class MainPlayer extends AppCompatActivity {
     public String appPath;
     public MediaPlayer player;// 媒体播放器
     public SeekBar seekBar;// 进度条
+    public Button button_1;// `播放/暂停`按钮
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,14 +69,32 @@ public class MainPlayer extends AppCompatActivity {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {// 开始拖动
-//                mainToast("start touch");
+                mainToast("start touch");
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {// 停止拖动
-//                mainToast("end touch");
+                mainToast("end touch");
                 if (player.isPlaying()) {// 在播放时才有效 TODO 调整player进度
                     mainToast(seekBar.getProgress() + "%");
+                }
+            }
+        });
+    }
+
+    public void initButton() {
+        button_1 = findViewById(R.id.button_1);// 播放按钮
+
+        // 添加监听
+        button_1.setOnClickListener(new View.OnClickListener() {// `播放/暂停`功能
+            @Override
+            public void onClick(View v) {
+                if (button_1.getText().equals("Play")) {
+                    button_1.setText("Pause");
+                    player.start();
+                } else {
+                    button_1.setText("Play");
+                    player.pause();
                 }
             }
         });
@@ -88,7 +108,7 @@ public class MainPlayer extends AppCompatActivity {
             if (tmp.exists()) {// 如果文件存在
                 player.setDataSource(musicPath);// TODO 异常
                 player.prepare();
-                player.start();
+                initButton();
             } else {
                 infoToast(this, musicPath + " not exists");
             }
