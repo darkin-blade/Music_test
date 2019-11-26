@@ -43,7 +43,7 @@
     </style>
 
     <!-- 输入框 -->
-    <style name="dialog_1">
+    <style name="input_1">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">40dp</item>
         <item name="android:padding">2dp</item>
@@ -67,9 +67,9 @@
     <dimen name="bottom_1">60dp</dimen>
     <!--  按钮 + 输入框  -->
     <dimen name="bottom_2">120dp</dimen>
-    <!--  按钮 + 2输入框  -->
+    <!--  按钮 + 2输入框(input)  -->
     <dimen name="bottom_3">180dp</dimen>
-    <!--  按钮 + 路径框  -->
+    <!--  按钮 + 路径框(tab)  -->
     <dimen name="bottom_4">95dp</dimen>
 
 </resources>
