@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void initSeekBar() {
+        seekBar = findViewById(R.id.music_bar);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -65,13 +66,16 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(SeekBar seekBar) {// 开始拖动
                 mainToast("start touch");
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(SeekBar seekBar) {// 停止拖动
                 mainToast("end touch");
+                if (player.isPlaying()) {// 在播放时才有效
+                    ;
+                }
             }
         });
     }
