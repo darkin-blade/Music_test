@@ -8,7 +8,7 @@
     android:background="@color/grey">
 
     <TextView
-        style="@style/bar_2"
+        style="@style/bar_1"
         android:text="Music Player"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent">

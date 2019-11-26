@@ -9,9 +9,11 @@
 
     <!-- 顶栏 -->
     <style name="bar_1">
-        <item name="android:textSize">@dimen/bar_size</item>
+        <!--    app标题    -->
+        <!--    父元素    -->
+        <item name="android:textSize">@dimen/bar_text_size</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:background">@color/color_1</item>
+        <item name="android:background">@color/color_2</item>
 
         <item name="android:layout_height">@dimen/bar_height</item>
         <item name="android:layout_width">match_parent</item>
@@ -19,15 +21,13 @@
         <item name="android:maxLines">1</item>
     </style>
 
-    <style name="bar_2" parent="bar_1">
-        <item name="android:background">@color/color_2</item>
-    </style>
-
     <!-- 标题 -->
-    <style name="title_1">
-        <item name="android:textSize">@dimen/title_size</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:background">@color/color_1</item>
+    <style name="tab_1">
+        <!--    顶栏路径/功能提示    -->
+        <!--    父元素    -->
+        <item name="android:textSize">@dimen/tab_text_size</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:background">@color/grey</item>
 
         <item name="android:layout_height">@dimen/tab_height</item>
         <item name="android:layout_width">match_parent</item>
@@ -35,21 +35,7 @@
         <item name="android:maxLines">1</item>
     </style>
 
-    <style name="title_2" parent="title_1">
-        <item name="android:background">@color/color_2</item>
-    </style>
-
-    <style name="title_white" parent="title_1">
-        <item name="android:textColor">@color/black</item>
-        <item name="android:background">@color/grey</item>
-    </style>
-
-    <!-- 栏 -->
-    <style name="tab_white" parent="title_white">
-        <item name="android:textSize">@dimen/tab_size</item>
-    </style>
-
-    <!-- 横线 -->
+    <!-- 分割线线 -->
     <style name="line">
         <item name="android:background">@color/grey_light</item>
         <item name="android:layout_width">match_parent</item>
@@ -67,38 +53,23 @@
         <item name="android:inputType">text</item>
     </style>
 
-    <!-- 图片显示 -->
-    <style name="gesture_show">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/img_height</item>
-        <item name="android:layout_marginRight">50dp</item>
-        <item name="android:layout_marginLeft">50dp</item>
-        <item name="android:layout_marginTop">5dp</item>
-        <item name="android:layout_marginBottom">5dp</item>
-    </style>
-
     <!-- 高宽参数 -->
-    <!-- 顶栏 -->
+    <!-- 标题栏size -->
     <dimen name="bar_height">55dp</dimen>
-    <dimen name="bar_size">23dp</dimen>
+    <dimen name="bar_text_size">23dp</dimen>
 
-    <!-- 标题栏高度 -->
-    <dimen name="title_height">55dp</dimen>
-    <dimen name="title_size">20dp</dimen>
-
-    <!-- 窗口tab高度/宽度 -->
+    <!-- 工具栏size -->
     <dimen name="tab_height">35dp</dimen>
-    <dimen name="tab_width">125dp</dimen>
-    <dimen name="tab_between">10dp</dimen>
-    <dimen name="tab_size">16dp</dimen>
+    <dimen name="tab_text_size">20dp</dimen>
 
-    <!-- 底栏 -->
+    <!-- 底栏size -->
+    <!-- 按钮  -->
     <dimen name="bottom_1">60dp</dimen>
+    <!--  按钮 + 输入框  -->
     <dimen name="bottom_2">120dp</dimen>
+    <!--  按钮 + 2输入框  -->
     <dimen name="bottom_3">180dp</dimen>
+    <!--  按钮 + 路径框  -->
     <dimen name="bottom_4">95dp</dimen>
-
-    <!-- 手势图片 -->
-    <dimen name="img_height">250dp</dimen>
 
 </resources>
