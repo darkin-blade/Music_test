@@ -56,7 +56,8 @@ public class BluetoothReceiver extends BroadcastReceiver {
         }
     }
 
-    public void registerHeadsetReceiver(Context context) {
+    public void registerReceiver(Context context) {
+        MainPlayer.infoLog("register");
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         // 另说 context.AUDIO_SERVICE
         ComponentName name = new ComponentName(context.getPackageName(), BluetoothReceiver.class.getName());
@@ -64,7 +65,7 @@ public class BluetoothReceiver extends BroadcastReceiver {
         audioManager.registerMediaButtonEventReceiver(name);
     }
 
-    public void unregisterHeadsetReceiver(Context context){
+    public void unregisterReceiver(Context context){
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         ComponentName name = new ComponentName(context.getPackageName(), BluetoothReceiver.class.getName());
         audioManager.unregisterMediaButtonEventReceiver(name);

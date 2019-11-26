@@ -8,7 +8,6 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothProfile;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.media.AudioManager;
@@ -134,6 +133,7 @@ public class MainPlayer extends AppCompatActivity {
     public void initBluetooth() {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         receiver = new BluetoothReceiver();// TODO 接收蓝牙信号
+        receiver.registerReceiver(this);
     }
 
     public void test1() {
@@ -175,13 +175,11 @@ public class MainPlayer extends AppCompatActivity {
 
     @Override
     public void onResume() {
-        receiver.registerHeadsetReceiver(this);
         super.onResume();
     }
 
     @Override
     public void onPause() {
-        receiver.unregisterHeadsetReceiver(this);
         super.onPause();
     }
 
@@ -189,5 +187,11 @@ public class MainPlayer extends AppCompatActivity {
     public void onBackPressed() {// TODO 返回就停止
         player.stop();// 停止
         super.onBackPressed();
+    }
+
+    @Override
+    public void onDestroy() {
+        receiver.unregisterReceiver(this);
+        super.onDestroy();
     }
 }
