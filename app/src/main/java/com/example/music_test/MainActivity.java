@@ -11,6 +11,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +20,8 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     public String appPath;
-    public MediaPlayer player;
+    public MediaPlayer player;// 媒体播放器
+    public SeekBar seekBar;// 进度条
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initApp();
-        initPlayer();
+        initPlayer();// 初始化播放器
+        initSeekBar();// 初始化进度条
         test1();
     }
 
@@ -50,6 +53,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 mainToast("play finished");
+            }
+        });
+    }
+
+    public void initSeekBar() {
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                ;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                mainToast("start touch");
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                mainToast("end touch");
             }
         });
     }
