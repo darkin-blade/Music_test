@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initApp();
+        initPlayer();
         test1();
     }
 
@@ -42,8 +43,18 @@ public class MainActivity extends AppCompatActivity {
         appPath = getExternalFilesDir("").getAbsolutePath();
     }
 
-    public void test1() {
+    public void initPlayer() {
         player = new MediaPlayer();
+        player.setLooping(false);// TODO 不循环播放
+        player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {// 播放完毕回调函数
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mainToast("play finished");
+            }
+        });
+    }
+
+    public void test1() {
         String musicPath = appPath + "/test2.wav";
         player.setAudioStreamType(AudioManager.STREAM_MUSIC);// TODO 设置为音频
         try {
@@ -60,12 +71,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void mainToast(String log) {
+        Toast toast = Toast.makeText(MainActivity.this, log, Toast.LENGTH_SHORT);
+        View view = toast.getView();
+        TextView textView = view.findViewById(android.R.id.message);
+        textView.setTextColor(Color.rgb(0x00, 0x00, 0x00));
+        toast.show();
+    }
+
     static public void infoLog(String log) {
         Log.i("fuck", log);
     }
 
     static public void infoToast(Context context, String log) {
-        Toast toast =  Toast.makeText(context, log, Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(context, log, Toast.LENGTH_SHORT);
         View view = toast.getView();
         TextView textView = view.findViewById(android.R.id.message);
         textView.setTextColor(Color.rgb(0x00, 0x00, 0x00));
@@ -74,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
 
-    public void onBackPressed() {
+    public void onBackPressed() {// TODO 返回就停止
         player.stop();// 停止
         super.onBackPressed();
     }
