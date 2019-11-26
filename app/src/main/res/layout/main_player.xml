@@ -1,70 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainPlayer"
-    android:background="@color/grey">
+    android:orientation="vertical">
 
     <TextView
         style="@style/bar_1"
-        android:text="Music Player"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent">
+        android:text="Music Player">
     </TextView>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/bottom_4"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:layout_height="match_parent"
+        tools:context=".MainPlayer"
+        android:background="@color/grey">
 
-        <View
-            style="@style/line">
-        </View>
-
-        <SeekBar
-            android:id="@+id/music_bar"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            app:layout_constraintBottom_toBottomOf="parent"></SeekBar>
-
-        <View
-            style="@style/line">
-        </View>
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/test"
+                android:layout_width="match_parent"
+                android:layout_height="200px"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent">
+            </TextView>
+        </ScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/bottom_1"
-            android:padding="6dp"
-            android:orientation="horizontal">
+            android:layout_height="@dimen/bottom_4"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-            <Button
-                android:id="@+id/button_1"
-                android:text="Play"
-                style="@style/button_1"
-                android:layout_marginRight="2dp"/>
-            <Button
-                android:id="@+id/button_2"
-                android:text="Bluetooth"
-                style="@style/button_2"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"/>
-            <Button
-                android:id="@+id/button_3"
-                android:text="TODO"
-                style="@style/button_6"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"/>
-            <Button
-                android:id="@+id/button_4"
-                android:text="TODO"
-                style="@style/button_7"
-                android:layout_marginLeft="2dp"/>
+            <View
+                style="@style/line">
+            </View>
+
+            <SeekBar
+                android:id="@+id/music_bar"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                app:layout_constraintBottom_toBottomOf="parent"></SeekBar>
+
+            <View
+                style="@style/line">
+            </View>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/bottom_1"
+                android:padding="6dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button_1"
+                    android:text="Play"
+                    style="@style/button_1"
+                    android:layout_marginRight="2dp"/>
+                <Button
+                    android:id="@+id/button_2"
+                    android:text="Bluetooth"
+                    style="@style/button_2"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"/>
+                <Button
+                    android:id="@+id/button_3"
+                    android:text="TODO"
+                    style="@style/button_6"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"/>
+                <Button
+                    android:id="@+id/button_4"
+                    android:text="TODO"
+                    style="@style/button_7"
+                    android:layout_marginLeft="2dp"/>
+            </LinearLayout>
+
         </LinearLayout>
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
