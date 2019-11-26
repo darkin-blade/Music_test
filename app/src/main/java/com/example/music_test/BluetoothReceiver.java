@@ -3,8 +3,10 @@ package com.example.music_test;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.view.KeyEvent;
 
 public class BluetoothReceiver extends BroadcastReceiver {
@@ -51,5 +53,19 @@ public class BluetoothReceiver extends BroadcastReceiver {
                     }
             }
         }
+    }
+
+    public void registerHeadsetReceiver(Context context) {
+        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        // 另说 context.AUDIO_SERVICE
+        ComponentName name = new ComponentName(context.getPackageName(), BluetoothReceiver.class.getName());
+        // 另说 MediaButtonReceiver.class.getName()
+        audioManager.registerMediaButtonEventReceiver(name);
+    }
+
+    public void unregisterHeadsetReceiver(Context context){
+        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        ComponentName name = new ComponentName(context.getPackageName(), BluetoothReceiver.class.getName());
+        audioManager.unregisterMediaButtonEventReceiver(name);
     }
 }

@@ -123,10 +123,8 @@ public class MainPlayer extends AppCompatActivity {
                 // 开启蓝牙
                 if (bluetoothAdapter.isEnabled() == false) {
                     bluetoothAdapter.enable();
-                    bluetoothAdapter.getProfileProxy(MainPlayer.this, serviceListener, BluetoothProfile.A2DP);// TODO 开始连接
                 } else {
                     bluetoothAdapter.disable();
-                    bluetoothAdapter.getProfileProxy(MainPlayer.this, serviceListener, BluetoothProfile.A2DP);// TODO 开始连接
                 }
             }
         });
@@ -134,28 +132,6 @@ public class MainPlayer extends AppCompatActivity {
 
     public void initBluetooth() {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        serviceListener = new BluetoothProfile.ServiceListener() {
-            @Override
-            public void onServiceConnected(int profile, BluetoothProfile proxy) {
-                infoLog("profile: " + profile);
-                bluetoothDevices = proxy.getConnectedDevices();
-                for (int i = 0; i < bluetoothDevices.size(); i ++) {
-                    infoLog("device: " + bluetoothDevices.get(i).getName());
-                }
-
-                if (bluetoothDevices.size() > 0) {
-                    mainToast("device: " + bluetoothDevices.get(0).getName());
-
-                }
-            }
-
-            @Override
-            public void onServiceDisconnected(int profile) {
-                if (player.isPlaying()) {
-                    player.pause();
-                }
-            }
-        };
     }
 
     public void test1() {
@@ -197,9 +173,6 @@ public class MainPlayer extends AppCompatActivity {
 
     @Override
     public void onResume() {
-        BluetoothReceiver receiver = new BluetoothReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(android.net.conn);
         super.onResume();
     }
 
