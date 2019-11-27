@@ -8,6 +8,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothProfile;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -133,14 +134,18 @@ public class MainPlayer extends AppCompatActivity {
 
     public void initBluetooth() {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        receiver = new BluetoothReceiver();// 接收蓝牙信号
+        receiver = new BluetoothReceiver(this);// 接收蓝牙信号
         receiver.registerReceiver(this);// 初始化广播:蓝牙按键
 
-        // 监视蓝牙关闭和打开的状态
         IntentFilter intentFilter = new IntentFilter();
+
+        // 监视蓝牙关闭和打开的状态
         intentFilter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);// 监视蓝牙设备与APP连接的状态
         intentFilter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
         intentFilter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
+        // 监听有线耳机的插拔
+        intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
+
         registerReceiver(this.receiver, intentFilter);// 注册广播
     }
 

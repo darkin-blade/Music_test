@@ -10,13 +10,28 @@ import android.media.AudioManager;
 import android.view.KeyEvent;
 
 public class BluetoothReceiver extends BroadcastReceiver {
+    public Context myContext;
+
+    public BluetoothReceiver() {
+        ;
+    }
+
+    public BluetoothReceiver(Context context) {
+        this.myContext = context;
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {// 接收信号
         MainPlayer.infoLog("receive");
         String action = intent.getAction();
         if (action != null) {
-            MainPlayer.infoLog("action: " + action);
+            MainPlayer.infoToast(myContext, "action: " + action);
             switch (action) {
+                // 有线耳机状态改变
+                case Intent.ACTION_HEADSET_PLUG:
+//                    MainPlayer.infoToast(myContext, "plug todo");
+                    break;
+                // 蓝牙连接状态改变
                 case BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED:// TODO
                     int bluetoothState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 0);// default value TODO
                     switch (bluetoothState) {
@@ -40,6 +55,8 @@ public class BluetoothReceiver extends BroadcastReceiver {
                 case BluetoothDevice.ACTION_ACL_DISCONNECTED:// TODO
                     MainPlayer.infoLog("disconnected");
                     break;
+
+                // 接收蓝牙按键信号
                 case Intent.ACTION_MEDIA_BUTTON:// TODO 按键
                     KeyEvent keyEvent = (KeyEvent) intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);// 获取键码
                     int keycode = keyEvent.getKeyCode();
