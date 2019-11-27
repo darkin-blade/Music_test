@@ -74,7 +74,13 @@ public class MediaReceiver extends BroadcastReceiver {
                 // 接收蓝牙/媒体按键信号
                 case Intent.ACTION_MEDIA_BUTTON:
                     KeyEvent keyEvent = (KeyEvent) intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);// 获取键码
-                    MainPlayer.infoLog("is down: " + (keyEvent.getAction() == KeyEvent.ACTION_DOWN));
+
+                    // 如果是down,忽略
+                    if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                        break;// TODO
+                    }
+
+                    // up
                     int keycode = keyEvent.getKeyCode();
                     MainPlayer.infoLog("media button: " + keycode);
                     switch (keycode) {
@@ -83,6 +89,7 @@ public class MediaReceiver extends BroadcastReceiver {
                             break;
                         case KeyEvent.KEYCODE_HEADSETHOOK:// 播放/暂停 79
                             // TODO 切歌
+                            ;
                         case KeyEvent.KEYCODE_MEDIA_PLAY:// 播放 126
                         case KeyEvent.KEYCODE_MEDIA_PAUSE:// 暂停 127
                             // TODO 避免重复检测
