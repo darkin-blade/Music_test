@@ -24,24 +24,17 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.List;
 
 public class MainPlayer extends AppCompatActivity {
-    public String appPath;
-    public MediaPlayer player;// 媒体播放器
-    public SeekBar seekBar;// 进度条
+    static public String appPath;
+    static public MediaPlayer player;// 媒体播放器
+    static public SeekBar seekBar;// 进度条
+
     public BluetoothReceiver receiver;// 接收蓝牙信号
     public BluetoothAdapter bluetoothAdapter;// TODO 蓝牙
-    public BluetoothSocket bluetoothSocket;// TODO
-    public List<BluetoothDevice> bluetoothDevices;// TODO 所有配对的设备
-    public BluetoothProfile.ServiceListener serviceListener;// TODO
-    public OutputStream outputStream;
-    public InputStream inputStream;
 
-    public Button button_1;// `播放/暂停`按钮
-    public Button button_2;// `开启蓝牙`按钮
+    static public Button button_1;// `播放/暂停`按钮
+    static public Button button_2;// `开启蓝牙`按钮
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

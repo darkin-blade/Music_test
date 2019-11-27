@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.view.KeyEvent;
+import android.widget.Adapter;
 
 public class BluetoothReceiver extends BroadcastReceiver {
     public Context myContext;
@@ -25,15 +26,24 @@ public class BluetoothReceiver extends BroadcastReceiver {
         MainPlayer.infoLog("receive");
         String action = intent.getAction();
         if (action != null) {
-            MainPlayer.infoToast(myContext, "action: " + action);
+//            MainPlayer.infoToast(myContext, "action: " + action);
             switch (action) {
                 // 有线耳机状态改变
                 case Intent.ACTION_HEADSET_PLUG:
-//                    MainPlayer.infoToast(myContext, "plug todo");
+                    int mediaState = intent.getIntExtra("state", 0);//
+                    if (mediaState == 0) {// 拔出耳机
+                        if (MainPlayer.player.isPlaying()) {
+                            MainPlayer.button_1.callOnClick();// TODO 强制暂停
+                        }
+                        MainPlayer.infoToast(myContext, "isplaying: " + MainPlayer.player.isPlaying());
+                    } else if (mediaState == 1) {// 插入耳机
+                        MainPlayer.infoToast(myContext, "isplaying: " + MainPlayer.player.isPlaying());
+                    }
                     break;
+
                 // 蓝牙连接状态改变
-                case BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED:// TODO
-                    int bluetoothState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 0);// default value TODO
+                case BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED:
+                    int bluetoothState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 0);// 获取蓝牙状态
                     switch (bluetoothState) {
                         case BluetoothAdapter.STATE_TURNING_ON:
                             MainPlayer.infoLog("turning on");
