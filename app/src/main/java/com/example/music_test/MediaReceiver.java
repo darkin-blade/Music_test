@@ -114,9 +114,9 @@ public class MediaReceiver extends BroadcastReceiver {
                                         } else if (last_click_times == 0) {
                                             MainPlayer.button_1.callOnClick();// 播放/暂停
                                         } else if (last_click_times == 1) {// TODO 下一首
-                                            MainPlayer.infoToast(myContext, "todo next");
+                                            MainPlayer.infoLog("todo next");
                                         } else if (last_click_times == 2) {// TODO 上一首
-                                            MainPlayer.infoToast(myContext, "todo last");
+                                            MainPlayer.infoLog("todo last");
                                         }
                                         MainPlayer.clickTimes = 0;// TODO 累计清零
                                     } else {
