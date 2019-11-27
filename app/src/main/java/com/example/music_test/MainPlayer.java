@@ -29,8 +29,12 @@ public class MainPlayer extends AppCompatActivity {
     static public String appPath;
     static public MediaPlayer player;// 媒体播放器
     static public SeekBar seekBar;// 进度条
+
     // TODO 解决蓝牙按键检测重复的问题
     static public Long myTime = System.currentTimeMillis();// 微秒时间
+
+    // TODO 删掉,debug用的
+    static public TextView debug;
 
     public BluetoothReceiver receiver;// 接收蓝牙信号
     public BluetoothAdapter bluetoothAdapter;// TODO 蓝牙
@@ -60,6 +64,9 @@ public class MainPlayer extends AppCompatActivity {
 
         // 初始化路径字符串
         appPath = getExternalFilesDir("").getAbsolutePath();
+
+        // TODO debug
+        debug = findViewById(R.id.debug);
     }
 
     public void initPlayer() {
@@ -140,6 +147,7 @@ public class MainPlayer extends AppCompatActivity {
         intentFilter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
         // 监听有线耳机的插拔
         intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
+        intentFilter.addAction(Intent.ACTION_MEDIA_BUTTON);
 
         registerReceiver(this.receiver, intentFilter);// 注册广播
     }
@@ -167,6 +175,10 @@ public class MainPlayer extends AppCompatActivity {
         TextView textView = view.findViewById(android.R.id.message);
         textView.setTextColor(Color.rgb(0x00, 0x00, 0x00));
         toast.show();
+    }
+
+    static public void debugLog(String log) {
+        debug.setText(log);
     }
 
     static public void infoLog(String log) {

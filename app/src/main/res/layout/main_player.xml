@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <TextView
-                android:id="@+id/test"
+                android:id="@+id/debug"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 app:layout_constraintTop_toTopOf="parent"

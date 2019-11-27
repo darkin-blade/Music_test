@@ -12,9 +12,8 @@ import android.view.KeyEvent;
 public class BluetoothReceiver extends BroadcastReceiver {
     public Context myContext;
 
-
-    public BluetoothReceiver() {
-        ;
+    public BluetoothReceiver() {// 系统会自动调用无参的构造方法
+        ;// 不能直接调用 mContext
     }
 
     public BluetoothReceiver(Context context) {
@@ -26,7 +25,7 @@ public class BluetoothReceiver extends BroadcastReceiver {
 //        MainPlayer.infoLog("receive");
         String action = intent.getAction();
         if (action != null) {
-//            MainPlayer.infoToast(myContext, "action: " + action);
+            MainPlayer.infoLog("action: " + action);// TODO debug
             switch (action) {
                 // 有线耳机状态改变
                 case Intent.ACTION_HEADSET_PLUG:
@@ -42,7 +41,7 @@ public class BluetoothReceiver extends BroadcastReceiver {
                     break;
 
                 // 蓝牙连接状态改变
-                case BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED:
+                case BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED:// 安卓端主动改变蓝牙状态
                     int bluetoothState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 0);// 获取蓝牙状态
                     MainPlayer.infoToast(myContext, "bluetooth state todo");// TODO
                     switch (bluetoothState) {
@@ -60,10 +59,10 @@ public class BluetoothReceiver extends BroadcastReceiver {
                             break;
                     }
                     break;
-                case BluetoothDevice.ACTION_ACL_CONNECTED:// TODO
+                case BluetoothDevice.ACTION_ACL_CONNECTED:// 蓝牙设备主动改变状态
                     MainPlayer.infoLog("connected");
                     break;
-                case BluetoothDevice.ACTION_ACL_DISCONNECTED:// TODO
+                case BluetoothDevice.ACTION_ACL_DISCONNECTED:// 蓝牙设备主动改变状态
                     MainPlayer.infoLog("disconnected");
                     if (MainPlayer.player.isPlaying()) {
                         MainPlayer.button_1.callOnClick();// TODO 强制暂停
@@ -84,8 +83,6 @@ public class BluetoothReceiver extends BroadcastReceiver {
 //                            break;
                         case KeyEvent.KEYCODE_MEDIA_PAUSE:// 暂停 127
 //                            MainPlayer.infoLog("pause");
-//                            MainPlayer.button_1.callOnClick();
-
                             // TODO 避免重复检测
                             Long tmp = System.currentTimeMillis();
                             Long timeDiff = tmp - MainPlayer.myTime;
@@ -103,9 +100,7 @@ public class BluetoothReceiver extends BroadcastReceiver {
 
     public void registerReceiver(Context context) {
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        // 另说 context.AUDIO_SERVICE
         ComponentName name = new ComponentName(context.getPackageName(), BluetoothReceiver.class.getName());
-        // 另说 MediaButtonReceiver.class.getName()
         audioManager.registerMediaButtonEventReceiver(name);
     }
 
