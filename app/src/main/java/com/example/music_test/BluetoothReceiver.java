@@ -12,7 +12,7 @@ import android.view.KeyEvent;
 public class BluetoothReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        MainPlayer.infoLog("on receive");// TODO 删掉
+        MainPlayer.infoLog("on receive");// 目前可以接收信号 TODO
         String action = intent.getAction();
         if (action != null) {
             switch (action) {
@@ -53,11 +53,12 @@ public class BluetoothReceiver extends BroadcastReceiver {
                             break;
                     }
             }
+        } else {
+            MainPlayer.infoLog("action is null");
         }
     }
 
     public void registerReceiver(Context context) {
-        MainPlayer.infoLog("register");
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         // 另说 context.AUDIO_SERVICE
         ComponentName name = new ComponentName(context.getPackageName(), BluetoothReceiver.class.getName());
