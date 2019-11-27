@@ -17,44 +17,45 @@ public class BluetoothReceiver extends BroadcastReceiver {
         if (action != null) {
             switch (action) {
                 case BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED:// TODO
+                    MainPlayer.infoLog("bluetooth state changed");
                     int bluetoothState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 0);// default value TODO
                     switch (bluetoothState) {
                         case BluetoothAdapter.STATE_TURNING_ON:
-                            MainPlayer.infoToast(context, "turning on");
+                            MainPlayer.infoLog("turning on");
                             break;
                         case BluetoothAdapter.STATE_ON:
-                            MainPlayer.infoToast(context, "on");
+                            MainPlayer.infoLog("on");
                             break;
                         case BluetoothAdapter.STATE_TURNING_OFF:
-                            MainPlayer.infoToast(context, "turning off");
+                            MainPlayer.infoLog("turning off");
                             break;
                         case BluetoothAdapter.STATE_OFF:
-                            MainPlayer.infoToast(context, "off");
+                            MainPlayer.infoLog("off");
                             break;
                     }
                     break;
                 case BluetoothDevice.ACTION_ACL_CONNECTED:// TODO
-                    MainPlayer.infoToast(context, "connected");
+                    MainPlayer.infoLog("connected");
                     break;
                 case BluetoothDevice.ACTION_ACL_DISCONNECTED:// TODO
-                    MainPlayer.infoToast(context, "disconnected");
+                    MainPlayer.infoLog("disconnected");
                     break;
                 case Intent.ACTION_MEDIA_BUTTON:// TODO 按键
-                    KeyEvent keyEvent = (KeyEvent) intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
-                    switch (keyEvent.getKeyCode()) {
-                        case KeyEvent.KEYCODE_MEDIA_PLAY:// 播放
-                            MainPlayer.infoToast(context, "play");
+                    KeyEvent keyEvent = (KeyEvent) intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);// 获取键码
+                    int keycode = keyEvent.getKeyCode();
+                    MainPlayer.infoLog("media button: " + keycode);
+                    switch (keycode) {
+                        case KeyEvent.KEYCODE_MEDIA_NEXT:// 下一首 87
+                            MainPlayer.infoLog("next");
                             break;
-                        case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:// 暂停
-                            MainPlayer.infoToast(context, "pause");
+                        case KeyEvent.KEYCODE_MEDIA_PLAY:// 播放 126
+                            MainPlayer.infoLog("play");
                             break;
-                        case KeyEvent.KEYCODE_MEDIA_NEXT:// 下一首
-                            MainPlayer.infoToast(context, "next");
+                        case KeyEvent.KEYCODE_MEDIA_PAUSE:// 暂停 127
+                            MainPlayer.infoLog("pause");
                             break;
                     }
             }
-        } else {
-            MainPlayer.infoLog("action is null");
         }
     }
 
