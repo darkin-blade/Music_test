@@ -28,8 +28,9 @@ public class MainPlayer extends AppCompatActivity {
     static public MediaPlayer player;// 媒体播放器
     static public SeekBar seekBar;// 进度条
 
-    // TODO 解决蓝牙按键检测重复的问题
+    // TODO media多次点击
     static public Long myTime = System.currentTimeMillis();// 微秒时间
+    static public int clickTimes = 0;// 信号次数
 
     // TODO 删掉,debug用的
     static public TextView debug;

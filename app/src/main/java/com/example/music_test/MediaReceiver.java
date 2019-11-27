@@ -7,6 +7,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
+import android.os.SystemClock;
 import android.view.KeyEvent;
 
 public class MediaReceiver extends BroadcastReceiver {
@@ -89,17 +90,38 @@ public class MediaReceiver extends BroadcastReceiver {
                             break;
                         case KeyEvent.KEYCODE_HEADSETHOOK:// 播放/暂停 79
                             // TODO 切歌
-                            ;
-                        case KeyEvent.KEYCODE_MEDIA_PLAY:// 播放 126
-                        case KeyEvent.KEYCODE_MEDIA_PAUSE:// 暂停 127
-                            // TODO 避免重复检测
                             Long tmp = System.currentTimeMillis();
                             Long timeDiff = tmp - MainPlayer.myTime;
                             MainPlayer.myTime = tmp;
                             MainPlayer.infoLog("time diff: " + timeDiff);
-                            if (timeDiff > 100) {
-                                MainPlayer.button_1.callOnClick();// TODO 无差别对待 播放和暂停
+                            if (timeDiff < 500) {// TODO 累计
+                                MainPlayer.clickTimes ++;
                             }
+
+                            int last_click_times = MainPlayer.clickTimes;// 之前累积的次数
+                            SystemClock.sleep(500);// TODO 延迟
+                            if (last_click_times == MainPlayer.clickTimes) {// TODO 忽略4次以上的点击
+                                if (last_click_times == -1) {
+                                    MainPlayer.infoLog("click -1 time???");
+                                } else if (last_click_times == 0) {
+                                    MainPlayer.button_1.callOnClick();// 播放/暂停
+                                } else if (last_click_times == 1) {// TODO 下一首
+                                    MainPlayer.infoToast(myContext, "todo next");
+                                } else if (last_click_times == 2) {// TODO 上一首
+                                    MainPlayer.infoToast(myContext, "todo last");
+                                }
+                                MainPlayer.clickTimes = 0;// TODO 累计清零
+                            } else {
+                                MainPlayer.infoLog("click times: " + last_click_times + "/" + MainPlayer.clickTimes);
+                            }
+
+//                            if (timeDiff >= 500) {// TODO 清空
+//                            }
+                            break;
+                        case KeyEvent.KEYCODE_MEDIA_PLAY:// 播放 126
+                        case KeyEvent.KEYCODE_MEDIA_PAUSE:// 暂停 127
+                            // TODO 避免重复检测
+                            MainPlayer.button_1.callOnClick();// TODO 无差别对待 播放和暂停
                             break;
                     }
                     break;
