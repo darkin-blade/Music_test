@@ -79,7 +79,6 @@ public class BluetoothReceiver extends BroadcastReceiver {
                         case KeyEvent.KEYCODE_MEDIA_NEXT:// 下一首 87
                             MainPlayer.infoLog("next");
                             break;
-                        // TODO 无差别对待 播放和暂停
                         case KeyEvent.KEYCODE_MEDIA_PLAY:// 播放 126
 //                            MainPlayer.infoLog("play");
 //                            break;
@@ -87,10 +86,14 @@ public class BluetoothReceiver extends BroadcastReceiver {
 //                            MainPlayer.infoLog("pause");
 //                            MainPlayer.button_1.callOnClick();
 
+                            // TODO 避免重复检测
                             Long tmp = System.currentTimeMillis();
                             Long timeDiff = tmp - MainPlayer.myTime;
                             MainPlayer.myTime = tmp;
                             MainPlayer.infoLog("time diff: " + timeDiff);
+                            if (timeDiff > 100) {
+                                MainPlayer.button_1.callOnClick();// TODO 无差别对待 播放和暂停
+                            }
                             break;
                     }
                     break;
