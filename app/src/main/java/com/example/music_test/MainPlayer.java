@@ -108,13 +108,18 @@ public class MainPlayer extends AppCompatActivity {
         button_1.setOnClickListener(new View.OnClickListener() {// `播放/暂停`功能
             @Override
             public void onClick(View v) {
-                if (button_1.getText().equals("Play")) {
-                    button_1.setText("Pause");
-                    player.start();
-                } else {
-                    button_1.setText("Play");
-                    player.pause();
-                }
+                MainPlayer.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (button_1.getText().equals("Play")) {
+                            button_1.setText("Pause");
+                            player.start();
+                        } else {
+                            button_1.setText("Play");
+                            player.pause();
+                        }
+                    }
+                });
             }
         });
 

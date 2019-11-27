@@ -90,33 +90,40 @@ public class MediaReceiver extends BroadcastReceiver {
                             break;
                         case KeyEvent.KEYCODE_HEADSETHOOK:// 播放/暂停 79
                             // TODO 切歌
-                            Long tmp = System.currentTimeMillis();
-                            Long timeDiff = tmp - MainPlayer.myTime;
-                            MainPlayer.myTime = tmp;
-                            MainPlayer.infoLog("time diff: " + timeDiff);
-                            if (timeDiff < 500) {// TODO 累计
-                                MainPlayer.clickTimes ++;
-                            }
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Long tmp = System.currentTimeMillis();
+                                    Long timeDiff = tmp - MainPlayer.myTime;
+                                    MainPlayer.myTime = tmp;
+                                    MainPlayer.infoLog("time diff: " + timeDiff);
+                                    if (timeDiff < 500) {// TODO 累计
+                                        MainPlayer.clickTimes ++;
+                                    }
 
-                            int last_click_times = MainPlayer.clickTimes;// 之前累积的次数
-                            SystemClock.sleep(500);// TODO 延迟
-                            if (last_click_times == MainPlayer.clickTimes) {// TODO 忽略4次以上的点击
-                                if (last_click_times == -1) {
-                                    MainPlayer.infoLog("click -1 time???");
-                                } else if (last_click_times == 0) {
-                                    MainPlayer.button_1.callOnClick();// 播放/暂停
-                                } else if (last_click_times == 1) {// TODO 下一首
-                                    MainPlayer.infoToast(myContext, "todo next");
-                                } else if (last_click_times == 2) {// TODO 上一首
-                                    MainPlayer.infoToast(myContext, "todo last");
+                                    int last_click_times = MainPlayer.clickTimes;// 之前累积的次数
+                                    try {
+                                        Thread.sleep(500);// TODO 延迟
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    if (last_click_times == MainPlayer.clickTimes) {// TODO 忽略4次以上的点击
+                                        if (last_click_times == -1) {
+                                            MainPlayer.infoLog("click -1 time???");
+                                        } else if (last_click_times == 0) {
+                                            MainPlayer.button_1.callOnClick();// 播放/暂停
+                                        } else if (last_click_times == 1) {// TODO 下一首
+                                            MainPlayer.infoToast(myContext, "todo next");
+                                        } else if (last_click_times == 2) {// TODO 上一首
+                                            MainPlayer.infoToast(myContext, "todo last");
+                                        }
+                                        MainPlayer.clickTimes = 0;// TODO 累计清零
+                                    } else {
+                                        MainPlayer.infoLog("click times: " + last_click_times + "/" + MainPlayer.clickTimes);
+                                    }
                                 }
-                                MainPlayer.clickTimes = 0;// TODO 累计清零
-                            } else {
-                                MainPlayer.infoLog("click times: " + last_click_times + "/" + MainPlayer.clickTimes);
-                            }
-
-//                            if (timeDiff >= 500) {// TODO 清空
-//                            }
+                            }).start();
                             break;
                         case KeyEvent.KEYCODE_MEDIA_PLAY:// 播放 126
                         case KeyEvent.KEYCODE_MEDIA_PAUSE:// 暂停 127
