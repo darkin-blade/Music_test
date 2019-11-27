@@ -79,11 +79,13 @@ public class BluetoothReceiver extends BroadcastReceiver {
                         case KeyEvent.KEYCODE_MEDIA_NEXT:// 下一首 87
                             MainPlayer.infoLog("next");
                             break;
+                        // TODO 无差别对待 播放和暂停
                         case KeyEvent.KEYCODE_MEDIA_PLAY:// 播放 126
-                            MainPlayer.infoLog("play");
-                            break;
+//                            MainPlayer.infoLog("play");
+//                            break;
                         case KeyEvent.KEYCODE_MEDIA_PAUSE:// 暂停 127
-                            MainPlayer.infoLog("pause");
+//                            MainPlayer.infoLog("pause");
+                            MainPlayer.button_1.callOnClick();
                             break;
                     }
             }
