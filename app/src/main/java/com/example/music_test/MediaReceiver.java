@@ -9,14 +9,14 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.view.KeyEvent;
 
-public class BluetoothReceiver extends BroadcastReceiver {
-    public Context myContext;
+public class MediaReceiver extends BroadcastReceiver {
+    public Context myContext = null;
 
-    public BluetoothReceiver() {// 系统会自动调用无参的构造方法
+    public MediaReceiver() {// 系统会自动调用无参的构造方法
         ;// 不能直接调用 mContext
     }
 
-    public BluetoothReceiver(Context context) {// TODO 暂不清楚监测出现重复是否是因为有参构造方法造成
+    public MediaReceiver(Context context) {// TODO 暂不清楚监测出现重复是否是因为有参构造方法造成
         this.myContext = context;
     }
 
@@ -34,8 +34,10 @@ public class BluetoothReceiver extends BroadcastReceiver {
                         if (MainPlayer.player.isPlaying()) {
                             MainPlayer.button_1.callOnClick();// TODO 强制暂停
                         }
+                        MainPlayer.infoLog("remove headset");
                         MainPlayer.infoToast(myContext, "isplaying: " + MainPlayer.player.isPlaying());
                     } else if (mediaState == 1) {// 插入耳机
+                        MainPlayer.infoLog("plug headset");
                         MainPlayer.infoToast(myContext, "isplaying: " + MainPlayer.player.isPlaying());
                     }
                     break;
@@ -72,6 +74,7 @@ public class BluetoothReceiver extends BroadcastReceiver {
                 // 接收蓝牙/媒体按键信号
                 case Intent.ACTION_MEDIA_BUTTON:
                     KeyEvent keyEvent = (KeyEvent) intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);// 获取键码
+                    MainPlayer.infoLog("is down: " + (keyEvent.getAction() == KeyEvent.ACTION_DOWN));
                     int keycode = keyEvent.getKeyCode();
                     MainPlayer.infoLog("media button: " + keycode);
                     switch (keycode) {
@@ -99,13 +102,13 @@ public class BluetoothReceiver extends BroadcastReceiver {
 
     public void registerReceiver(Context context) {
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        ComponentName name = new ComponentName(context.getPackageName(), BluetoothReceiver.class.getName());
+        ComponentName name = new ComponentName(context.getPackageName(), MediaReceiver.class.getName());
         audioManager.registerMediaButtonEventReceiver(name);
     }
 
     public void unregisterReceiver(Context context){
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        ComponentName name = new ComponentName(context.getPackageName(), BluetoothReceiver.class.getName());
+        ComponentName name = new ComponentName(context.getPackageName(), MediaReceiver.class.getName());
         audioManager.unregisterMediaButtonEventReceiver(name);
     }
 }

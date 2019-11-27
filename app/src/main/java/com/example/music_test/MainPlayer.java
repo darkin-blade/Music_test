@@ -5,8 +5,6 @@ import androidx.core.app.ActivityCompat;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothProfile;
-import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -36,7 +34,7 @@ public class MainPlayer extends AppCompatActivity {
     // TODO 删掉,debug用的
     static public TextView debug;
 
-    public BluetoothReceiver receiver;// 接收蓝牙信号
+    public MediaReceiver receiver;// 接收蓝牙信号
     public BluetoothAdapter bluetoothAdapter;// TODO 蓝牙
 
     static public Button button_1;// `播放/暂停`按钮
@@ -136,8 +134,7 @@ public class MainPlayer extends AppCompatActivity {
 
     public void initBluetooth() {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        receiver = new BluetoothReceiver(this);// 接收蓝牙信号
-        receiver.registerReceiver(this);// 初始化广播:蓝牙按键
+        receiver = new MediaReceiver(this);// 接收蓝牙信号
 
         IntentFilter intentFilter = new IntentFilter();
 
@@ -150,6 +147,7 @@ public class MainPlayer extends AppCompatActivity {
         intentFilter.addAction(Intent.ACTION_MEDIA_BUTTON);
 
         registerReceiver(this.receiver, intentFilter);// 注册广播
+        receiver.registerReceiver(this);// 初始化广播:蓝牙按键
     }
 
     public void test1() {
@@ -186,6 +184,9 @@ public class MainPlayer extends AppCompatActivity {
     }
 
     static public void infoToast(Context context, String log) {
+        if (context == null) {// 增加容错
+            return;
+        }
         Toast toast = Toast.makeText(context, log, Toast.LENGTH_SHORT);
         View view = toast.getView();
         TextView textView = view.findViewById(android.R.id.message);
@@ -211,7 +212,7 @@ public class MainPlayer extends AppCompatActivity {
 
     @Override
     public void onDestroy() {
-        receiver.unregisterReceiver(this);
+//        receiver.unregisterReceiver(this);// TODO
         super.onDestroy();
     }
 }
