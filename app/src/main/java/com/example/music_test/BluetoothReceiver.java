@@ -11,13 +11,13 @@ import android.view.KeyEvent;
 
 public class BluetoothReceiver extends BroadcastReceiver {
     @Override
-    public void onReceive(Context context, Intent intent) {
-        MainPlayer.infoLog("on receive");// 目前可以接收信号 TODO
+    public void onReceive(Context context, Intent intent) {// 接收信号
+        MainPlayer.infoLog("receive");
         String action = intent.getAction();
         if (action != null) {
+            MainPlayer.infoLog("action: " + action);
             switch (action) {
                 case BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED:// TODO
-                    MainPlayer.infoLog("bluetooth state changed");
                     int bluetoothState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 0);// default value TODO
                     switch (bluetoothState) {
                         case BluetoothAdapter.STATE_TURNING_ON:
