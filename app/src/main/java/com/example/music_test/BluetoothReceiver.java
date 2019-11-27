@@ -23,7 +23,7 @@ public class BluetoothReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {// 接收信号
-        MainPlayer.infoLog("receive");
+//        MainPlayer.infoLog("receive");
         String action = intent.getAction();
         if (action != null) {
 //            MainPlayer.infoToast(myContext, "action: " + action);
@@ -44,6 +44,7 @@ public class BluetoothReceiver extends BroadcastReceiver {
                 // 蓝牙连接状态改变
                 case BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED:
                     int bluetoothState = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 0);// 获取蓝牙状态
+                    MainPlayer.infoToast(myContext, "bluetooth state todo");// TODO
                     switch (bluetoothState) {
                         case BluetoothAdapter.STATE_TURNING_ON:
                             MainPlayer.infoLog("turning on");
@@ -64,6 +65,9 @@ public class BluetoothReceiver extends BroadcastReceiver {
                     break;
                 case BluetoothDevice.ACTION_ACL_DISCONNECTED:// TODO
                     MainPlayer.infoLog("disconnected");
+                    if (MainPlayer.player.isPlaying()) {
+                        MainPlayer.button_1.callOnClick();// TODO 强制暂停
+                    }
                     break;
 
                 // 接收蓝牙按键信号
