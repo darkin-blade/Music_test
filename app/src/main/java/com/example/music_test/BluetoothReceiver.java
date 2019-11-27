@@ -8,10 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.view.KeyEvent;
-import android.widget.Adapter;
 
 public class BluetoothReceiver extends BroadcastReceiver {
     public Context myContext;
+
 
     public BluetoothReceiver() {
         ;
@@ -85,9 +85,15 @@ public class BluetoothReceiver extends BroadcastReceiver {
 //                            break;
                         case KeyEvent.KEYCODE_MEDIA_PAUSE:// 暂停 127
 //                            MainPlayer.infoLog("pause");
-                            MainPlayer.button_1.callOnClick();
+//                            MainPlayer.button_1.callOnClick();
+
+                            Long tmp = System.currentTimeMillis();
+                            Long timeDiff = tmp - MainPlayer.myTime;
+                            MainPlayer.myTime = tmp;
+                            MainPlayer.infoLog("time diff: " + timeDiff);
                             break;
                     }
+                    break;
             }
         }
     }

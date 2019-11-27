@@ -29,6 +29,8 @@ public class MainPlayer extends AppCompatActivity {
     static public String appPath;
     static public MediaPlayer player;// 媒体播放器
     static public SeekBar seekBar;// 进度条
+    // TODO 解决蓝牙按键检测重复的问题
+    static public Long myTime = System.currentTimeMillis();// 微秒时间
 
     public BluetoothReceiver receiver;// 接收蓝牙信号
     public BluetoothAdapter bluetoothAdapter;// TODO 蓝牙
