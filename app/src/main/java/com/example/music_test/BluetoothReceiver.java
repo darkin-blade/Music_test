@@ -16,7 +16,7 @@ public class BluetoothReceiver extends BroadcastReceiver {
         ;// 不能直接调用 mContext
     }
 
-    public BluetoothReceiver(Context context) {
+    public BluetoothReceiver(Context context) {// TODO 暂不清楚监测出现重复是否是因为有参构造方法造成
         this.myContext = context;
     }
 
@@ -69,8 +69,8 @@ public class BluetoothReceiver extends BroadcastReceiver {
                     }
                     break;
 
-                // 接收蓝牙按键信号
-                case Intent.ACTION_MEDIA_BUTTON:// TODO 按键
+                // 接收蓝牙/媒体按键信号
+                case Intent.ACTION_MEDIA_BUTTON:
                     KeyEvent keyEvent = (KeyEvent) intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);// 获取键码
                     int keycode = keyEvent.getKeyCode();
                     MainPlayer.infoLog("media button: " + keycode);
@@ -78,11 +78,10 @@ public class BluetoothReceiver extends BroadcastReceiver {
                         case KeyEvent.KEYCODE_MEDIA_NEXT:// 下一首 87
                             MainPlayer.infoLog("next");
                             break;
+                        case KeyEvent.KEYCODE_HEADSETHOOK:// 播放/暂停 79
+                            // TODO 切歌
                         case KeyEvent.KEYCODE_MEDIA_PLAY:// 播放 126
-//                            MainPlayer.infoLog("play");
-//                            break;
                         case KeyEvent.KEYCODE_MEDIA_PAUSE:// 暂停 127
-//                            MainPlayer.infoLog("pause");
                             // TODO 避免重复检测
                             Long tmp = System.currentTimeMillis();
                             Long timeDiff = tmp - MainPlayer.myTime;
