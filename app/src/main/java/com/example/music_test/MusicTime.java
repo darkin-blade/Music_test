@@ -50,7 +50,7 @@ public class MusicTime {
                                 updateTime();// TODO 修改当前进度
                             }
                         });
-                        
+
                         // 每一秒更新一次
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
