@@ -139,21 +139,19 @@ public class MainPlayer extends AppCompatActivity {
     }
 
     public void initBluetooth() {
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();// 获取蓝牙适配器
         receiver = new MediaReceiver(this);// 接收蓝牙信号
 
         IntentFilter intentFilter = new IntentFilter();
 
-        // 监视蓝牙关闭和打开的状态
         intentFilter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);// 监视蓝牙设备与APP连接的状态
         intentFilter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
         intentFilter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
-        // 监听有线耳机的插拔
-        intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
-        intentFilter.addAction(Intent.ACTION_MEDIA_BUTTON);
+        intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);// 监听有线耳机的插拔
+        intentFilter.addAction(Intent.ACTION_MEDIA_BUTTON);// TODO
 
         registerReceiver(this.receiver, intentFilter);// 注册广播
-        receiver.registerReceiver(this);// 初始化广播:蓝牙按键
+        receiver.registerReceiver(this);// 初始化广播
     }
 
     public void test1() {

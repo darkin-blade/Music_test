@@ -30,7 +30,7 @@ public class MediaReceiver extends BroadcastReceiver {
             switch (action) {
                 // 有线耳机状态改变
                 case Intent.ACTION_HEADSET_PLUG:
-                    int mediaState = intent.getIntExtra("state", 0);//
+                    int mediaState = intent.getIntExtra("state", 0);// 判断插拔
                     if (mediaState == 0) {// 拔出耳机
                         if (MainPlayer.player.isPlaying()) {
                             MainPlayer.button_1.callOnClick();// TODO 强制暂停
