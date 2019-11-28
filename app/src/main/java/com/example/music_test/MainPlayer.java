@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -23,7 +24,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.IOException;
 
-public class MainPlayer extends AppCompatActivity {
+public class MainPlayer extends AppCompatActivity implements DialogInterface.OnDismissListener {
     static public String appPath;
     static public MediaPlayer player;// 媒体播放器
     static public SeekBar seekBar;// 进度条
@@ -37,12 +38,17 @@ public class MainPlayer extends AppCompatActivity {
     // TODO 删掉,debug用的
     static public TextView debug;
 
+    static public MusicLists musicLists;// TODO 乐单管理
     public MusicTime musicTime;// 音乐进度相关
-    public MediaReceiver receiver;// 接收蓝牙信号
-    public BluetoothAdapter bluetoothAdapter;// TODO 蓝牙
+    public MusicAdd musicAdd;// TODO 添加音乐
+    public MediaReceiver receiver;// 接收`蓝牙/媒体`信号
+    public BluetoothAdapter bluetoothAdapter;// 蓝牙
 
     static public Button button_1;// `播放/暂停`按钮
     static public Button button_2;// `开启蓝牙`按钮
+
+    static int window_num = 0;
+    static final int MUSIC_ADD = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -225,5 +231,10 @@ public class MainPlayer extends AppCompatActivity {
     public void onDestroy() {
         receiver.unregisterReceiver(this);// TODO 貌似没用
         super.onDestroy();
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        mainToast("TODO on dismiss");
     }
 }
