@@ -102,9 +102,8 @@ public class MainPlayer extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {// 停止拖动
-                mainToast("end touch");
-                if (player.isPlaying()) {// 在播放时才有效 TODO 调整player进度
-                    mainToast(seekBar.getProgress() + "%");
+                if (player.isPlaying()) {// 在播放时才有效
+                    musicTime.setBar();// TODO 调整player进度
                 }
             }
         });
@@ -124,7 +123,7 @@ public class MainPlayer extends AppCompatActivity {
                             musicTime.play();
                         } else {
                             button_1.setText("Play");
-                            player.pause();
+                            musicTime.pause();
                         }
                     }
                 });

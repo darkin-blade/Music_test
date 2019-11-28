@@ -3,6 +3,7 @@ package com.example.music_test;
 import android.app.Activity;
 import android.content.Context;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -21,6 +22,12 @@ public class MusicTime {
     public MusicTime(Context context, Activity activity) {
         this.myContext = context;
         this.myActivity = activity;
+    }
+
+    public void play() {
+        if (MainPlayer.player.isPlaying()) {
+            MainPlayer.infoLog("still playing!");
+        }
 
         // 初始化音乐播放
         musicPlay = new Thread(new Runnable() {
@@ -33,8 +40,6 @@ public class MusicTime {
                 // 更新音乐进度
                 while (Thread.currentThread().isInterrupted() == false) {
                     try {
-                        // 每一秒更新一次
-                        Thread.sleep(1000);
                         cur_time = MainPlayer.player.getCurrentPosition();// 当前进度
                         MainPlayer.infoLog("music playing: " + cur_time / 1000 + "/" + total_time / 1000);// TODO
 
@@ -45,26 +50,29 @@ public class MusicTime {
                                 updateTime();// TODO 修改当前进度
                             }
                         });
+                        
+                        // 每一秒更新一次
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    if (MainPlayer.player.isPlaying() == false) {
+
+                    if (MainPlayer.player.isPlaying() == false) {// TODO 多余
                         Thread.currentThread().interrupt();// 暂停
                     }
                 }
             }
         });
-    }
 
-    public void play() {
         musicPlay.start();
     }
 
     public void pause() {
+        MainPlayer.player.pause();
         musicPlay.interrupt();
     }
 
-    public void updateTime() {
+    public void updateTime() {// 刷新时间
         SimpleDateFormat format = new SimpleDateFormat("mm:ss");
 
         // 设置当前进度
@@ -78,7 +86,16 @@ public class MusicTime {
         MainPlayer.totalTime.setText(formatTime);
     }
 
-    public void updateBar() {
-        ;
+    public void updateBar() {// 刷新进度条
+        int curProgress = cur_time * 100 / total_time;
+        MainPlayer.seekBar.setProgress(curProgress);
+    }
+
+    public void setBar() {// 调整进度条
+        int curProgress = MainPlayer.seekBar.getProgress();
+        int maxProgress = MainPlayer.seekBar.getMax();
+
+        MainPlayer.player.seekTo(curProgress * total_time / maxProgress);// TODO 调整时间
+        updateTime();// TODO
     }
 }
