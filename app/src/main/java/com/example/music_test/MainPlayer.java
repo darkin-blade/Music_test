@@ -27,6 +27,8 @@ public class MainPlayer extends AppCompatActivity {
     static public String appPath;
     static public MediaPlayer player;// 媒体播放器
     static public SeekBar seekBar;// 进度条
+    static public TextView totalTime;// 音乐总时长
+    static public TextView curTime;// 音乐已播放时长
 
     // TODO media多次点击
     static public Long myTime = System.currentTimeMillis();// 微秒时间
@@ -35,6 +37,7 @@ public class MainPlayer extends AppCompatActivity {
     // TODO 删掉,debug用的
     static public TextView debug;
 
+    public MusicTime musicTime;// 音乐进度相关
     public MediaReceiver receiver;// 接收蓝牙信号
     public BluetoothAdapter bluetoothAdapter;// TODO 蓝牙
 
@@ -77,6 +80,11 @@ public class MainPlayer extends AppCompatActivity {
                 mainToast("play finished");
             }
         });
+
+        // 初始化音乐进度
+        totalTime = findViewById(R.id.total_time);
+        curTime = findViewById(R.id.cur_time);
+        musicTime = new MusicTime(this, this);
     }
 
     public void initSeekBar() {
@@ -113,7 +121,7 @@ public class MainPlayer extends AppCompatActivity {
                     public void run() {
                         if (button_1.getText().equals("Play")) {
                             button_1.setText("Pause");
-                            player.start();
+                            musicTime.play();
                         } else {
                             button_1.setText("Play");
                             player.pause();
