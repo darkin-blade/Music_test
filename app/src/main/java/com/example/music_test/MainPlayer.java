@@ -224,7 +224,7 @@ public class MainPlayer extends AppCompatActivity {
 
     @Override
     public void onDestroy() {
-//        receiver.unregisterReceiver(this);// TODO
+        receiver.unregisterReceiver(this);// TODO 貌似没用
         super.onDestroy();
     }
 }

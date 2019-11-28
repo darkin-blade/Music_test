@@ -9,6 +9,7 @@ import java.util.Date;
 public class MusicTime {
     public Context myContext = null;
     public Activity myActivity = null;
+    public Thread musicPlay;
 
     public int total_time = 0;
     public int cur_time = 0;
@@ -20,10 +21,9 @@ public class MusicTime {
     public MusicTime(Context context, Activity activity) {
         this.myContext = context;
         this.myActivity = activity;
-    }
 
-    public void play() {
-        new Thread(new Runnable() {
+        // 初始化音乐播放
+        musicPlay = new Thread(new Runnable() {
             @Override
             public void run() {
                 // 启动播放
@@ -53,7 +53,15 @@ public class MusicTime {
                     }
                 }
             }
-        }).start();
+        });
+    }
+
+    public void play() {
+        musicPlay.start();
+    }
+
+    public void pause() {
+        musicPlay.interrupt();
     }
 
     public void updateTime() {
