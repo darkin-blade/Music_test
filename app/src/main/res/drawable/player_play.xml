@@ -8,17 +8,12 @@
     android:viewportHeight="60">
 
     <path
-        android:fillColor="#535353"
-        android:pathData="M0,30
-                          A30,30 0 1,1 60,30
-                          A30,30 0 1,1 0,30">
-    </path>
-
-    <path
-        android:fillColor="#fafafa"
+        android:strokeColor="#535353"
+        android:strokeWidth="2"
+        android:fillColor="#00000000"
         android:pathData="M2,30
                           A28,28 0 1,1 58,30
-                          A28,28 0 1,1, 2,30">
+                          A28,28 0 1,1 2,30">
     </path>
 
     <path

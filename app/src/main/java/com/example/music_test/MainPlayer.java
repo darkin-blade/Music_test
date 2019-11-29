@@ -44,8 +44,8 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
     public MediaReceiver receiver;// 接收`蓝牙/媒体`信号
     public BluetoothAdapter bluetoothAdapter;// 蓝牙
 
-    static public Button button_1;// `播放/暂停`按钮
-    static public Button button_2;// `开启蓝牙`按钮
+    static public View button_1;// `播放/暂停`按钮
+    static public View button_2;// `开启蓝牙`按钮
 
     static int window_num = 0;
     static final int MUSIC_ADD = 1;
@@ -124,31 +124,31 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
                 MainPlayer.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (button_1.getText().equals("Play")) {
-                            button_1.setText("Pause");
+                        if (player.isPlaying() == false) {// TODO 判断的条件 正在暂停
                             musicTime.play();
+                            button_1.setBackgroundResource(R.drawable.player_pause);
                         } else {
-                            button_1.setText("Play");
                             musicTime.pause();
+                            button_1.setBackgroundResource(R.drawable.player_play);
                         }
                     }
                 });
             }
         });
 
-        button_2 = findViewById(R.id.button_2);// 蓝牙按钮
-
-        button_2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 开启蓝牙
-                if (bluetoothAdapter.isEnabled() == false) {
-                    bluetoothAdapter.enable();
-                } else {
-                    bluetoothAdapter.disable();
-                }
-            }
-        });
+//        button_2 = findViewById(R.id.button_2);// TODO 蓝牙管理界面
+//
+//        button_2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // 开启蓝牙
+//                if (bluetoothAdapter.isEnabled() == false) {
+//                    bluetoothAdapter.enable();
+//                } else {
+//                    bluetoothAdapter.disable();
+//                }
+//            }
+//        });
     }
 
     public void initBluetooth() {

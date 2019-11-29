@@ -29,6 +29,24 @@
         <item name="android:background">@drawable/button_7</item>
     </style>
 
+    <!--  播放器按钮  -->
+    <style name="tool_1">
+        <!--    父类型    -->
+        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_width">60dp</item>
+
+        <item name="android:gravity">center</item>
+        <item name="android:lines">1</item>
+
+        <item name="android:background">@drawable/player_play</item>
+    </style>
+    <style name="tool_2" parent="tool_1">
+        <item name="android:background">@drawable/player_next</item>
+    </style>
+    <style name="tool_3" parent="tool_1">
+        <item name="android:background">@drawable/player_prev</item>
+    </style>
+
     <!-- 主界面按钮 -->
     <style name="item_1">
         <!--    父类型    -->
