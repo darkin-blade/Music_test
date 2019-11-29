@@ -114,6 +114,7 @@ public class MixNew extends DialogFragment {
         } catch (SQLException e) {
             // TODO 数据库操作出错
             MainPlayer.infoToast(getContext(), "database error");
+            MainPlayer.infoLog("database error: " + sql);
             return -1;
         }
         return 0;

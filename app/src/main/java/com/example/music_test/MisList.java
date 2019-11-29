@@ -76,13 +76,6 @@ public class MisList extends DialogFragment {
         button_edit = myView.findViewById(R.id.button_2);
         button_new = myView.findViewById(R.id.button_3);
 
-        button_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
-
         button_new.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,6 +107,13 @@ public class MisList extends DialogFragment {
         } else {
             MainPlayer.infoToast(getContext(), "no mix");
         }
+
+        button_back.setOnClickListener(new View.OnClickListener() {// 返回主界面
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
     }
 
     public void listMusic(String mix_name) {
@@ -139,6 +139,13 @@ public class MisList extends DialogFragment {
         } else {
             MainPlayer.infoToast(getContext(), "no music");
         }
+
+        button_back.setOnClickListener(new View.OnClickListener() {// 返回歌单列表
+            @Override
+            public void onClick(View v) {
+                listMix();
+            }
+        });
     }
 
     // TODO 列举歌单的参数
