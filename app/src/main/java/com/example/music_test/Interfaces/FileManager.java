@@ -17,7 +17,8 @@ import com.example.music_test.R;
 
 import java.io.File;
 
-public class FileManager extends DialogFragment {public int item_height = 130;
+public class FileManager extends DialogFragment {
+    public int item_height = 130;
     public int item_padding = 40;
     public int type_padding = 20;
     public int name_padding = 30;

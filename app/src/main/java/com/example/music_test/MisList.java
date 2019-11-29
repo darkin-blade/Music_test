@@ -10,7 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
@@ -26,8 +29,6 @@ public class MisList extends DialogFragment {
     public Button button_new;
 
     SQLiteDatabase database;// 数据库
-
-    // TODO 列举歌单的参数
 
     @Override
     public void show(FragmentManager fragmentManager, String tag) {
@@ -108,7 +109,43 @@ public class MisList extends DialogFragment {
         }
     }
 
+
+    // TODO 列举歌单的参数
+    public static final int
+            box_width = 120,
+            item_height = 130,
+            detail_margin_right = 80,
+            detail_margin_left = 10;
+
     public void create_item(String mix_name) {
-        ;
+        LinearLayout layout = myView.findViewById(R.id.mix_list);
+        // 每一项 LL
+        LinearLayout.LayoutParams itemParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, item_height);
+        // 每一项,用于定位 RL
+        LinearLayout.LayoutParams containParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        // 文字区 LL
+        LinearLayout.LayoutParams detailParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        // 歌单名
+        LinearLayout.LayoutParams nameParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0);
+        // 歌曲数目
+        LinearLayout.LayoutParams numberParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0);;
+        // 复选框
+        LinearLayout.LayoutParams checkboxParam = new LinearLayout.LayoutParams(box_width, box_width);
+
+        // 新建实例
+        LinearLayout item = new LinearLayout(getContext());
+        RelativeLayout contain = new RelativeLayout(getContext());
+        LinearLayout detail = new LinearLayout(getContext());
+        TextView name = new TextView(getContext());
+        TextView number = new TextView(getContext());
+        CheckBox checkBox = new CheckBox(getContext());
+
+        item.setLayoutParams(itemParam);
+        item.setBackgroundResource(R.color.grey_light);
+
+        detail.setLayoutParams(detailParam);
+        detail.setOrientation(LinearLayout.HORIZONTAL);// 水平
+        detailParam.setMargins(detail_margin_left, detail_margin_left, detail_margin_right, detail_margin_left);
+        detail.setBackgroundResource(R.color.grey);
     }
 }
