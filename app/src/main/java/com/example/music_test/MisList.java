@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.ColorSpace;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -106,7 +108,11 @@ public class MisList extends DialogFragment {
         if (cursor.moveToFirst()) {// TODO 判断非空
             for (int i = 0; i < cursor.getCount(); i ++) {
                 String mix_name = cursor.getString(0);// 获取歌单名
+                create_item(mix_name);// 列举歌单
+                MainPlayer.infoLog("mix name: " + mix_name);
             }
+        } else {
+            MainPlayer.infoToast(getContext(), "mix is empty");
         }
     }
 
@@ -143,8 +149,10 @@ public class MisList extends DialogFragment {
         TextView number = new TextView(getContext());
         final CheckBox checkBox = new CheckBox(getContext());
 
-        item.setBackgroundResource(R.color.grey_light);
+        item.setBackgroundResource(R.color.grey);
         item.setLayoutParams(itemParam);
+
+        contain.setLayoutParams(containParam);
 
         detailParam.setMargins(detail_margin_left, detail_margin_left, detail_margin_right, detail_margin_left);
         detail.setOrientation(LinearLayout.HORIZONTAL);// 水平
@@ -152,10 +160,13 @@ public class MisList extends DialogFragment {
         detail.setLayoutParams(detailParam);
 
         name.setGravity(View.TEXT_ALIGNMENT_CENTER);
+        name.setBackgroundResource(R.color.red);
+        name.setTextColor(Color.rgb(0x53, 0x53, 0x35));
         name.setText(mix_name);
         name.setLayoutParams(nameParam);
 
         number.setGravity(View.TEXT_ALIGNMENT_CENTER);
+        number.setTextColor(Color.rgb(0x53, 0x53, 0x35));
         number.setText("fuck shit");
         number.setLayoutParams(numberParam);
 
@@ -166,9 +177,10 @@ public class MisList extends DialogFragment {
         // 合并ui
         detail.addView(name);
         detail.addView(number);
-        contain.addView(detail);
         contain.addView(checkBox);
+        contain.addView(detail);
         item.addView(contain);
+        layout.addView(item);
 
         // 动态修改布局
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) checkBox.getLayoutParams();
@@ -190,5 +202,8 @@ public class MisList extends DialogFragment {
                 }
             }
         });
+
+        // TODO debug
+        MainPlayer.infoLog("create item finished");
     }
 }
