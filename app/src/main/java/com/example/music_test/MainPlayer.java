@@ -33,18 +33,17 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
 
     // TODO media多次点击
     static public Long myTime = System.currentTimeMillis();// 微秒时间
-    static public int clickTimes = 0;// 信号次数
-
-    // TODO 删掉,debug用的
-    static public TextView debug;
+    static public int clickTimes = 0;// 耳机信号次数
 
     public MusicTime musicTime;// 音乐进度相关
     public MediaReceiver receiver;// 接收`蓝牙/媒体`信号
     public BluetoothAdapter bluetoothAdapter;// 蓝牙
 
-    // 界面
+    // TODO ui 界面
     static public MusicLists musicLists;// TODO 歌单管理
     static public MusicAdd musicAdd;// TODO 添加音乐
+    // TODO dialog 界面
+    static public MixNew mixNew;// TODO 新建歌单
 
     static public View button_1;// `播放/暂停`按钮
     static public View button_2;// `开启蓝牙`按钮
@@ -53,6 +52,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
     static int window_num = 0;
     static final int MUSIC_LISTS = 1;// 歌单管理
     static final int MUSIC_ADD = 2;// 文件管理器
+    static final int MIX_NEW = 3;// 新建歌单
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,12 +77,11 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
         // 初始化路径字符串
         appPath = getExternalFilesDir("").getAbsolutePath();
 
-        // TODO debug
-        debug = findViewById(R.id.debug);
-
         // 初始化ui
         musicAdd = new MusicAdd();
         musicLists = new MusicLists();
+        // 初始化dialog
+        mixNew = new MixNew();
     }
 
     public void initPlayer() {
@@ -211,10 +210,6 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
         toast.show();
     }
 
-    static public void debugLog(String log) {
-        debug.setText(log);
-    }
-
     static public void infoLog(String log) {
         Log.i("fuck", log);
     }
@@ -254,6 +249,6 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
 
     @Override
     public void onDismiss(DialogInterface dialog) {
-        mainToast("TODO on dismiss");
+        mainToast("main player: TODO on dismiss");
     }
 }

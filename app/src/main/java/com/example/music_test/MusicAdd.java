@@ -101,7 +101,7 @@ public class MusicAdd extends FileManager {
         }
 
         // 清空并显示父目录
-        LinearLayout layout = myView.findViewById(R.id.item_list);
+        LinearLayout layout = myView.findViewById(R.id.mix_list);
         layout.removeAllViews();
         createItem(2, "..", dirPath);// 父目录
 
@@ -211,7 +211,7 @@ public class MusicAdd extends FileManager {
     }
 
     public LinearLayout createItem(final int itemType, final String itemName, final String itemPath) {
-        LinearLayout layout = myView.findViewById(R.id.item_list);
+        LinearLayout layout = myView.findViewById(R.id.mix_list);
         LinearLayout.LayoutParams itemParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, item_height);
         LinearLayout.LayoutParams typeParam = new LinearLayout.LayoutParams(icon_height, icon_height);
         LinearLayout.LayoutParams iconParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);

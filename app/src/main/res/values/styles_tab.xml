@@ -11,7 +11,7 @@
     <style name="bar_1">
         <!--    app标题    -->
         <!--    父元素    -->
-        <item name="android:textSize">@dimen/bar_text_size</item>
+        <item name="android:textSize">23dp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@color/color_2</item>
 
@@ -25,7 +25,7 @@
     <style name="tab_1">
         <!--    顶栏路径/功能提示    -->
         <!--    父元素    -->
-        <item name="android:textSize">@dimen/tab_text_size</item>
+        <item name="android:textSize">16dp</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:background">@color/grey</item>
 
@@ -33,6 +33,9 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:gravity">center</item>
         <item name="android:maxLines">1</item>
+    </style>
+    <style name="tab_2" parent="tab_1">
+        <item name="android:textSize">20dp</item>
     </style>
 
     <!-- 分割线线 -->
@@ -56,11 +59,9 @@
     <!-- 高宽参数 -->
     <!-- 标题栏size -->
     <dimen name="bar_height">55dp</dimen>
-    <dimen name="bar_text_size">23dp</dimen>
 
     <!-- 工具栏size -->
     <dimen name="tab_height">35dp</dimen>
-    <dimen name="tab_text_size">16dp</dimen>
 
     <!-- 底栏size -->
     <!-- 按钮  -->
