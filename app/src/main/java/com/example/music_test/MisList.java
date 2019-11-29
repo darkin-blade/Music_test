@@ -15,7 +15,7 @@ import androidx.fragment.app.FragmentManager;
 
 import java.util.List;
 
-public class MusicLists extends DialogFragment {
+public class MisList extends DialogFragment {
     public List<String> musicSelected;// 当前在文件管理器中选中的所有音乐
     public View myView;
 
@@ -45,7 +45,7 @@ public class MusicLists extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        myView = inflater.inflate(R.layout.music_lists, container);
+        myView = inflater.inflate(R.layout.mix_list, container);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(0x00000000));// 背景透明
 
         initData();
@@ -74,7 +74,7 @@ public class MusicLists extends DialogFragment {
         button_new.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainPlayer.musicAdd.show(getFragmentManager(), "add");
+                MainPlayer.mixNew.show(getFragmentManager(), "add");
             }
         });
     }
@@ -85,5 +85,6 @@ public class MusicLists extends DialogFragment {
         layout.removeAllViews();
 
         // TODO 数据库管理
+        MainPlayer.infoToast(getContext(), "TODO: database");
     }
 }

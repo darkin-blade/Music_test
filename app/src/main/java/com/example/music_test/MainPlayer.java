@@ -16,7 +16,6 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,7 +39,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
     public BluetoothAdapter bluetoothAdapter;// 蓝牙
 
     // TODO ui 界面
-    static public MusicLists musicLists;// TODO 歌单管理
+    static public MisList misList;// TODO 歌单管理
     static public MusicAdd musicAdd;// TODO 添加音乐
     // TODO dialog 界面
     static public MixNew mixNew;// TODO 新建歌单
@@ -79,7 +78,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
 
         // 初始化ui
         musicAdd = new MusicAdd();
-        musicLists = new MusicLists();
+        misList = new MisList();
         // 初始化dialog
         mixNew = new MixNew();
     }
@@ -162,7 +161,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
         button_5.setOnClickListener(new View.OnClickListener() {// TODO 歌单管理界面
             @Override
             public void onClick(View v) {
-                musicLists.show(getSupportFragmentManager(), "lists");
+                misList.show(getSupportFragmentManager(), "lists");
             }
         });
     }
@@ -249,6 +248,6 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
 
     @Override
     public void onDismiss(DialogInterface dialog) {
-        mainToast("main player: TODO on dismiss");
+        //mainToast("main player: TODO on dismiss");
     }
 }

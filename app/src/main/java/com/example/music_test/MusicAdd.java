@@ -80,7 +80,7 @@ public class MusicAdd extends FileManager {
         select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {// TODO 返回所有选中的音乐路径
-                MainPlayer.musicLists.musicSelected.addAll(musicList);// TODO 添加到当前选定歌曲
+                MainPlayer.misList.musicSelected.addAll(musicList);// TODO 添加到当前选定歌曲
                 musicList.clear();// 清空
                 dismiss();
             }
