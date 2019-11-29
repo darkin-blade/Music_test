@@ -37,6 +37,8 @@ public class MusicTime {
                 MainPlayer.player.start();
                 total_time = MainPlayer.player.getDuration();
 
+                setBar();// TODO 在播放之前就已经调整进度
+
                 // 更新音乐进度
                 while (Thread.currentThread().isInterrupted() == false) {
                     try {

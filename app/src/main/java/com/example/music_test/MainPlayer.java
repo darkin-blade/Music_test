@@ -108,9 +108,9 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {// 停止拖动
-                if (player.isPlaying()) {// 在播放时才有效
+//                if (player.isPlaying()) {// 在播放时才有效
                     musicTime.setBar();// TODO 调整player进度
-                }
+//                }
             }
         });
     }
@@ -176,6 +176,8 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
                 player.setDataSource(musicPath);// TODO 异常
                 player.prepare();
                 initButton();
+
+                // TODO 启动播放
             } else {
                 infoToast(this, musicPath + " not exists");
             }
