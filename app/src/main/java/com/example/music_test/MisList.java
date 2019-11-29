@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.ColorSpace;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -135,9 +136,9 @@ public class MisList extends DialogFragment {
         // 文字区 LL
         LinearLayout.LayoutParams detailParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         // 歌单名
-        LinearLayout.LayoutParams nameParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 2);
+        LinearLayout.LayoutParams nameParam = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT,2);
         // 歌曲数目
-        LinearLayout.LayoutParams numberParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1);;
+        LinearLayout.LayoutParams numberParam = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1);;
         // 复选框
         LinearLayout.LayoutParams checkboxParam = new LinearLayout.LayoutParams(box_width, box_width);
 
@@ -159,14 +160,11 @@ public class MisList extends DialogFragment {
         detail.setBackgroundResource(R.color.grey);
         detail.setLayoutParams(detailParam);
 
-        name.setGravity(View.TEXT_ALIGNMENT_CENTER);
-        name.setBackgroundResource(R.color.red);
-        name.setTextColor(Color.rgb(0x53, 0x53, 0x35));
+        name.setGravity(Gravity.CENTER);
         name.setText(mix_name);
         name.setLayoutParams(nameParam);
 
-        number.setGravity(View.TEXT_ALIGNMENT_CENTER);
-        number.setTextColor(Color.rgb(0x53, 0x53, 0x35));
+        number.setGravity(Gravity.CENTER);
         number.setText("fuck shit");
         number.setLayoutParams(numberParam);
 
