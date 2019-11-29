@@ -23,6 +23,10 @@ public class ImgManager {
         }
     }
 
+    public boolean isMusic(String musicPath) {
+        return false;
+    }
+
     public Bitmap LoadImg(String imgPath, int width, int height) {// 加载图片 TODO
         return null;
     }

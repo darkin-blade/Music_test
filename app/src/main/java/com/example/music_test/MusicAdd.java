@@ -131,15 +131,15 @@ public class MusicAdd extends FileManager {
             @Override
             public void run() {
                 for (int i = 0; i < musicLayouts.size(); i ++) {// 逐个异步加载图片
-                    // 生成缩略图
+                    // 生成缩略图 TODO 判断是否为音乐
                     final Bitmap bitmap = imgManager.LoadThumb(musicPaths.get(i), 60, 60);// TODO 大小
                     if (bitmap == null) {// 不是图片 TODO
                         continue;
                     }
 
-                    // 是图片
+                    // TODO 是音乐
 
-                    // TODO 加载过慢导致数组越界
+                    // 加载过慢导致数组越界
                     MainPlayer.infoLog(i + "/" + musicLayouts.size());
                     if (i >= musicLayouts.size()) {
                         MainPlayer.infoLog("before");
@@ -231,7 +231,7 @@ public class MusicAdd extends FileManager {
         if (itemType == 0) {// 文件
             icon.setBackgroundResource(R.drawable.item_file);
 
-            // TODO 记录所有需要加载的文件
+            // 记录所有需要加载的文件
             musicLayouts.add(item);// 记录ui
             musicPaths.add(itemPath + "/" + itemName);// 记录路径
         } else {// 文件夹
