@@ -2,6 +2,7 @@ package com.example.music_test;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ColorDrawable;
@@ -52,7 +53,6 @@ public class MixNew extends DialogFragment {
 
         initData();
         initButton();
-        listMix();
 
         return myView;
     }
@@ -63,17 +63,12 @@ public class MixNew extends DialogFragment {
     }
 
     public void initButton() {// TODO 初始化按钮监听
-    }
-
-    public void listMix() {
         button_create = myView.findViewById(R.id.button_create);
         button_cancel = myView.findViewById(R.id.button_cancel);
 
         button_create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainPlayer.infoToast(getContext(), "TODO");
-                dismiss();
 
                 EditText editText = myView.findViewById(R.id.mix_name);
                 String mix_name = editText.getText().toString();
@@ -94,6 +89,8 @@ public class MixNew extends DialogFragment {
                 cmd("insert into mix_list (name)\n" +
                         "  values\n" +
                         "  ('" + mix_name + "');");
+
+                dismiss();
             }
         });
 

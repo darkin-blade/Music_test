@@ -10,7 +10,7 @@
 
     <TextView
         android:text="All mix"
-        style="@style/tab_1">
+        style="@style/tab_2">
     </TextView>
 
     <View
