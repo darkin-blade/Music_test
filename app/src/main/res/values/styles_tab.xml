@@ -60,7 +60,7 @@
 
     <!-- 工具栏size -->
     <dimen name="tab_height">35dp</dimen>
-    <dimen name="tab_text_size">20dp</dimen>
+    <dimen name="tab_text_size">16dp</dimen>
 
     <!-- 底栏size -->
     <!-- 按钮  -->
