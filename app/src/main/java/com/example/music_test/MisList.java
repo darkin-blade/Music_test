@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -115,7 +116,9 @@ public class MisList extends DialogFragment {
             box_width = 120,
             item_height = 130,
             detail_margin_right = 80,
-            detail_margin_left = 10;
+            detail_margin_left = 10,
+            box_margin_top = 35,
+            box_margin_right = 10;
 
     public void create_item(String mix_name) {
         LinearLayout layout = myView.findViewById(R.id.mix_list);
@@ -126,26 +129,66 @@ public class MisList extends DialogFragment {
         // 文字区 LL
         LinearLayout.LayoutParams detailParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         // 歌单名
-        LinearLayout.LayoutParams nameParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0);
+        LinearLayout.LayoutParams nameParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 2);
         // 歌曲数目
-        LinearLayout.LayoutParams numberParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0);;
+        LinearLayout.LayoutParams numberParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1);;
         // 复选框
         LinearLayout.LayoutParams checkboxParam = new LinearLayout.LayoutParams(box_width, box_width);
 
         // 新建实例
-        LinearLayout item = new LinearLayout(getContext());
+        final LinearLayout item = new LinearLayout(getContext());
         RelativeLayout contain = new RelativeLayout(getContext());
         LinearLayout detail = new LinearLayout(getContext());
         TextView name = new TextView(getContext());
         TextView number = new TextView(getContext());
-        CheckBox checkBox = new CheckBox(getContext());
+        final CheckBox checkBox = new CheckBox(getContext());
 
-        item.setLayoutParams(itemParam);
         item.setBackgroundResource(R.color.grey_light);
+        item.setLayoutParams(itemParam);
 
-        detail.setLayoutParams(detailParam);
-        detail.setOrientation(LinearLayout.HORIZONTAL);// 水平
         detailParam.setMargins(detail_margin_left, detail_margin_left, detail_margin_right, detail_margin_left);
+        detail.setOrientation(LinearLayout.HORIZONTAL);// 水平
         detail.setBackgroundResource(R.color.grey);
+        detail.setLayoutParams(detailParam);
+
+        name.setGravity(View.TEXT_ALIGNMENT_CENTER);
+        name.setText(mix_name);
+        name.setLayoutParams(nameParam);
+
+        number.setGravity(View.TEXT_ALIGNMENT_CENTER);
+        number.setText("fuck shit");
+        number.setLayoutParams(numberParam);
+
+        checkboxParam.setMargins(box_margin_right, box_margin_top, box_margin_right, box_margin_top);
+        checkBox.setButtonDrawable(R.drawable.checkbox_library);
+        checkBox.setLayoutParams(checkboxParam);
+
+        // 合并ui
+        detail.addView(name);
+        detail.addView(number);
+        contain.addView(detail);
+        contain.addView(checkBox);
+        item.addView(contain);
+
+        // 动态修改布局
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) checkBox.getLayoutParams();
+        params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);// 选框靠右
+        checkBox.setLayoutParams(params);
+
+        // TODO 复选功能
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (checkBox.isChecked()) {
+                    item.setBackgroundResource(R.color.grey_light);
+//                    musicList.add(musicPaths.get(finalI));// TODO 添加到list
+//                    MainPlayer.infoLog("size: " + musicList.size());
+                } else {
+                    item.setBackgroundResource(R.color.grey);
+//                    boolean result = musicList.remove(musicPaths.get(finalI));// TODO 从list移出
+//                    MainPlayer.infoLog("size: " + musicList.size() + ", " + result);
+                }
+            }
+        });
     }
 }
