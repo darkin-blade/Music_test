@@ -120,7 +120,7 @@ public class MisList extends DialogFragment {
 
     // TODO 列举歌单的参数
     public static final int
-            box_width = 120,
+            box_width = 60,
             item_height = 130,
             detail_margin_right = 80,
             detail_margin_left = 10,

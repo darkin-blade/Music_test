@@ -220,11 +220,15 @@ public class MusicAdd extends FileManager {
         LinearLayout.LayoutParams detailParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         LinearLayout.LayoutParams nameParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
+        // TODO 统一新建元素
         final LinearLayout item = new LinearLayout(getContext());// TODO 参数
+        LinearLayout type = new LinearLayout(getContext());// 图标的外圈
+        RelativeLayout detail = new RelativeLayout(getContext());
+        TextView name = new TextView(getContext());// 文件名
+
         item.setLayoutParams(itemParam);
         item.setBackgroundResource(R.color.grey);
 
-        LinearLayout type = new LinearLayout(getContext());// 图标的外圈
         typeParam.setMargins(type_padding, type_padding, type_padding, type_padding);
         type.setLayoutParams(typeParam);
 
@@ -240,10 +244,8 @@ public class MusicAdd extends FileManager {
             icon.setBackgroundResource(R.drawable.item_dir);
         }
 
-        RelativeLayout detail = new RelativeLayout(getContext());
         detail.setLayoutParams(detailParam);
 
-        TextView name = new TextView(getContext());// 文件名
         nameParam.setMargins(0, name_top, name_right, name_top);
         name.setLayoutParams(nameParam);
         name.setBackgroundResource(R.color.grey);// TODO
