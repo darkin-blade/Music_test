@@ -38,17 +38,21 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
     // TODO 删掉,debug用的
     static public TextView debug;
 
-    static public MusicLists musicLists;// TODO 乐单管理
     public MusicTime musicTime;// 音乐进度相关
-    public MusicAdd musicAdd;// TODO 添加音乐
     public MediaReceiver receiver;// 接收`蓝牙/媒体`信号
     public BluetoothAdapter bluetoothAdapter;// 蓝牙
 
+    // 界面
+    static public MusicLists musicLists;// TODO 歌单管理
+    static public MusicAdd musicAdd;// TODO 添加音乐
+
     static public View button_1;// `播放/暂停`按钮
     static public View button_2;// `开启蓝牙`按钮
+    static public View button_5;// `歌单管理`按钮
 
     static int window_num = 0;
-    static final int MUSIC_ADD = 1;
+    static final int MUSIC_LISTS = 1;// 歌单管理
+    static final int MUSIC_ADD = 2;// 文件管理器
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +79,10 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
 
         // TODO debug
         debug = findViewById(R.id.debug);
+
+        // 初始化ui
+        musicAdd = new MusicAdd();
+        musicLists = new MusicLists();
     }
 
     public void initPlayer() {
@@ -149,6 +157,15 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
 //                }
 //            }
 //        });
+
+        button_5 = findViewById(R.id.button_5);
+
+        button_5.setOnClickListener(new View.OnClickListener() {// TODO 歌单管理界面
+            @Override
+            public void onClick(View v) {
+                musicLists.show(getSupportFragmentManager(), "lists");
+            }
+        });
     }
 
     public void initBluetooth() {

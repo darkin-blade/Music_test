@@ -40,21 +40,6 @@
                 style="@style/line">
             </View>
 
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/tab_height"
-                android:scrollbars="none">
-                <TextView
-                    android:id="@+id/music_name"
-                    android:text="path"
-                    style="@style/tab_1">
-                </TextView>
-            </HorizontalScrollView>
-
-            <View
-                style="@style/line">
-            </View>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
@@ -113,6 +98,7 @@
                 <View
                     style="@style/tool_2"/>
                 <View
+                    android:id="@+id/button_5"
                     style="@style/tool_5"/>
 
                 <Button
