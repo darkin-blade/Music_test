@@ -46,6 +46,12 @@
     <style name="tool_3" parent="tool_1">
         <item name="android:background">@drawable/player_prev</item>
     </style>
+    <style name="tool_4" parent="tool_1">
+        <item name="android:background">@drawable/player_bluetooth</item>
+    </style>
+    <style name="tool_5" parent="tool_1">
+        <item name="android:background">@drawable/player_list</item>
+    </style>
 
     <!-- 主界面按钮 -->
     <style name="item_1">

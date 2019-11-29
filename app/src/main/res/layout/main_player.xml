@@ -82,6 +82,10 @@
                 android:gravity="center">
 
                 <View
+                    android:id="@+id/button_4"
+                    style="@style/tool_4"
+                    android:layout_marginRight="20dp"/>
+                <View
                     android:id="@+id/button_3"
                     style="@style/tool_3"/>
                 <View
@@ -92,6 +96,10 @@
                 <View
                     android:id="@+id/button_2"
                     style="@style/tool_2"/>
+                <View
+                    android:id="@+id/button_5"
+                    style="@style/tool_5"
+                    android:layout_marginLeft="20dp"/>
 
             </LinearLayout>
 
