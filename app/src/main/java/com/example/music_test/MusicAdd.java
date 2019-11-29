@@ -23,6 +23,8 @@ import java.util.ArrayList;
 public class MusicAdd extends FileManager {
     public String lastPath = null;// 路径记忆
 
+    public View myView;// find id用
+
     public Button select;// 确定
     public Button back;// 返回
 
@@ -48,7 +50,6 @@ public class MusicAdd extends FileManager {
         myView = inflater.inflate(R.layout.music_add, container);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(0x00000000));// 背景透明
 
-        initPath();// 路径框
         initData();
         initButton();
 
@@ -121,9 +122,6 @@ public class MusicAdd extends FileManager {
                 }
             }
         }
-
-        // 显示路径
-        curPath.setText(dirPath);// TODO 简化路径
 
         // 异步加载图片
         loadIcon();
