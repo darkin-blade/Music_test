@@ -92,11 +92,11 @@ public class MisList extends DialogFragment {
     }
 
     public void listMix() {
-        // 清空并显示父目录
+        // 清空
         LinearLayout layout = myView.findViewById(R.id.mix_list);
         layout.removeAllViews();
 
-        // TODO 列举所有歌单
+        // 列举所有歌单
         Cursor cursor = database.query(
                 "mix_list",// 歌单列表
                 new String[]{"name"},
@@ -109,14 +109,37 @@ public class MisList extends DialogFragment {
         if (cursor.moveToFirst()) {// TODO 判断非空
             for (int i = 0; i < cursor.getCount(); i ++) {
                 String mix_name = cursor.getString(0);// 获取歌单名
-                create_item(mix_name);// 列举歌单
-                MainPlayer.infoLog("mix name: " + mix_name);
+                create_item(mix_name, 0);// TODO 列举歌单
             }
         } else {
-            MainPlayer.infoToast(getContext(), "mix is empty");
+            MainPlayer.infoToast(getContext(), "no mix");
         }
     }
 
+    public void listMusic(String mix_name) {
+        // 清空
+        LinearLayout layout = myView.findViewById(R.id.mix_list);
+        layout.removeAllViews();
+
+        // TODO 列举所有歌曲;
+        Cursor cursor = database.query(
+                mix_name,// 歌单详情
+                new String[]{"uri"},
+                null,
+                null,
+                null,
+                null,
+                "uri");
+
+        if (cursor.moveToFirst()) {// 歌单飞空
+            for (int i = 0; i < cursor.getCount(); i ++) {
+                String music_name = cursor.getString(0);// 获取歌单名
+                create_item(music_name, 1);// TODO 列举歌曲
+            }
+        } else {
+            MainPlayer.infoToast(getContext(), "no music");
+        }
+    }
 
     // TODO 列举歌单的参数
     public static final int
@@ -127,7 +150,7 @@ public class MisList extends DialogFragment {
             box_margin_top = 35,
             box_margin_right = 10;
 
-    public void create_item(String mix_name) {
+    public void create_item(final String item_name, int mode) {// mode: 0:歌单 1:歌曲
         LinearLayout layout = myView.findViewById(R.id.mix_list);
         // 每一项 LL
         LinearLayout.LayoutParams itemParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, item_height);
@@ -161,11 +184,11 @@ public class MisList extends DialogFragment {
         detail.setLayoutParams(detailParam);
 
         name.setGravity(Gravity.CENTER);
-        name.setText(mix_name);
+        name.setText(item_name);
         name.setLayoutParams(nameParam);
 
         number.setGravity(Gravity.CENTER);
-        number.setText("fuck shit");
+        number.setText("TODO");
         number.setLayoutParams(numberParam);
 
         checkboxParam.setMargins(box_margin_right, box_margin_top, box_margin_right, box_margin_top);
@@ -184,6 +207,19 @@ public class MisList extends DialogFragment {
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) checkBox.getLayoutParams();
         params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);// 选框靠右
         checkBox.setLayoutParams(params);
+
+        // TODO 查看详情
+        if (mode == 0) {// 当前为歌单列表
+            item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listMusic(item_name);// 点击查看对应歌单详情
+                }
+            });
+        } else if (mode == 1) {// 当前为歌曲列表
+            // TODO 播放该专辑
+            MainPlayer.infoToast(getContext(), "todo play music");
+        }
 
         // TODO 复选功能
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

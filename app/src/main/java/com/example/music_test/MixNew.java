@@ -85,10 +85,16 @@ public class MixNew extends DialogFragment {
                         "  primary key (name)\n" +
                         ") ;");
 
-                // TODO 插入歌单
+                // 插入到歌单列表`mix_list`
                 cmd("insert into mix_list (name)\n" +
                         "  values\n" +
                         "  ('" + mix_name + "');");
+
+                // 新建歌单`mix_name`
+                cmd("create table if not exists " + mix_name + " (\n" +
+                        "  uri varchar (128) not null,\n" +
+                        "  primary key (uri)\n" +
+                        ");");
 
                 dismiss();
             }
