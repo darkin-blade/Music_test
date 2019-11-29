@@ -26,6 +26,10 @@ public class MusicAdd extends FileManager {
     public Button select;// 确定
     public Button back;// 返回
 
+    public int item_padding = 40;
+    public int type_padding = 20;
+    public int name_padding = 30;
+    public int name_margin = 10;
     public int box_width = 60;
     public int icon_height = 90;
     public int box_top = 35;

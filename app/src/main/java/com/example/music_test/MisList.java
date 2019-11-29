@@ -27,6 +27,8 @@ public class MisList extends DialogFragment {
 
     SQLiteDatabase database;// 数据库
 
+    // TODO 列举歌单的参数
+
     @Override
     public void show(FragmentManager fragmentManager, String tag) {
         super.show(fragmentManager, tag);
@@ -104,5 +106,9 @@ public class MisList extends DialogFragment {
                 String mix_name = cursor.getString(0);// 获取歌单名
             }
         }
+    }
+
+    public void create_item(String mix_name) {
+        ;
     }
 }
