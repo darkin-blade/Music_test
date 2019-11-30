@@ -98,6 +98,7 @@ public class MixNew extends DialogFragment {
                 // 新建歌单`mix_name`
                 result = cmd("create table if not exists " + mix_name + " (\n" +
                         "  path varchar (128) not null,\n" +
+                        "  name varchar (64) not null,\n" +
                         "  count int default 0,\n" +
                         "  primary key (path)" +
                         ");");

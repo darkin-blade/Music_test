@@ -158,17 +158,17 @@ public class MixList extends DialogFragment {
         // TODO 列举所有歌曲;
         Cursor cursor = database.query(
                 mix_name,// 歌单详情
-                new String[]{"path", "count"},
+                new String[]{"path", "name", "count"},
                 null,
                 null,
                 null,
                 null,
-                "path");
+                "name");
 
         if (cursor.moveToFirst()) {// 歌单非空
             do {
-                String music_name = cursor.getString(0);// 获取歌单名
-                int play_times = cursor.getInt(1);// 获取播放次数
+                String music_name = cursor.getString(1);// 获取歌单名
+                int play_times = cursor.getInt(2);// 获取播放次数
                 create_item(music_name, "play times: " + play_times,1);// TODO 列举歌曲
             } while (cursor.moveToNext());
         } else {

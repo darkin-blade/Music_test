@@ -83,9 +83,9 @@ public class MusicAdd extends FileManager {
             public void onClick(View v) {
                 // TODO 添加到当前选定歌曲
                 for (int i = 0; i < musicList.size(); i ++) {
-                    cmd("insert into " + MainPlayer.mixList.curMix + " (path, count)\n" +
+                    cmd("insert into " + MainPlayer.mixList.curMix + " (path, name, count)\n" +
                             "  values\n" +
-                            "  ('" + musicList.get(i) + "', 0);");
+                            "  ('" + musicList.get(i) + "', '" + musicList.get(i).replace(lastPath + "/", "")  + "', 0);");
                 }
                 musicList.clear();// 清空
                 dismiss();
@@ -94,6 +94,7 @@ public class MusicAdd extends FileManager {
     }
 
     public void readPath(final String dirPath) {
+        // 每次更换目录都要清空
         musicLayouts.clear();// 清空
         musicPaths.clear();
         lastPath = dirPath;// TODO 路径记忆
@@ -202,11 +203,11 @@ public class MusicAdd extends FileManager {
                                     if (checkBox.isChecked()) {
                                         item.setBackgroundResource(R.color.grey_light);
                                         musicList.add(musicPaths.get(finalI));// TODO 添加到list
-                                        MainPlayer.infoLog("size: " + musicList.size());
+//                                        MainPlayer.infoLog("size: " + musicList.size());
                                     } else {
                                         item.setBackgroundResource(R.color.grey);
                                         boolean result = musicList.remove(musicPaths.get(finalI));// TODO 从list移出
-                                        MainPlayer.infoLog("size: " + musicList.size() + ", " + result);
+//                                        MainPlayer.infoLog("size: " + musicList.size() + ", " + result);
                                     }
                                 }
                             });
