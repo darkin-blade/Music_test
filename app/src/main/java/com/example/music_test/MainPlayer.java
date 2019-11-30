@@ -76,7 +76,6 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
         initButton();// 初始化按钮监听
         initSeekBar();// 初始化进度条
         initBluetooth();// 初始化蓝牙
-        test1();
     }
 
     public void initApp() {
@@ -204,25 +203,6 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
         receiver.registerReceiver(this);// 初始化广播
     }
 
-    public void test1() {
-        String musicPath = appPath + "/test2.wav";
-        try {
-            File tmp = new File(musicPath);
-            if (tmp.exists()) {// 如果文件存在
-                player.setDataSource(musicPath);// TODO 异常
-                player.prepareAsync();// TODO 异常
-
-                // TODO 启动播放
-            } else {
-                infoToast(this, musicPath + " not exists");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void mainToast(String log) {
         Toast toast = Toast.makeText(MainPlayer.this, log, Toast.LENGTH_SHORT);
         View view = toast.getView();
@@ -242,8 +222,8 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
         return 0;
     }
 
-    static public void musicDelete(String musicPath) {// 从歌单中删除歌曲
-        cmd("delete from " + mixList.curMix + "\n" +
+    static public void musicDelete(String musicPath, String curMix) {// 从歌单中删除歌曲
+        cmd("delete from " + curMix + "\n" +
                 "where path = '" + musicPath + "';");
     }
 

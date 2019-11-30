@@ -193,7 +193,10 @@ public class MixList extends DialogFragment {
             box_margin_top = 35,
             box_margin_right = 10;
 
-    public void create_item(final String[] item_detail, int mode) {// mode: 0:歌单 1:歌曲
+    public void create_item(final String[] item_detail, int mode) {
+        // mode: 0:歌单 1:歌曲
+        // item_detail: {[歌名], [播放次数], [绝对路径]} {[歌单名], [歌曲数目]}
+
         LinearLayout layout = myView.findViewById(R.id.mix_list);
         // 每一项 LL
         LinearLayout.LayoutParams itemParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, item_height);
@@ -251,7 +254,7 @@ public class MixList extends DialogFragment {
         params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);// 选框靠右
         checkBox.setLayoutParams(params);
 
-        // TODO 查看详情
+        // 查看详情
         if (mode == 0) {// 当前为歌单列表
             item.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -260,7 +263,7 @@ public class MixList extends DialogFragment {
                 }
             });
 
-            // TODO 复选功能
+            // 复选功能
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -280,11 +283,11 @@ public class MixList extends DialogFragment {
             item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MainPlayer.infoToast(getContext(), "todo play music");
+                    MainPlayer.playList.loadList(curMix, item_detail[0]);// TODO 加载专辑曲目
                 }
             });
 
-            // TODO 复选功能: 存储绝对路径
+            // 复选功能: 存储绝对路径
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -300,8 +303,5 @@ public class MixList extends DialogFragment {
                 }
             });
         }
-
-        // TODO debug
-        MainPlayer.infoLog("create item finished");
     }
 }

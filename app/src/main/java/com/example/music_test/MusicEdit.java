@@ -77,7 +77,7 @@ public class MusicEdit extends DialogFragment {
                     MainPlayer.infoLog("delete " + tmp + " from " + MainPlayer.mixList.curMix);
 
                     // 从歌单中删除歌曲
-                    MainPlayer.musicDelete(tmp);
+                    MainPlayer.musicDelete(tmp, MainPlayer.mixList.curMix);
                 }
                 MainPlayer.mixList.musicSelected.clear();
                 dismiss();
