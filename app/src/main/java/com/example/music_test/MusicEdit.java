@@ -61,7 +61,7 @@ public class MusicEdit extends DialogFragment {
     }
 
     public void initData() {
-        MainPlayer.window_num = MainPlayer.MIX_EDIT;// 修改窗口编号
+        MainPlayer.window_num = MainPlayer.MUSIC_EDIT;// 修改窗口编号
         database = SQLiteDatabase.openOrCreateDatabase(MainPlayer.appPath + "/player.db", null);// TODO 参数
     }
 
@@ -83,6 +83,15 @@ public class MusicEdit extends DialogFragment {
                 }
                 MainPlayer.mixList.musicSelected.clear();
                 dismiss();
+            }
+        });
+
+        button_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainPlayer.window_num = MainPlayer.MAIN_PALYER;// TODO
+                dismiss();
+                MainPlayer.mixAdd.show(getFragmentManager(), "add to mix");// 添加到其他歌单
             }
         });
 

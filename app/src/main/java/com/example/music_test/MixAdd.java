@@ -69,6 +69,13 @@ public class MixAdd extends DialogFragment {
 
     public void initButton() {// TODO 初始化按钮
         button_cancel = myView.findViewById(R.id.button_1);
+
+        button_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
     }
 
     public void listMix() {
@@ -151,6 +158,7 @@ public class MixAdd extends DialogFragment {
                             "  values\n" +
                             "  ('" + tmp + "', '" + tmp.replaceAll(".*/", "") + "', 0);");
                 }
+                dismiss();// TODO
             }
         });
     }

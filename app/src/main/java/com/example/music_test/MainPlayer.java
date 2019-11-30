@@ -54,6 +54,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
     static public View button_5;// `歌单管理`按钮
 
     static int window_num = 0;
+    static final int MAIN_PALYER = 0;// 主页面
     static final int MIX_LIST = 1;// 歌单管理
     static final int MUSIC_ADD = 2;// 文件管理器
     static final int MIX_NEW = 3;// 新建歌单
@@ -300,13 +301,21 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
                 mixList.listMix();
                 window_num = MIX_LIST;
                 break;
+            case MIX_NEW:
+                mixList.listMix();
+                window_num = MIX_LIST;
+                break;
             case MUSIC_ADD:
                 mixList.listMusic(mixList.curMix);
                 window_num = MIX_LIST;
                 break;
             case MUSIC_EDIT:
                 mixList.listMusic(mixList.curMix);
-                window_num = MUSIC_EDIT;
+                window_num = MIX_LIST;
+                break;
+            case MIX_ADD:
+                mixList.listMusic(mixList.curMix);
+                window_num = MIX_LIST;
                 break;
         }
     }
