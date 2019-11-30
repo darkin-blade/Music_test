@@ -59,6 +59,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
     static final int MIX_NEW = 3;// 新建歌单
     static final int MIX_EDIT = 4;// 操作歌单
     static final int MUSIC_EDIT = 5;// 操作歌单
+    static final int MIX_ADD = 6;// `添加至歌单`时列举歌单列表
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
