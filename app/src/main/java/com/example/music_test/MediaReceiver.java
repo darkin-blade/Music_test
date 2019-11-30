@@ -36,10 +36,8 @@ public class MediaReceiver extends BroadcastReceiver {
                             MainPlayer.button_1.callOnClick();// TODO 强制暂停
                         }
                         MainPlayer.infoLog("remove headset");
-                        MainPlayer.infoToast(myContext, "isplaying: " + MainPlayer.player.isPlaying());
                     } else if (mediaState == 1) {// 插入耳机
                         MainPlayer.infoLog("plug headset");
-                        MainPlayer.infoToast(myContext, "isplaying: " + MainPlayer.player.isPlaying());
                     }
                     break;
 

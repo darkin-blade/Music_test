@@ -36,7 +36,12 @@ public class PlayTime {
                 MainPlayer.player.start();
                 total_time = MainPlayer.player.getDuration();
 
-                setBar();// TODO 在播放之前就已经调整进度
+                myActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        setBar();// TODO 在播放之前就已经调整进度
+                    }
+                });
 
                 // 更新音乐进度
                 while (Thread.currentThread().isInterrupted() == false) {
@@ -66,6 +71,11 @@ public class PlayTime {
         });
 
         musicPlay.start();
+    }
+
+    public void reset() {// TODO 切歌
+        MainPlayer.player.reset();
+        MainPlayer.seekBar.setProgress(0);// TODO
     }
 
     public void pause() {

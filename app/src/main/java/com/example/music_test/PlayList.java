@@ -101,10 +101,11 @@ public class PlayList {
 
             File tmp = new File(nextMusic);
             if (tmp.exists()) {// 如果文件存在
+                MainPlayer.playTime.reset();// TODO 切歌
                 MainPlayer.player.setDataSource(nextMusic);// TODO 异常
-                MainPlayer.player.prepareAsync();// TODO 异常
+                MainPlayer.player.prepare();// TODO 异常
                 // TODO 启动播放
-                MainPlayer.player.start();
+                MainPlayer.playTime.play();
                 MainPlayer.infoLog("start play " + nextMusic);
             } else {// TODO 歌曲不存在
                 MainPlayer.musicDelete(nextMusic, curMix);// 从歌单中删除不存在的歌曲
@@ -113,7 +114,7 @@ public class PlayList {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (IllegalStateException e) {
+        } catch (IllegalStateException e) {// TODO
             e.printStackTrace();
         }
 
