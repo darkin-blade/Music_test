@@ -15,7 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.music_test.Interfaces.FileManager;
-import com.example.music_test.Interfaces.ImgManager;
+import com.example.music_test.Interfaces.IconManager;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -28,22 +28,11 @@ public class MusicAdd extends FileManager {
     public Button select;// 确定
     public Button back;// 返回
 
-    public int item_padding = 40;
-    public int type_padding = 20;
-    public int name_padding = 30;
-    public int name_margin = 10;
-    public int box_width = 60;
-    public int icon_height = 90;
-    public int box_top = 35;
-    public int box_right = 10;
-    public int name_top = 10;
-    public int name_right = 80;
+    public ArrayList<String> musicList;// TODO 当前文件管理器中选定的项目
+    public ArrayList<LinearLayout> musicLayouts;// TODO 集中保存所有 imageView 及对应 music 路径
+    public ArrayList<String> musicPaths;// TODO 当前目录所有的文件
 
-    public ArrayList<String> musicList;// 当前文件管理器中选定的项目
-    public ArrayList<LinearLayout> musicLayouts;// TODO 集中保存所有imageview及对应路径
-    public ArrayList<String> musicPaths;
-
-    public ImgManager imgManager;// 图片处理
+    public IconManager iconManager;// 文件缩略图处理
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,7 +56,7 @@ public class MusicAdd extends FileManager {
         musicList = new ArrayList<String>();
         musicLayouts = new ArrayList<>();// TODO 优化加载
         musicPaths = new ArrayList<String>();
-        imgManager = new ImgManager(getContext());// 显示专辑图片
+        iconManager = new IconManager(getContext());// 显示专辑图片
     }
 
     public void initButton() {
@@ -85,7 +74,7 @@ public class MusicAdd extends FileManager {
         select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {// TODO 返回所有选中的音乐路径
-                MainPlayer.misList.musicSelected.addAll(musicList);// TODO 添加到当前选定歌曲
+                MainPlayer.mixList.musicSelected.addAll(musicList);// TODO 添加到当前选定歌曲
                 musicList.clear();// 清空
                 dismiss();
             }
@@ -125,8 +114,18 @@ public class MusicAdd extends FileManager {
 
         // 异步加载图片
         loadIcon();
-
     }
+
+    public int item_padding = 40;
+    public int type_padding = 20;
+    public int name_padding = 30;
+    public int name_margin = 10;
+    public int box_width = 60;
+    public int icon_height = 90;
+    public int box_top = 35;
+    public int box_right = 10;
+    public int name_top = 10;
+    public int name_right = 80;
 
     public void loadIcon() {// 动态加载文件项目
         class LoadImg extends Thread {
@@ -134,7 +133,7 @@ public class MusicAdd extends FileManager {
             public void run() {
                 for (int i = 0; i < musicLayouts.size(); i ++) {// 逐个异步加载图片
                     // 生成缩略图 TODO 判断是否为音乐
-                    final Bitmap bitmap = imgManager.LoadThumb(musicPaths.get(i), 60, 60);// TODO 大小
+                    final Bitmap bitmap = iconManager.LoadThumb(musicPaths.get(i), 60, 60);// TODO 大小
                     if (bitmap == null) {// 不是图片 TODO
                         continue;
                     }

@@ -39,7 +39,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
     public BluetoothAdapter bluetoothAdapter;// 蓝牙
 
     // TODO ui 界面
-    static public MisList misList;// TODO 歌单管理
+    static public MixList mixList;// TODO 歌单管理
     static public MusicAdd musicAdd;// TODO 添加音乐
     // TODO dialog 界面
     static public MixNew mixNew;// TODO 新建歌单
@@ -78,7 +78,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
 
         // 初始化ui
         musicAdd = new MusicAdd();
-        misList = new MisList();
+        mixList = new MixList();
         // 初始化dialog
         mixNew = new MixNew();
     }
@@ -86,6 +86,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
     public void initPlayer() {
         player = new MediaPlayer();
         player.setLooping(false);// TODO 不循环播放
+        player.setAudioStreamType(AudioManager.STREAM_MUSIC);// TODO 设置为音频
         player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {// 播放完毕回调函数
             @Override
             public void onCompletion(MediaPlayer mp) {
@@ -161,7 +162,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
         button_5.setOnClickListener(new View.OnClickListener() {// TODO 歌单管理界面
             @Override
             public void onClick(View v) {
-                misList.show(getSupportFragmentManager(), "lists");
+                mixList.show(getSupportFragmentManager(), "lists");
             }
         });
     }
@@ -184,12 +185,11 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
 
     public void test1() {
         String musicPath = appPath + "/test2.wav";
-        player.setAudioStreamType(AudioManager.STREAM_MUSIC);// TODO 设置为音频
         try {
             File tmp = new File(musicPath);
             if (tmp.exists()) {// 如果文件存在
                 player.setDataSource(musicPath);// TODO 异常
-                player.prepare();
+                player.prepareAsync();// TODO 异常
                 initButton();
 
                 // TODO 启动播放
@@ -197,6 +197,8 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
                 infoToast(this, musicPath + " not exists");
             }
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
             e.printStackTrace();
         }
     }

@@ -3,12 +3,20 @@ package com.example.music_test.Interfaces;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 
-public class ImgManager {
+import java.io.File;
+import java.io.IOException;
+
+public class IconManager {
     public Context myContext;
+    public MediaPlayer player;
 
-    public ImgManager(Context context) {// TODO 初始化
+    public IconManager(Context context) {// TODO 初始化
         this.myContext = context;
+        this.player = new MediaPlayer();
+        player.setAudioStreamType(AudioManager.STREAM_MUSIC);// 设置为音频
     }
 
     public boolean isImg(String imgPath) {// 判断是否是图片 TODO
@@ -23,16 +31,27 @@ public class ImgManager {
         }
     }
 
-    public boolean isMusic(String musicPath) {
-        return false;
-    }
+    public boolean isMusic(String musicPath) {// TODO 判断是否为音乐
+        File tmp = new File(musicPath);
+        if (tmp.exists() == false) return false;
 
-    public Bitmap LoadImg(String imgPath, int width, int height) {// 加载图片 TODO
-        return null;
+        try {
+            player.setDataSource(musicPath);// TODO 异常
+        } catch (IOException e) {
+            return false;
+        }
+
+        try {
+            player.prepareAsync();
+        } catch (IllegalStateException e) {
+            return false;
+        }
+
+        return true;
     }
 
     public Bitmap LoadThumb(final String imgPath, final int width, final int height) {// 加载缩略图
-        if (isImg(imgPath) == false) {
+        if (isMusic(imgPath) == false) {// TODO 判断是否为音乐
             return null;
         }
 

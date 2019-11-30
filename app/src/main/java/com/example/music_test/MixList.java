@@ -24,7 +24,7 @@ import androidx.fragment.app.FragmentManager;
 
 import java.util.List;
 
-public class MisList extends DialogFragment {
+public class MixList extends DialogFragment {
     public List<String> musicSelected;// 当前在文件管理器中选中的所有音乐
     public View myView;
 
