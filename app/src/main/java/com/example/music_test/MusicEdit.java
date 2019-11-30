@@ -77,6 +77,7 @@ public class MusicEdit extends DialogFragment {
             public void onClick(View v) {// TODO 删除选中的歌曲
                 for (int i = 0; i < MainPlayer.mixList.musicSelected.size(); i ++) {
                     String tmp = MainPlayer.mixList.musicSelected.get(i);
+                    MainPlayer.infoLog("delete " + tmp + " from " + MainPlayer.mixList.curMix);
 
                     // 从歌单中删除歌曲
                     musicDelete(tmp);

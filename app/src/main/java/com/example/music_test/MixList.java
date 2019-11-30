@@ -146,7 +146,7 @@ public class MixList extends DialogFragment {
         if (cursor.moveToFirst()) {// TODO 判断非空
             do {
                 String mix_name = cursor.getString(0);// 获取歌单名
-                create_item(mix_name, "TODO", 0);// TODO 列举歌单
+                create_item(new String[]{mix_name, "TODO"}, 0);// TODO 列举歌单
             } while (cursor.moveToNext());
         } else {
             MainPlayer.infoToast(getContext(), "no mix");
@@ -175,9 +175,10 @@ public class MixList extends DialogFragment {
 
         if (cursor.moveToFirst()) {// 歌单非空
             do {
-                String music_name = cursor.getString(1);// 获取歌单名
+                String music_path = cursor.getString(0);// 获取歌曲绝对路径
+                String music_name = cursor.getString(1);// 获取歌曲名
                 int play_times = cursor.getInt(2);// 获取播放次数
-                create_item(music_name, "play times: " + play_times,1);// TODO 列举歌曲
+                create_item(new String[]{music_name, "play times: " + play_times, music_path}, 1);// TODO 列举歌曲
             } while (cursor.moveToNext());
         } else {
             MainPlayer.infoToast(getContext(), "no music");
@@ -195,7 +196,7 @@ public class MixList extends DialogFragment {
             box_margin_top = 35,
             box_margin_right = 10;
 
-    public void create_item(final String item_name, final String item_detail, int mode) {// mode: 0:歌单 1:歌曲
+    public void create_item(final String[] item_detail, int mode) {// mode: 0:歌单 1:歌曲
         LinearLayout layout = myView.findViewById(R.id.mix_list);
         // 每一项 LL
         LinearLayout.LayoutParams itemParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, item_height);
@@ -229,11 +230,11 @@ public class MixList extends DialogFragment {
         detail.setLayoutParams(detailParam);
 
         name.setGravity(Gravity.CENTER);
-        name.setText(item_name);
+        name.setText(item_detail[0]);// 歌单名/歌曲名
         name.setLayoutParams(nameParam);
 
         number.setGravity(Gravity.CENTER);
-        number.setText(item_detail);
+        number.setText(item_detail[1]);// 歌曲数/播放数
         number.setLayoutParams(numberParam);
 
         checkboxParam.setMargins(box_margin_right, box_margin_top, box_margin_right, box_margin_top);
@@ -258,7 +259,7 @@ public class MixList extends DialogFragment {
             item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listMusic(item_name);// 点击查看对应歌单详情
+                    listMusic(item_detail[0]);// 点击查看对应歌单详情
                 }
             });
 
@@ -268,11 +269,11 @@ public class MixList extends DialogFragment {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (checkBox.isChecked()) {
                         item.setBackgroundResource(R.color.grey_light);
-                        mixSelected.add(item_name);
+                        mixSelected.add(item_detail[0]);
                         MainPlayer.infoLog("size: " + mixSelected.size());
                     } else {
                         item.setBackgroundResource(R.color.grey);
-                        mixSelected.remove(item_name);
+                        mixSelected.remove(item_detail[0]);
                         MainPlayer.infoLog("size: " + mixSelected.size());
                     }
                 }
@@ -292,11 +293,11 @@ public class MixList extends DialogFragment {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (checkBox.isChecked()) {
                         item.setBackgroundResource(R.color.grey_light);
-                        musicSelected.add(item_name);
+                        musicSelected.add(item_detail[2]);
                         MainPlayer.infoLog("size: " + musicSelected.size());
                     } else {
                         item.setBackgroundResource(R.color.grey);
-                        musicSelected.remove(item_name);
+                        musicSelected.remove(item_detail[2]);
                         MainPlayer.infoLog("size: " + musicSelected.size());
                     }
                 }

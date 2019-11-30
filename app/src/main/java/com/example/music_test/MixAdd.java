@@ -68,7 +68,7 @@ public class MixAdd extends DialogFragment {
     }
 
     public void initButton() {// TODO 初始化按钮
-        button_cancel = myView.findViewById(R.id.button_1);
+        button_cancel = myView.findViewById(R.id.button_cancel);
 
         button_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
