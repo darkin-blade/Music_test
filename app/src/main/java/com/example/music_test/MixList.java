@@ -110,6 +110,13 @@ public class MixList extends DialogFragment {
                 }
             });
 
+            button_edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MainPlayer.musicEdit.show(getFragmentManager(), "edit music");
+                }
+            });
+
             button_new.setText("Add");
             button_new.setOnClickListener(new View.OnClickListener() {
                 @Override

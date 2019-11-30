@@ -89,6 +89,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
         // 初始化dialog
         mixNew = new MixNew();
         mixEdit = new MixEdit();
+        musicEdit = new MusicEdit();
     }
 
     public void initPlayer() {

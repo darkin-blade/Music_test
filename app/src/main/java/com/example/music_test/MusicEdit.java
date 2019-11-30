@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentManager;
 public class MusicEdit extends DialogFragment {
     public View myView;
     public Button button_delete;
+    public Button button_add;// 添加到其他歌单
     public Button button_cancel;
     public TextView textView;// 显示选中的歌单数目
 
@@ -68,11 +69,12 @@ public class MusicEdit extends DialogFragment {
         textView = myView.findViewById(R.id.edit_title);
 
         button_delete = myView.findViewById(R.id.button_delete);
+        button_add = myView.findViewById(R.id.button_add);
         button_cancel = myView.findViewById(R.id.button_cancel);
 
         button_delete.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {// TODO 删除选中的歌单
+            public void onClick(View v) {// TODO 删除选中的歌曲
                 for (int i = 0; i < MainPlayer.mixList.mixSelected.size(); i ++) {
                     String tmp = MainPlayer.mixList.mixSelected.get(i);
 
