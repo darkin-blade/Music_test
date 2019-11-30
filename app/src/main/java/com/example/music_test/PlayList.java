@@ -54,7 +54,7 @@ public class PlayList {
 
             if (cursor.moveToFirst()) {// 非空
                 do {
-                    String music_name = cursor.getString(1);// 获取歌名
+                    String music_name = cursor.getString(0);// 获取歌名
                     curMusicList.add(music_name);
                     curMixLen ++;
                     MainPlayer.infoLog("add to play list: " + music_name);
@@ -73,6 +73,8 @@ public class PlayList {
 
     public void stopMusic() {// TODO 异常处理
         MainPlayer.infoLog("player error");
+        MainPlayer.playTime.reset();
+        MainPlayer.updateUI();
     }
 
     public void startMusic(String nextMusic) {// TODO 第一次播放音乐
@@ -80,8 +82,9 @@ public class PlayList {
     }
 
     public void changeMusic(String nextMusic, int mode) {
-        // mode: 0: 指定跳转, 1: 向后跳转, 2: 向前跳转, 3: 异常情况下的跳转 TODO
+        // mode: 0: 指定跳转, 1: 向后跳转, 2: 向前跳转, 3: 重新播放 TODO
         // TODO 播放模式
+
         try {
             if (mode == 1) {// 往后播放
                 nextMusic = curMusicList.get((curMusicIndex + 1) % curMixLen);
@@ -99,6 +102,7 @@ public class PlayList {
                 stopMusic();// TODO 异常
             }
 
+            MainPlayer.infoLog("try to play " + nextMusic);
             File tmp = new File(nextMusic);
             if (tmp.exists()) {// 如果文件存在
                 MainPlayer.playTime.reset();// TODO 切歌
@@ -106,7 +110,6 @@ public class PlayList {
                 MainPlayer.player.prepare();// TODO 异常
                 // TODO 启动播放
                 MainPlayer.playTime.play();
-                MainPlayer.infoLog("start play " + nextMusic);
             } else {// TODO 歌曲不存在
                 MainPlayer.musicDelete(nextMusic, curMix);// 从歌单中删除不存在的歌曲
                 loadList(curMix, null);// 重新加载歌单

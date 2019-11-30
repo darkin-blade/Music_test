@@ -155,10 +155,8 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
                     public void run() {
                         if (player.isPlaying() == false) {// TODO 判断的条件 正在暂停
                             playTime.play();
-                            button_1.setBackgroundResource(R.drawable.player_pause);
                         } else {
                             playTime.pause();
-                            button_1.setBackgroundResource(R.drawable.player_play);
                         }
                     }
                 });
@@ -213,7 +211,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
         toast.show();
     }
 
-    public void updateUI() {// 更新ui
+    static public void updateUI() {// 更新ui
         if (player.isPlaying()) {
             button_1.setBackgroundResource(R.drawable.player_pause);
         } else {

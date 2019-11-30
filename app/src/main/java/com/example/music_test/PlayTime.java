@@ -28,6 +28,12 @@ public class PlayTime {
             MainPlayer.infoLog("still playing!");
         }
 
+        if (MainPlayer.playList.curMusicList == null || MainPlayer.playList.curMusicList.size() <= 0) {// TODO 异常处理
+            return;
+        }
+
+        MainPlayer.button_1.setBackgroundResource(R.drawable.player_pause);
+
         // 初始化音乐播放
         musicPlay = new Thread(new Runnable() {
             @Override
@@ -47,7 +53,6 @@ public class PlayTime {
                 while (Thread.currentThread().isInterrupted() == false) {
                     try {
                         cur_time = MainPlayer.player.getCurrentPosition();// 当前进度
-                        MainPlayer.infoLog("music playing: " + cur_time / 1000 + "/" + total_time / 1000);// TODO
 
                         myActivity.runOnUiThread(new Runnable() {
                             @Override
@@ -60,6 +65,7 @@ public class PlayTime {
                         // 每一秒更新一次
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
+                        MainPlayer.infoLog("pause");
                         e.printStackTrace();
                     }
 
@@ -80,6 +86,7 @@ public class PlayTime {
 
     public void pause() {
         MainPlayer.player.pause();
+        MainPlayer.button_1.setBackgroundResource(R.drawable.player_play);
         musicPlay.interrupt();
     }
 
