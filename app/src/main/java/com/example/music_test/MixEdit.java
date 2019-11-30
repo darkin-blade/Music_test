@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
@@ -19,8 +20,13 @@ public class MixEdit extends DialogFragment {
     public View myView;
     public Button button_delete;
     public Button button_cancel;
+    public TextView textView;// 显示选中的歌单数目
 
     SQLiteDatabase database;// 数据库
+
+    public void initView() {
+        textView.setText(MainPlayer.mixList.mixSelected.size() + " mix selected");
+    }
 
     @Override
     public void show(FragmentManager fragmentManager, String tag) {
@@ -49,6 +55,7 @@ public class MixEdit extends DialogFragment {
 
         initData();
         initButton();
+        initView();
 
         return myView;
     }
@@ -58,7 +65,9 @@ public class MixEdit extends DialogFragment {
         database = SQLiteDatabase.openOrCreateDatabase(MainPlayer.appPath + "/player.db", null);// TODO 参数
     }
 
-    public void initButton() {// TODO 初始化按钮监听
+    public void initButton() {// TODO 初始化按钮监听/其他ui
+        textView = myView.findViewById(R.id.edit_title);
+
         button_delete = myView.findViewById(R.id.button_delete);
         button_cancel = myView.findViewById(R.id.button_cancel);
 
