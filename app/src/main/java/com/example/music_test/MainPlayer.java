@@ -16,6 +16,7 @@ import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
@@ -57,6 +58,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
     static public View button_1;// `播放/暂停`按钮
     static public View button_2;// `开启蓝牙`按钮
     static public View button_5;// `歌单管理`按钮
+    static public TextView musicName;// 歌名
 
     static int window_num = 0;
     static final int MAIN_PALYER = 0;// 主页面
@@ -146,6 +148,9 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
     }
 
     public void initButton() {
+        musicName = findViewById(R.id.music_name);// 音乐名
+        musicName.setSelected(true);// TODO
+
         button_1 = findViewById(R.id.button_1);// 播放按钮
 
         button_1.setOnClickListener(new View.OnClickListener() {// `播放/暂停`功能

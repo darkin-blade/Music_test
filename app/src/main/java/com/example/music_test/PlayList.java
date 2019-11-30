@@ -107,6 +107,7 @@ public class PlayList {
                 MainPlayer.player.setDataSource(nextMusic);// TODO 异常
                 MainPlayer.player.prepare();// TODO 异常
                 // TODO 启动播放
+                MainPlayer.musicName.setText(curMix + "    " + nextMusic.replaceAll(".*/+", ""));// 更新歌名
                 MainPlayer.playTime.play();
             } else {// TODO 歌曲不存在
                 MainPlayer.musicDelete(nextMusic, curMix);// 从歌单中删除不存在的歌曲

@@ -32,7 +32,7 @@
         <item name="android:layout_height">@dimen/tab_height</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:gravity">center</item>
-        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
     </style>
     <style name="tab_2" parent="tab_1">
         <item name="android:textSize">20dp</item>

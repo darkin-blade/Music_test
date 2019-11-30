@@ -13,8 +13,15 @@
         android:text="Music Player">
     </TextView>
     <TextView
+        android:id="@+id/music_name"
         style="@style/tab_1"
-        android:text="name">
+        android:textColor="@color/theme_black"
+        android:text="no music"
+
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit ="marquee_forever"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
     </TextView>
     <View
         style="@style/line">
