@@ -96,6 +96,7 @@
                 android:gravity="center">
 
                 <Button
+                    android:id="@+id/main_to_mix"
                     style="@style/button_8"
                     android:text="edit">
                 </Button>

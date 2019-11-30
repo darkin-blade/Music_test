@@ -3,8 +3,6 @@ package com.example.music_test;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -12,16 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
-
-import java.util.ArrayList;
 
 public class MixToMix extends DialogFragment {
     public View myView;
@@ -50,7 +43,7 @@ public class MixToMix extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        myView = inflater.inflate(R.layout.mix_add, container);
+        myView = inflater.inflate(R.layout.mix_to_mix, container);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(0x00000000));// 背景透明
 
         initData();
@@ -61,7 +54,7 @@ public class MixToMix extends DialogFragment {
     }
 
     public void initData() {
-        MainPlayer.window_num = MainPlayer.MIX_ADD;// 修改窗口编号
+        MainPlayer.window_num = MainPlayer.MIX_TO_MIX;// 修改窗口编号
     }
 
     public void initButton() {// TODO 初始化按钮

@@ -18,6 +18,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +38,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
     static public Long myTime = System.currentTimeMillis();// 微秒时间
     static public int clickTimes = 0;// 耳机信号次数
 
-    static public PlayList playList;// TODO 播放列表
+    static public PlayList playList;// 播放列表
     static public PlayTime playTime;// 音乐进度相关
     static public MainPlayerList mainPlayerList;// 主页面ui控制辅助类
     public MediaReceiver receiver;// 接收`蓝牙/媒体`信号
@@ -47,17 +48,20 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
     static public MixList mixList;// 歌单管理
     static public MusicAdd musicAdd;// 添加音乐(文件管理器)
     static public MixToMix mixToMix;// 临时列举歌单(添加到歌单)
+    static public MainToMix mainToMix;// 同上
     // dialog 界面
     static public MixNew mixNew;// 新建歌单
     static public MixEdit mixEdit;// 编辑歌单
-    static public MusicEdit musicEdit;// TODO 编辑歌曲
+    static public MusicEdit musicEdit;// 歌单界面 编辑歌曲
+    static public MainEdit mainEdit;// 主界面 编辑歌曲
 
     static public View button_play;// `播放/暂停`按钮
     static public View button_2;// `开启蓝牙`按钮
     static public View button_list;// `歌单管理`按钮
     static public TextView musicName;// 歌名
-    public View button_prev;
     public View button_next;
+    public View button_prev;
+    public Button main_to_mix;// 添加至歌单
 
     static int window_num = 0;
     static final int MAIN_PALYER = 0;// 主页面
@@ -66,7 +70,8 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
     static final int MIX_NEW = 3;// 新建歌单
     static final int MIX_EDIT = 4;// 操作歌单
     static final int MUSIC_EDIT = 5;// 操作歌单
-    static final int MIX_ADD = 6;// `添加至歌单`时列举歌单列表
+    static final int MIX_TO_MIX = 6;// 从`歌单`添加至`歌单`
+    static final int MAIN_TO_MIX = 7;// 从`主页面`添加至`歌单`
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,10 +103,12 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
         musicAdd = new MusicAdd();
         mixList = new MixList();
         mixToMix = new MixToMix();
+        mainToMix = new MainToMix();
         // 初始化dialog
         mixNew = new MixNew();
         mixEdit = new MixEdit();
         musicEdit = new MusicEdit();
+        mainEdit = new MainEdit();
     }
 
     public void initPlayer() {
@@ -153,6 +160,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
         button_prev = findViewById(R.id.button_prev);// 上一曲
         button_next = findViewById(R.id.button_next);// 下一曲
         button_play = findViewById(R.id.button_play);// 播放按钮
+        main_to_mix = findViewById(R.id.main_to_mix);// 添加至歌单
 
         button_play.setOnClickListener(new View.OnClickListener() {// `播放/暂停`功能
             @Override
@@ -184,6 +192,22 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
             }
         });
 
+        main_to_mix.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainEdit.show(getSupportFragmentManager(), "main edit");
+            }
+        });
+
+        button_list = findViewById(R.id.mix_list);
+
+        button_list.setOnClickListener(new View.OnClickListener() {// TODO 歌单管理界面
+            @Override
+            public void onClick(View v) {
+                mixList.show(getSupportFragmentManager(), "lists");
+            }
+        });
+
 //        button_2 = findViewById(R.id.button_2);// TODO 蓝牙管理界面
 //
 //        button_2.setOnClickListener(new View.OnClickListener() {
@@ -197,15 +221,6 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
 //                }
 //            }
 //        });
-
-        button_list = findViewById(R.id.mix_list);
-
-        button_list.setOnClickListener(new View.OnClickListener() {// TODO 歌单管理界面
-            @Override
-            public void onClick(View v) {
-                mixList.show(getSupportFragmentManager(), "lists");
-            }
-        });
     }
 
     public void initBluetooth() {
@@ -348,9 +363,13 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
                 mixList.listMusic(mixList.curMix);
                 window_num = MIX_LIST;
                 break;
-            case MIX_ADD:
+            case MIX_TO_MIX:
                 mixList.listMusic(mixList.curMix);
                 window_num = MIX_LIST;
+                break;
+            case MAIN_TO_MIX:
+                mainPlayerList.listMusic();
+                window_num = MAIN_PALYER;
                 break;
         }
     }
