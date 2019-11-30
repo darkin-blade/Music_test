@@ -1,10 +1,6 @@
 package com.example.music_test;
 
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,7 +60,7 @@ public class MusicAdd extends FileManager {
     }
 
     public void initButton() {
-        back = myView.findViewById(R.id.button_1);
+        back = myView.findViewById(R.id.button_play);
         select = myView.findViewById(R.id.button_2);
 
         back.setOnClickListener(new View.OnClickListener() {
@@ -154,7 +150,6 @@ public class MusicAdd extends FileManager {
                     // TODO 是音乐
 
                     // 加载过慢导致数组越界
-                    MainPlayer.infoLog(i + "/" + musicLayouts.size());
                     if (i >= musicLayouts.size()) {
                         MainPlayer.infoLog("before");
                         break;

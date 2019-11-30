@@ -103,16 +103,18 @@
                 <View
                     style="@style/tool_4"/>
                 <View
+                    android:id="@+id/button_prev"
                     style="@style/tool_3"/>
                 <View
-                    android:id="@+id/button_1"
+                    android:id="@+id/button_play"
                     style="@style/tool_1"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"/>
                 <View
+                    android:id="@+id/button_next"
                     style="@style/tool_2"/>
                 <View
-                    android:id="@+id/button_5"
+                    android:id="@+id/mix_list"
                     style="@style/tool_5"/>
 
                 <Button

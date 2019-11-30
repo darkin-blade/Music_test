@@ -16,15 +16,12 @@ import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,16 +46,18 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
     // ui 界面
     static public MixList mixList;// 歌单管理
     static public MusicAdd musicAdd;// 添加音乐(文件管理器)
-    static public MixAdd mixAdd;// 临时列举歌单(添加到歌单)
+    static public MixToMix mixToMix;// 临时列举歌单(添加到歌单)
     // dialog 界面
     static public MixNew mixNew;// 新建歌单
     static public MixEdit mixEdit;// 编辑歌单
     static public MusicEdit musicEdit;// TODO 编辑歌曲
 
-    static public View button_1;// `播放/暂停`按钮
+    static public View button_play;// `播放/暂停`按钮
     static public View button_2;// `开启蓝牙`按钮
-    static public View button_5;// `歌单管理`按钮
+    static public View button_list;// `歌单管理`按钮
     static public TextView musicName;// 歌名
+    public View button_prev;
+    public View button_next;
 
     static int window_num = 0;
     static final int MAIN_PALYER = 0;// 主页面
@@ -98,7 +97,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
         // 初始化ui
         musicAdd = new MusicAdd();
         mixList = new MixList();
-        mixAdd = new MixAdd();
+        mixToMix = new MixToMix();
         // 初始化dialog
         mixNew = new MixNew();
         mixEdit = new MixEdit();
@@ -151,9 +150,11 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
         musicName = findViewById(R.id.music_name);// 音乐名
         musicName.setSelected(true);// TODO
 
-        button_1 = findViewById(R.id.button_1);// 播放按钮
+        button_prev = findViewById(R.id.button_prev);// 上一曲
+        button_next = findViewById(R.id.button_next);// 下一曲
+        button_play = findViewById(R.id.button_play);// 播放按钮
 
-        button_1.setOnClickListener(new View.OnClickListener() {// `播放/暂停`功能
+        button_play.setOnClickListener(new View.OnClickListener() {// `播放/暂停`功能
             @Override
             public void onClick(View v) {
                 MainPlayer.this.runOnUiThread(new Runnable() {
@@ -166,6 +167,20 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
                         }
                     }
                 });
+            }
+        });
+
+        button_prev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playList.changeMusic(null, 2);// 上一曲
+            }
+        });
+
+        button_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playList.changeMusic(null, 1);// 下一曲
             }
         });
 
@@ -183,9 +198,9 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
 //            }
 //        });
 
-        button_5 = findViewById(R.id.button_5);
+        button_list = findViewById(R.id.mix_list);
 
-        button_5.setOnClickListener(new View.OnClickListener() {// TODO 歌单管理界面
+        button_list.setOnClickListener(new View.OnClickListener() {// TODO 歌单管理界面
             @Override
             public void onClick(View v) {
                 mixList.show(getSupportFragmentManager(), "lists");
@@ -219,9 +234,9 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
 
     static public void updateUI() {// 更新ui
         if (player.isPlaying()) {
-            button_1.setBackgroundResource(R.drawable.player_pause);
+            button_play.setBackgroundResource(R.drawable.player_pause);
         } else {
-            button_1.setBackgroundResource(R.drawable.player_play);
+            button_play.setBackgroundResource(R.drawable.player_play);
         }
     }
 

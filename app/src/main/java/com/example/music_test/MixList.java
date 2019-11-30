@@ -3,7 +3,6 @@ package com.example.music_test;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -71,7 +70,7 @@ public class MixList extends DialogFragment {
     }
 
     public void initButton() {// TODO 初始化按钮
-        button_back = myView.findViewById(R.id.button_1);
+        button_back = myView.findViewById(R.id.button_play);
         button_edit = myView.findViewById(R.id.button_2);
         button_new = myView.findViewById(R.id.button_3);
     }

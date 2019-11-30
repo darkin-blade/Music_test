@@ -103,7 +103,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/button_1"
+                    android:id="@+id/button_play"
                     style="@style/button_6"
                     android:text="Back"/>
                 <Button

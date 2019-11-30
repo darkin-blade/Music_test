@@ -2,8 +2,6 @@ package com.example.music_test;
 
 import android.app.Activity;
 import android.content.DialogInterface;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -89,7 +87,7 @@ public class MusicEdit extends DialogFragment {
             public void onClick(View v) {
                 MainPlayer.window_num = MainPlayer.MAIN_PALYER;// TODO
                 dismiss();
-                MainPlayer.mixAdd.show(getFragmentManager(), "add to mix");// 添加到其他歌单
+                MainPlayer.mixToMix.show(getFragmentManager(), "add to mix");// 添加到其他歌单
             }
         });
 

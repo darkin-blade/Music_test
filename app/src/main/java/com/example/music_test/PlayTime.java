@@ -28,7 +28,7 @@ public class PlayTime {
             return;
         }
 
-        MainPlayer.button_1.setBackgroundResource(R.drawable.player_pause);
+        MainPlayer.button_play.setBackgroundResource(R.drawable.player_pause);
 
         // 初始化音乐播放
         musicPlay = new Thread(new Runnable() {
@@ -82,7 +82,7 @@ public class PlayTime {
 
     public void pause() {
         MainPlayer.player.pause();
-        MainPlayer.button_1.setBackgroundResource(R.drawable.player_play);
+        MainPlayer.button_play.setBackgroundResource(R.drawable.player_play);
         musicPlay.interrupt();
     }
 

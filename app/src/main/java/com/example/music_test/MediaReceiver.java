@@ -7,7 +7,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
-import android.os.SystemClock;
 import android.view.KeyEvent;
 
 public class MediaReceiver extends BroadcastReceiver {
@@ -33,7 +32,7 @@ public class MediaReceiver extends BroadcastReceiver {
                     int mediaState = intent.getIntExtra("state", 0);// 判断插拔
                     if (mediaState == 0) {// 拔出耳机
                         if (MainPlayer.player.isPlaying()) {
-                            MainPlayer.button_1.callOnClick();// TODO 强制暂停
+                            MainPlayer.button_play.callOnClick();// TODO 强制暂停
                         }
                         MainPlayer.infoLog("remove headset");
                     } else if (mediaState == 1) {// 插入耳机
@@ -66,7 +65,7 @@ public class MediaReceiver extends BroadcastReceiver {
                 case BluetoothDevice.ACTION_ACL_DISCONNECTED:// 蓝牙设备主动改变状态
                     MainPlayer.infoLog("disconnected");
                     if (MainPlayer.player.isPlaying()) {
-                        MainPlayer.button_1.callOnClick();// TODO 强制暂停
+                        MainPlayer.button_play.callOnClick();// TODO 强制暂停
                     }
                     break;
 
@@ -111,12 +110,12 @@ public class MediaReceiver extends BroadcastReceiver {
                                         if (last_click_times == -1) {
                                             MainPlayer.infoLog("click -1 time???");
                                         } else if (last_click_times == 0) {
-                                            MainPlayer.button_1.callOnClick();// 播放/暂停
+                                            MainPlayer.button_play.callOnClick();// 播放/暂停
                                         } else if (last_click_times == 1) {// TODO 下一首
-                                            MainPlayer.playList.changeMusic(null, -1);
+                                            MainPlayer.playList.changeMusic(null, 1);
                                             MainPlayer.infoLog("todo next");
                                         } else if (last_click_times == 2) {// TODO 上一首
-                                            MainPlayer.playList.changeMusic(null, 1);
+                                            MainPlayer.playList.changeMusic(null, 2);
                                             MainPlayer.infoLog("todo last");
                                         }
                                         MainPlayer.clickTimes = 0;// TODO 累计清零
@@ -129,7 +128,7 @@ public class MediaReceiver extends BroadcastReceiver {
                         case KeyEvent.KEYCODE_MEDIA_PLAY:// 播放 126
                         case KeyEvent.KEYCODE_MEDIA_PAUSE:// 暂停 127
                             // TODO 避免重复检测
-                            MainPlayer.button_1.callOnClick();// TODO 无差别对待 播放和暂停
+                            MainPlayer.button_play.callOnClick();// TODO 无差别对待 播放和暂停
                             break;
                     }
                     break;
