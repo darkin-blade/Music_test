@@ -1,13 +1,20 @@
 package com.example.music_test.Interfaces;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
+import android.provider.MediaStore;
+
+import com.example.music_test.MainPlayer;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.function.BiFunction;
 
 public class IconManager {
     public Context myContext;
@@ -31,47 +38,58 @@ public class IconManager {
         }
     }
 
-    public boolean isMusic(String musicPath) {// TODO 判断是否为音乐
-        File tmp = new File(musicPath);
-        if (tmp.exists() == false) return false;
+    public int isMusic(String musicPath) {// TODO 判断是否为音乐
+        String path = null;
+        Cursor cursor = myContext.getContentResolver().query(
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                null,
+                null,
+                null,
+                MediaStore.Audio.Media.DEFAULT_SORT_ORDER
+        );
 
-        try {
-            player.setDataSource(musicPath);// TODO 异常
-        } catch (IOException e) {
-            return false;
+        int album_id = -1;
+        if (cursor.moveToFirst()) {
+            do {
+                path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
+                if (path == musicPath) {
+                    album_id = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID));// TODO 返回album_id便于查找
+                    break;
+                }
+            } while (cursor.moveToNext());
         }
+        cursor.close();
 
-        try {
-            player.prepareAsync();
-        } catch (IllegalStateException e) {
-            return false;
-        }
-
-        return true;
+        return album_id;
     }
 
-    public Bitmap LoadThumb(final String imgPath, final int width, final int height) {// 加载缩略图
-        if (isMusic(imgPath) == false) {// TODO 判断是否为音乐
+    public String getAlbumArt(int album_id) {// 用于查找专辑封面
+        String uriAlbum = "content://media/external/audio/albums";// TODO
+        String[] proj = new String[]{"album_art"};
+        Cursor cursor = myContext.getContentResolver().query(
+                Uri.parse(uriAlbum + "/" + Integer.toString(album_id)),
+                proj, null, null, null
+        );
+        String albumArt = null;
+        if (cursor.getCount() > 0 && cursor.getColumnCount() > 0) {
+            cursor.moveToFirst();
+            albumArt = cursor.getString(0);
+        }
+        cursor.close();
+        return albumArt;
+    }
+
+    public Bitmap LoadThumb(final String musicPath, final int width, final int height) {// 加载缩略图
+        int album_id = isMusic(musicPath);
+        if (album_id == -1) {// 不是音乐
             return null;
         }
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;// TODO 此时decode的bitmap为null
-        Bitmap bitmap = BitmapFactory.decodeFile(imgPath, options);
-        options.inJustDecodeBounds = false;// TODO
-
-        // 缩放
-        int h_rate = options.outHeight / height;
-        int w_rate = options.outWidth / width;
-        int rate = 1;
-        if (h_rate < w_rate) {
-            rate = h_rate;
+        String albumArt = getAlbumArt(album_id);
+        if (albumArt == null) {
+            return null;
         } else {
-            rate = w_rate;
+            return BitmapFactory.decodeFile(albumArt);
         }
-        options.inSampleSize = rate;
-        bitmap = BitmapFactory.decodeFile(imgPath, options);
-
-        return bitmap;// TODO
     }
 }

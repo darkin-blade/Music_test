@@ -71,17 +71,44 @@ public class MixList extends DialogFragment {
         database = SQLiteDatabase.openOrCreateDatabase(MainPlayer.appPath + "/player.db", null);
     }
 
-    public void initButton() {// TODO 初始化按钮监听
+    public void initButton() {// TODO 初始化按钮
         button_back = myView.findViewById(R.id.button_1);
         button_edit = myView.findViewById(R.id.button_2);
         button_new = myView.findViewById(R.id.button_3);
+    }
 
-        button_new.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainPlayer.mixNew.show(getFragmentManager(), "add");
-            }
-        });
+    public void changeButton(int mode) {// mode: 0: 歌单, 1: 歌曲
+        if (mode == 0) {
+            button_back.setOnClickListener(new View.OnClickListener() {// 返回主界面
+                @Override
+                public void onClick(View v) {
+                    dismiss();
+                }
+            });
+
+            button_new.setText("New");
+            button_new.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MainPlayer.mixNew.show(getFragmentManager(), "new");
+                }
+            });
+        } else if (mode == 1) {
+            button_back.setOnClickListener(new View.OnClickListener() {// 返回歌单列表
+                @Override
+                public void onClick(View v) {
+                    listMix();
+                }
+            });
+
+            button_new.setText("Add");
+            button_new.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MainPlayer.musicAdd.show(getFragmentManager(), "add");
+                }
+            });
+        }
     }
 
     public void listMix() {
@@ -108,12 +135,7 @@ public class MixList extends DialogFragment {
             MainPlayer.infoToast(getContext(), "no mix");
         }
 
-        button_back.setOnClickListener(new View.OnClickListener() {// 返回主界面
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+        changeButton(0);
     }
 
     public void listMusic(String mix_name) {
@@ -140,12 +162,7 @@ public class MixList extends DialogFragment {
             MainPlayer.infoToast(getContext(), "no music");
         }
 
-        button_back.setOnClickListener(new View.OnClickListener() {// 返回歌单列表
-            @Override
-            public void onClick(View v) {
-                listMix();
-            }
-        });
+        changeButton(1);
     }
 
     // TODO 列举歌单的参数

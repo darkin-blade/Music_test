@@ -60,6 +60,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
 
         initApp();
         initPlayer();// 初始化播放器
+        initButton();// 初始化按钮监听
         initSeekBar();// 初始化进度条
         initBluetooth();// 初始化蓝牙
         test1();
@@ -190,7 +191,6 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
             if (tmp.exists()) {// 如果文件存在
                 player.setDataSource(musicPath);// TODO 异常
                 player.prepareAsync();// TODO 异常
-                initButton();
 
                 // TODO 启动播放
             } else {
