@@ -294,6 +294,10 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
                 mixList.listMix();// TODO 刷新歌单列表
                 window_num = MIX_LIST;
                 break;
+            case MUSIC_ADD:
+                mixList.listMusic(mixList.curMix);
+                window_num = MIX_LIST;
+                break;
         }
     }
 }

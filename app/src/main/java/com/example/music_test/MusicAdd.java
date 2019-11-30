@@ -83,9 +83,9 @@ public class MusicAdd extends FileManager {
             public void onClick(View v) {
                 // TODO 添加到当前选定歌曲
                 for (int i = 0; i < musicList.size(); i ++) {
-                    cmd("insert ignore into " + MainPlayer.mixList.curMix + " (path, count)\n" +
+                    cmd("insert into " + MainPlayer.mixList.curMix + " (path, count)\n" +
                             "  values\n" +
-                            "  (" + musicList.get(i) + ", 0);");
+                            "  ('" + musicList.get(i) + "', 0);");
                 }
                 musicList.clear();// 清空
                 dismiss();
@@ -296,9 +296,8 @@ public class MusicAdd extends FileManager {
         try {
             database.execSQL(sql);
         } catch (SQLException e) {
-            // TODO 数据库操作出错
-//            MainPlayer.infoToast(getContext(), "database error");
             MainPlayer.infoLog("database error: " + sql);
+            e.printStackTrace();
             return -1;
         }
         return 0;

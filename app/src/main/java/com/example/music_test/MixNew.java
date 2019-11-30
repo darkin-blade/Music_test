@@ -97,13 +97,15 @@ public class MixNew extends DialogFragment {
 
                 // 新建歌单`mix_name`
                 result = cmd("create table if not exists " + mix_name + " (\n" +
-                        "  path varchar (128) not null comment \"歌名\",\n" +
-                        "  count int default 0 comment \"播放次数\",\n" +
+                        "  path varchar (128) not null,\n" +
+                        "  count int default 0,\n" +
                         "  primary key (path)" +
                         ");");
 
                 if (result == 0) {
                     MainPlayer.infoToast(getContext(), mix_name + " create succeed");
+                } else {
+                    MainPlayer.infoToast(getContext(), mix_name + " create failed");
                 }
 
                 dismiss();
