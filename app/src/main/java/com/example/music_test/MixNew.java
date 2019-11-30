@@ -24,8 +24,6 @@ public class MixNew extends DialogFragment {
     public Button button_create;
     public Button button_cancel;
 
-    SQLiteDatabase database;// 数据库
-
     @Override
     public void show(FragmentManager fragmentManager, String tag) {
         super.show(fragmentManager, tag);
@@ -59,7 +57,6 @@ public class MixNew extends DialogFragment {
 
     public void initData() {
         MainPlayer.window_num = MainPlayer.MIX_NEW;// 修改窗口编号
-        database = SQLiteDatabase.openOrCreateDatabase(MainPlayer.appPath + "/player.db", null);// TODO 参数
     }
 
     public void initButton() {// TODO 初始化按钮监听
@@ -80,13 +77,13 @@ public class MixNew extends DialogFragment {
 
                 // 数据库管理
                 // 打开数据库
-                cmd("create table if not exists mix_list (\n" +
+                MainPlayer.cmd("create table if not exists mix_list (\n" +
                         "  name varchar (32) not null,\n" +
                         "  primary key (name)\n" +
                         ") ;");
 
                 // 插入到歌单列表`mix_list`
-                int result = cmd("insert into mix_list (name)\n" +
+                int result = MainPlayer.cmd("insert into mix_list (name)\n" +
                         "  values\n" +
                         "  ('" + mix_name + "');");
 
@@ -96,7 +93,7 @@ public class MixNew extends DialogFragment {
                 }
 
                 // 新建歌单`mix_name`
-                result = cmd("create table if not exists " + mix_name + " (\n" +
+                result = MainPlayer.cmd("create table if not exists " + mix_name + " (\n" +
                         "  path varchar (128) not null,\n" +
                         "  name varchar (64) not null,\n" +
                         "  count int default 0,\n" +
@@ -119,16 +116,5 @@ public class MixNew extends DialogFragment {
                 dismiss();
             }
         });
-    }
-
-    public int cmd(String sql) {
-        try {
-            database.execSQL(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            MainPlayer.infoLog("database error: " + sql);
-            return -1;
-        }
-        return 0;
     }
 }

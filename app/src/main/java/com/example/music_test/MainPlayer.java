@@ -10,6 +10,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -31,6 +33,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
     static public SeekBar seekBar;// 进度条
     static public TextView totalTime;// 音乐总时长
     static public TextView curTime;// 音乐已播放时长
+    static public SQLiteDatabase database;// 数据库
 
     // TODO media多次点击
     static public Long myTime = System.currentTimeMillis();// 微秒时间
@@ -85,6 +88,9 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
 
         // 初始化路径字符串
         appPath = getExternalFilesDir("").getAbsolutePath();
+
+        // 初始化数据库
+        database = SQLiteDatabase.openOrCreateDatabase(appPath + "/player.db", null);
 
         // 初始化ui
         musicAdd = new MusicAdd();
@@ -223,6 +229,22 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
         toast.show();
     }
 
+    static public int cmd(String sql) {// 操作数据库
+        try {
+            database.execSQL(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            MainPlayer.infoLog("database error: " + sql);
+            return -1;
+        }
+        return 0;
+    }
+
+    static public void musicDelete(String musicPath) {// 从歌单中删除歌曲
+        cmd("delete from " + mixList.curMix + "\n" +
+                "where path = '" + musicPath + "';");
+    }
+
     static public void infoLog(String log) {
         Log.i("fuck", log);
     }
@@ -301,12 +323,12 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
                 mixList.listMix();
                 window_num = MIX_LIST;
                 break;
-            case MIX_NEW:
-                mixList.listMix();
-                window_num = MIX_LIST;
-                break;
             case MUSIC_ADD:
                 mixList.listMusic(mixList.curMix);
+                window_num = MIX_LIST;
+                break;
+            case MIX_NEW:
+                mixList.listMix();
                 window_num = MIX_LIST;
                 break;
             case MUSIC_EDIT:

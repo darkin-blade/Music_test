@@ -38,8 +38,6 @@ public class MusicAdd extends FileManager {
 
     public IconManager iconManager;// 文件缩略图处理
 
-    public SQLiteDatabase database;// 数据库
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.music_add, container);
@@ -59,7 +57,6 @@ public class MusicAdd extends FileManager {
 
     public void initData() {
         MainPlayer.window_num = MainPlayer.MUSIC_ADD;
-        database = SQLiteDatabase.openOrCreateDatabase(MainPlayer.appPath + "/player.db", null);
         musicList = new ArrayList<String>();
         musicLayouts = new ArrayList<>();// TODO 优化加载
         musicPaths = new ArrayList<String>();
@@ -84,7 +81,7 @@ public class MusicAdd extends FileManager {
                 // TODO 添加到当前选定歌曲
                 // TODO 保存歌曲名
                 for (int i = 0; i < musicList.size(); i ++) {
-                    cmd("insert into " + MainPlayer.mixList.curMix + " (path, name, count)\n" +
+                    MainPlayer.cmd("insert into " + MainPlayer.mixList.curMix + " (path, name, count)\n" +
                             "  values\n" +
                             "  ('" + musicList.get(i) + "', '" + musicList.get(i).replaceAll(".*/", "")  + "', 0);");
                 }
@@ -292,16 +289,5 @@ public class MusicAdd extends FileManager {
         }
 
         return item;
-    }
-
-    public int cmd(String sql) {
-        try {
-            database.execSQL(sql);
-        } catch (SQLException e) {
-            MainPlayer.infoLog("database error: " + sql);
-            e.printStackTrace();
-            return -1;
-        }
-        return 0;
     }
 }

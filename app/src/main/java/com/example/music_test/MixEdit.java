@@ -22,8 +22,6 @@ public class MixEdit extends DialogFragment {
     public Button button_cancel;
     public TextView textView;// 显示选中的歌单数目
 
-    SQLiteDatabase database;// 数据库
-
     public void initView() {
         textView.setText(MainPlayer.mixList.mixSelected.size() + " mix selected");
     }
@@ -62,7 +60,6 @@ public class MixEdit extends DialogFragment {
 
     public void initData() {
         MainPlayer.window_num = MainPlayer.MIX_EDIT;// 修改窗口编号
-        database = SQLiteDatabase.openOrCreateDatabase(MainPlayer.appPath + "/player.db", null);// TODO 参数
     }
 
     public void initButton() {// TODO 初始化按钮监听/其他ui
@@ -78,11 +75,11 @@ public class MixEdit extends DialogFragment {
                     String tmp = MainPlayer.mixList.mixSelected.get(i);
 
                     // 从歌单列表中删除
-                    cmd("delete from mix_list\n" +
+                    MainPlayer.cmd("delete from mix_list\n" +
                             "where name = '" + tmp + "';");
 
                     // 删除歌单
-                    cmd("drop table " + tmp +";\n");
+                    MainPlayer.cmd("drop table " + tmp +";\n");
                 }
                 MainPlayer.mixList.mixSelected.clear();
                 dismiss();
@@ -96,16 +93,5 @@ public class MixEdit extends DialogFragment {
                 dismiss();
             }
         });
-    }
-
-    public int cmd(String sql) {
-        try {
-            database.execSQL(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            MainPlayer.infoLog("database error: " + sql);
-            return -1;
-        }
-        return 0;
     }
 }

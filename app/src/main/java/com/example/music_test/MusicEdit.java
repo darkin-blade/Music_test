@@ -22,8 +22,6 @@ public class MusicEdit extends DialogFragment {
     public Button button_cancel;
     public TextView textView;// 显示选中的歌单数目
 
-    SQLiteDatabase database;// 数据库
-
     public void initView() {
         textView.setText(MainPlayer.mixList.musicSelected.size() + " music selected");
     }
@@ -62,7 +60,6 @@ public class MusicEdit extends DialogFragment {
 
     public void initData() {
         MainPlayer.window_num = MainPlayer.MUSIC_EDIT;// 修改窗口编号
-        database = SQLiteDatabase.openOrCreateDatabase(MainPlayer.appPath + "/player.db", null);// TODO 参数
     }
 
     public void initButton() {// TODO 初始化按钮监听/其他ui
@@ -80,7 +77,7 @@ public class MusicEdit extends DialogFragment {
                     MainPlayer.infoLog("delete " + tmp + " from " + MainPlayer.mixList.curMix);
 
                     // 从歌单中删除歌曲
-                    musicDelete(tmp);
+                    MainPlayer.musicDelete(tmp);
                 }
                 MainPlayer.mixList.musicSelected.clear();
                 dismiss();
@@ -103,21 +100,5 @@ public class MusicEdit extends DialogFragment {
                 dismiss();
             }
         });
-    }
-
-    public int cmd(String sql) {
-        try {
-            database.execSQL(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            MainPlayer.infoLog("database error: " + sql);
-            return -1;
-        }
-        return 0;
-    }
-
-    public void musicDelete(String musicPath) {
-        cmd("delete from " + MainPlayer.mixList.curMix + "\n" +
-                "where path = '" + musicPath + "';");
     }
 }

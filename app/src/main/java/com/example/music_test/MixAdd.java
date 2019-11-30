@@ -28,8 +28,6 @@ public class MixAdd extends DialogFragment {
 
     public Button button_cancel;
 
-    SQLiteDatabase database;// 数据库
-
     @Override
     public void show(FragmentManager fragmentManager, String tag) {
         super.show(fragmentManager, tag);
@@ -64,7 +62,6 @@ public class MixAdd extends DialogFragment {
 
     public void initData() {
         MainPlayer.window_num = MainPlayer.MIX_ADD;// 修改窗口编号
-        database = SQLiteDatabase.openOrCreateDatabase(MainPlayer.appPath + "/player.db", null);
     }
 
     public void initButton() {// TODO 初始化按钮
@@ -84,7 +81,7 @@ public class MixAdd extends DialogFragment {
         layout.removeAllViews();
 
         // 列举所有歌单
-        Cursor cursor = database.query(
+        Cursor cursor = MainPlayer.database.query(
                 "mix_list",// 歌单列表
                 new String[]{"name"},
                 null,
@@ -154,23 +151,12 @@ public class MixAdd extends DialogFragment {
                 // TODO 添加到该歌单
                 for (int i = 0; i < MainPlayer.mixList.musicSelected.size(); i ++) {
                     String tmp = MainPlayer.mixList.musicSelected.get(i);
-                    cmd("insert into " + item_name + " (path, name, count)\n" +
+                    MainPlayer.cmd("insert into " + item_name + " (path, name, count)\n" +
                             "  values\n" +
                             "  ('" + tmp + "', '" + tmp.replaceAll(".*/", "") + "', 0);");
                 }
                 dismiss();// TODO
             }
         });
-    }
-
-    public int cmd(String sql) {
-        try {
-            database.execSQL(sql);
-        } catch (SQLException e) {
-            MainPlayer.infoLog("database error: " + sql);
-            e.printStackTrace();
-            return -1;
-        }
-        return 0;
     }
 }

@@ -32,8 +32,6 @@ public class MixList extends DialogFragment {
     public Button button_edit;
     public Button button_new;
 
-    SQLiteDatabase database;// 数据库
-
     @Override
     public void show(FragmentManager fragmentManager, String tag) {
         super.show(fragmentManager, tag);
@@ -68,7 +66,6 @@ public class MixList extends DialogFragment {
 
     public void initData() {
         MainPlayer.window_num = MainPlayer.MIX_LIST;// 修改窗口编号
-        database = SQLiteDatabase.openOrCreateDatabase(MainPlayer.appPath + "/player.db", null);
         mixSelected = new ArrayList<String>();
         musicSelected = new ArrayList<String>();
     }
@@ -134,7 +131,7 @@ public class MixList extends DialogFragment {
         layout.removeAllViews();
 
         // 列举所有歌单
-        Cursor cursor = database.query(
+        Cursor cursor = MainPlayer.database.query(
                 "mix_list",// 歌单列表
                 new String[]{"name"},
                 null,
@@ -164,7 +161,7 @@ public class MixList extends DialogFragment {
         curMix = mix_name;// TODO 刷新歌单名
 
         // TODO 列举所有歌曲;
-        Cursor cursor = database.query(
+        Cursor cursor = MainPlayer.database.query(
                 mix_name,// 歌单详情
                 new String[]{"path", "name", "count"},
                 null,
