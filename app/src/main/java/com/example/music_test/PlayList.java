@@ -74,7 +74,13 @@ public class PlayList {
                 return;
             }
         }
-        curMusic = nextMusic;
+
+        if (nextMusic != null) {
+            curMusic = nextMusic;
+        } else {// 重新播放
+            ;
+        }
+        
         changeMusic(curMusic, 0);
     }
 
