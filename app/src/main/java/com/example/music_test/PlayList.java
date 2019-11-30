@@ -31,49 +31,44 @@ public class PlayList {
         // TODO
     }
 
-    public void loadList(String nextMix, String nextMusic) {// 加载专辑曲目
-        if (nextMix == null) {
-            stopMusic();
-        }
-
-        curMusicIndex = curMusicList.indexOf(curMusic);// 获取当前播放的音乐的索引
-
-        if (nextMix == curMix) {
-            if (nextMusic == null) {// 处理音乐不存在的异常情况
-                nextMusic = curMusicList.get(0);
-            }
-
-            if (nextMusic != curMusic) {
-                changeMusic(nextMusic, 0);
-            }
+    public void loadList(String nextMix, String nextMusic) {// 加载专辑曲目,并播放特定歌曲
+        if (nextMix == curMix && nextMusic == curMusic) {// 相同的歌曲和专辑
             return;
         }
 
-        // 清空
-        curMusicList.clear();
-        curMixLen = 0;
+        if (curMix != nextMix) {
+            curMix = nextMix;
 
-        Cursor cursor = MainPlayer.database.query(
-                curMix,// 当前歌单
-                new String[]{"path", "name", "count"},
-                null,
-                null,
-                null,
-                null,
-                "name");
+            // 清空
+            curMusicList.clear();
+            curMixLen = 0;
 
-        if (cursor.moveToFirst()) {// 非空
-            do {
-                String music_name = cursor.getString(1);// 获取歌名
-                curMusicList.add(music_name);
-                curMixLen ++;
-                MainPlayer.infoLog("add to play list: " + music_name);
-            } while (cursor.moveToNext());
-        } else {
-            stopMusic();
+            Cursor cursor = MainPlayer.database.query(
+                    curMix,// 当前歌单
+                    new String[]{"path", "name", "count"},
+                    null,
+                    null,
+                    null,
+                    null,
+                    "name");
+
+            if (cursor.moveToFirst()) {// 非空
+                do {
+                    String music_name = cursor.getString(1);// 获取歌名
+                    curMusicList.add(music_name);
+                    curMixLen ++;
+                    MainPlayer.infoLog("add to play list: " + music_name);
+                } while (cursor.moveToNext());
+            } else {
+                stopMusic();
+            }
         }
 
+        curMusic = nextMusic;
+        curMusicIndex = curMusicList.indexOf(curMusic.replaceAll(".*/+", ""));// 获取当前播放的音乐的索引
+
         MainPlayer.infoLog("[" + curMix + "][" + curMusicIndex + "/" + curMixLen + "][" + curMusic + "]");
+        changeMusic(curMusic, 0);
     }
 
     public void stopMusic() {// TODO 异常处理
@@ -110,6 +105,7 @@ public class PlayList {
                 MainPlayer.player.prepareAsync();// TODO 异常
                 // TODO 启动播放
                 MainPlayer.player.start();
+                MainPlayer.infoLog("start play " + nextMusic);
             } else {// TODO 歌曲不存在
                 MainPlayer.musicDelete(nextMusic, curMix);// 从歌单中删除不存在的歌曲
                 loadList(curMix, null);// 重新加载歌单

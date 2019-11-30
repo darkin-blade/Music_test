@@ -109,7 +109,8 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
         player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {// 播放完毕回调函数
             @Override
             public void onCompletion(MediaPlayer mp) {
-                playList.changeMusic(null, 1);
+                infoLog("TODO: complete");
+//                playList.changeMusic(null, 1);
             }
         });
 

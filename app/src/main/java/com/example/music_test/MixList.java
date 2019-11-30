@@ -283,7 +283,7 @@ public class MixList extends DialogFragment {
             item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MainPlayer.playList.loadList(curMix, item_detail[0]);// TODO 加载专辑曲目
+                    MainPlayer.playList.loadList(curMix, item_detail[2]);// TODO 加载专辑曲目并播放歌曲
                 }
             });
 
