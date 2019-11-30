@@ -17,7 +17,7 @@ import androidx.fragment.app.FragmentManager;
 
 public class MixEdit extends DialogFragment {
     public View myView;
-    public Button button_create;
+    public Button button_delete;
     public Button button_cancel;
 
     SQLiteDatabase database;// 数据库
@@ -59,44 +59,23 @@ public class MixEdit extends DialogFragment {
     }
 
     public void initButton() {// TODO 初始化按钮监听
-        button_create = myView.findViewById(R.id.button_create);
+        button_delete = myView.findViewById(R.id.button_delete);
         button_cancel = myView.findViewById(R.id.button_cancel);
 
-        button_create.setOnClickListener(new View.OnClickListener() {
+        button_delete.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {// TODO 删除选中的歌单
+                for (int i = 0; i < MainPlayer.mixList.mixSelected.size(); i ++) {
+                    String tmp = MainPlayer.mixList.mixSelected.get(i);
 
-                EditText editText = myView.findViewById(R.id.mix_name);
-                String mix_name = editText.getText().toString();
+                    // 从歌单列表中删除
+                    cmd("delete from mix_list\n" +
+                            "where name = '" + tmp + "';");
 
-                if (mix_name == null || mix_name.length() == 0 || mix_name.length() >= 32 || mix_name.equals("mix_list")) {// 歌单名不能为空
-                    MainPlayer.infoToast(getContext(), "mix name invalid");
-                    return;
+                    // 删除歌单
+                    cmd("drop table " + tmp +";\n");
                 }
-
-                // 数据库管理
-                // 打开数据库
-                cmd("create table if not exists mix_list (\n" +
-                        "  name varchar (32) not null,\n" +
-                        "  primary key (name)\n" +
-                        ") ;");
-
-                // 插入到歌单列表`mix_list`
-                int result = cmd("insert into mix_list (name)\n" +
-                        "  values\n" +
-                        "  ('" + mix_name + "');");
-
-                if (result == -1) {// TODO 创建失败
-                    MainPlayer.infoToast(getContext(), mix_name + " already exists");
-//                    return;
-                }
-
-                // 新建歌单`mix_name`
-                cmd("create table if not exists " + mix_name + " (\n" +
-                        "  uri varchar (128) not null,\n" +
-                        "  primary key (uri)\n" +
-                        ");");
-
+                MainPlayer.mixList.mixSelected.clear();
                 dismiss();
             }
         });
@@ -104,6 +83,7 @@ public class MixEdit extends DialogFragment {
         button_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MainPlayer.window_num = MainPlayer.MIX_LIST;// TODO 防止清空
                 dismiss();
             }
         });

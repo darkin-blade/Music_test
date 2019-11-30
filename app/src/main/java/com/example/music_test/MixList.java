@@ -21,7 +21,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MixList extends DialogFragment {
     public ArrayList<String> mixSelected;// 被选中的歌单
@@ -67,7 +66,7 @@ public class MixList extends DialogFragment {
     }
 
     public void initData() {
-        MainPlayer.window_num = MainPlayer.MUSIC_LISTS;// 修改窗口编号
+        MainPlayer.window_num = MainPlayer.MIX_LIST;// 修改窗口编号
         database = SQLiteDatabase.openOrCreateDatabase(MainPlayer.appPath + "/player.db", null);
         mixSelected = new ArrayList<String>();
         musicSelected = new ArrayList<String>();
@@ -85,6 +84,13 @@ public class MixList extends DialogFragment {
                 @Override
                 public void onClick(View v) {
                     dismiss();
+                }
+            });
+
+            button_edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MainPlayer.mixEdit.show(getFragmentManager(), "edit mix");
                 }
             });
 

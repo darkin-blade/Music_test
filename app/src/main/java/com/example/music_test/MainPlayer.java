@@ -52,7 +52,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
     static public View button_5;// `歌单管理`按钮
 
     static int window_num = 0;
-    static final int MUSIC_LISTS = 1;// 歌单管理
+    static final int MIX_LIST = 1;// 歌单管理
     static final int MUSIC_ADD = 2;// 文件管理器
     static final int MIX_NEW = 3;// 新建歌单
     static final int MIX_EDIT = 3;// 操作歌单
@@ -183,9 +183,9 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
         intentFilter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
         intentFilter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
         intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);// 监听有线耳机的插拔
-        intentFilter.addAction(Intent.ACTION_MEDIA_BUTTON);// TODO
+        intentFilter.addAction(Intent.ACTION_MEDIA_BUTTON);// TODO 重复?
 
-        registerReceiver(this.receiver, intentFilter);// 注册广播
+        registerReceiver(this.receiver, intentFilter);// 注册广播 TODO 有报错
         receiver.registerReceiver(this);// 初始化广播
     }
 
@@ -287,6 +287,11 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
 
     @Override
     public void onDismiss(DialogInterface dialog) {
-        //mainToast("main player: TODO on dismiss");
+        switch (window_num) {
+            case MIX_EDIT:
+                mixList.listMix();// TODO 刷新歌单列表
+                window_num = MIX_LIST;
+                break;
+        }
     }
 }
