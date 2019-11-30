@@ -43,6 +43,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
     // TODO ui 界面
     static public MixList mixList;// 歌单管理
     static public MusicAdd musicAdd;// 添加音乐(文件管理器)
+    static public MixAdd mixAdd;// 临时列举歌单(添加到歌单)
     // TODO dialog 界面
     static public MixNew mixNew;// 新建歌单
     static public MixEdit mixEdit;// 编辑歌单
@@ -86,6 +87,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
         // 初始化ui
         musicAdd = new MusicAdd();
         mixList = new MixList();
+        mixAdd = new MixAdd();
         // 初始化dialog
         mixNew = new MixNew();
         mixEdit = new MixEdit();
