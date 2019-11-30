@@ -115,23 +115,23 @@ public class PlayList {
             curMusicIndex = curMusicList.indexOf(curMusic);
             if (curMusicIndex < 0) {
                 loadList(curMix, null);
-            }
-
-            MainPlayer.infoLog("try to play " + curMusic + " [" + curMusicIndex  + "/" + curMixLen + "]");
-            File tmp = new File(curMusic);
-            if (tmp.exists()) {// 如果文件存在
-                MainPlayer.playTime.reset();// TODO 切歌
-                MainPlayer.player.setDataSource(curMusic);// TODO 异常
-                MainPlayer.player.prepare();// TODO 异常
-                // TODO 启动播放
-                MainPlayer.musicName.setText(curMix + "    " + curMusic.replaceAll(".*/+", ""));// 更新歌名
-                MainPlayer.playTime.play();
-            } else {// TODO 歌曲不存在
-                stopMusic();
-                return;
+            } else {
+                MainPlayer.infoLog("try to play " + curMusic + " [" + curMusicIndex  + "/" + curMixLen + "]");
+                File tmp = new File(curMusic);
+                if (tmp.exists()) {// 如果文件存在
+                    MainPlayer.playTime.reset();// TODO 切歌
+                    MainPlayer.player.setDataSource(curMusic);// TODO 异常
+                    MainPlayer.player.prepare();// TODO 异常
+                    // TODO 启动播放
+                    MainPlayer.musicName.setText(curMix + "    " + curMusic.replaceAll(".*/+", ""));// 更新歌名
+                    MainPlayer.playTime.play();
+                } else {// TODO 歌曲不存在
+                    stopMusic();
+                    return;
 //                MainPlayer.musicDelete(curMusic, curMix);// 从歌单中删除不存在的歌曲
 //                loadList(curMix, null);// 重新加载歌单
 //                changeMusic(null, 3);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
