@@ -158,6 +158,7 @@ public class MixList extends DialogFragment {
     public void listMusic(String mix_name) {
         // 清空
         mixSelected.clear();
+        musicSelected.clear();
         LinearLayout layout = myView.findViewById(R.id.mix_list);
         layout.removeAllViews();
         curMix = mix_name;// TODO 刷新歌单名
@@ -285,7 +286,21 @@ public class MixList extends DialogFragment {
                 }
             });
 
-            // TODO 复选功能
+            // TODO 复选功能: 存储绝对路径
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (checkBox.isChecked()) {
+                        item.setBackgroundResource(R.color.grey_light);
+                        musicSelected.add(item_name);
+                        MainPlayer.infoLog("size: " + musicSelected.size());
+                    } else {
+                        item.setBackgroundResource(R.color.grey);
+                        musicSelected.remove(item_name);
+                        MainPlayer.infoLog("size: " + musicSelected.size());
+                    }
+                }
+            });
         }
 
         // TODO debug

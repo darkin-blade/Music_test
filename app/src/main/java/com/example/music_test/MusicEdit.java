@@ -75,17 +75,13 @@ public class MusicEdit extends DialogFragment {
         button_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {// TODO 删除选中的歌曲
-                for (int i = 0; i < MainPlayer.mixList.mixSelected.size(); i ++) {
-                    String tmp = MainPlayer.mixList.mixSelected.get(i);
+                for (int i = 0; i < MainPlayer.mixList.musicSelected.size(); i ++) {
+                    String tmp = MainPlayer.mixList.musicSelected.get(i);
 
-                    // 从歌单列表中删除
-                    cmd("delete from mix_list\n" +
-                            "where name = '" + tmp + "';");
-
-                    // 删除歌单
-                    cmd("drop table " + tmp +";\n");
+                    // 从歌单中删除歌曲
+                    musicDelete(tmp);
                 }
-                MainPlayer.mixList.mixSelected.clear();
+                MainPlayer.mixList.musicSelected.clear();
                 dismiss();
             }
         });
@@ -107,5 +103,10 @@ public class MusicEdit extends DialogFragment {
             return -1;
         }
         return 0;
+    }
+
+    public void musicDelete(String musicPath) {
+        cmd("delete from " + MainPlayer.mixList.curMix + "\n" +
+                "where path = '" + musicPath + "';");
     }
 }
