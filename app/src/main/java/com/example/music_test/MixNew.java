@@ -73,8 +73,8 @@ public class MixNew extends DialogFragment {
                 EditText editText = myView.findViewById(R.id.mix_name);
                 String mix_name = editText.getText().toString();
 
-                if (mix_name == null || mix_name.length() == 0) {// 歌单名不能为空
-                    MainPlayer.infoToast(getContext(), "mix name can't be empty");
+                if (mix_name == null || mix_name.length() == 0 || mix_name.length() >= 32 || mix_name.equals("mix_list")) {// 歌单名不能为空
+                    MainPlayer.infoToast(getContext(), "mix name invalid");
                     return;
                 }
 
@@ -86,9 +86,14 @@ public class MixNew extends DialogFragment {
                         ") ;");
 
                 // 插入到歌单列表`mix_list`
-                cmd("insert into mix_list (name)\n" +
+                int result = cmd("insert into mix_list (name)\n" +
                         "  values\n" +
                         "  ('" + mix_name + "');");
+
+                if (result == -1) {// TODO 创建失败
+                    MainPlayer.infoToast(getContext(), mix_name + " already exists");
+//                    return;
+                }
 
                 // 新建歌单`mix_name`
                 cmd("create table if not exists " + mix_name + " (\n" +
@@ -113,7 +118,7 @@ public class MixNew extends DialogFragment {
             database.execSQL(sql);
         } catch (SQLException e) {
             // TODO 数据库操作出错
-            MainPlayer.infoToast(getContext(), "database error");
+//            MainPlayer.infoToast(getContext(), "database error");
             MainPlayer.infoLog("database error: " + sql);
             return -1;
         }
