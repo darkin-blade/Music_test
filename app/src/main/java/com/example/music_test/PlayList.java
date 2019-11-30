@@ -80,7 +80,7 @@ public class PlayList {
         } else {// 重新播放
             ;
         }
-        
+
         changeMusic(curMusic, 0);
     }
 

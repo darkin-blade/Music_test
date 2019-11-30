@@ -87,7 +87,7 @@ public class MainEdit extends DialogFragment {
             public void onClick(View v) {
                 MainPlayer.window_num = MainPlayer.MAIN_PALYER;// TODO
                 dismiss();
-                MainPlayer.mixToMix.show(getFragmentManager(), "add to mix");// 添加到其他歌单
+                MainPlayer.mainToMix.show(getFragmentManager(), "add to mix");// 添加到其他歌单
             }
         });
 

@@ -54,7 +54,7 @@ public class MainToMix extends DialogFragment {
     }
 
     public void initData() {
-        MainPlayer.window_num = MainPlayer.MIX_TO_MIX;// 修改窗口编号
+        MainPlayer.window_num = MainPlayer.MAIN_TO_MIX;// 修改窗口编号
     }
 
     public void initButton() {// TODO 初始化按钮
@@ -142,8 +142,8 @@ public class MainToMix extends DialogFragment {
             @Override
             public void onClick(View v) {
                 // TODO 添加到该歌单
-                for (int i = 0; i < MainPlayer.mixList.musicSelected.size(); i ++) {
-                    String tmp = MainPlayer.mixList.musicSelected.get(i);
+                for (int i = 0; i < MainPlayer.mainPlayerList.musicSelected.size(); i ++) {
+                    String tmp = MainPlayer.mainPlayerList.musicSelected.get(i);
                     MainPlayer.cmd("insert into " + item_name + " (path, name, count)\n" +
                             "  values\n" +
                             "  ('" + tmp + "', '" + tmp.replaceAll(".*/", "") + "', 0);");
