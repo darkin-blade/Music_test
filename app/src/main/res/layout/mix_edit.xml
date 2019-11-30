@@ -29,7 +29,7 @@
 
             <Button
                 android:id="@+id/button_cancel"
-                android:text="Delete"
+                android:text="Cancel"
                 style="@style/button_6"
                 android:layout_marginRight="2dp"/>
             <Button

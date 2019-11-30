@@ -25,7 +25,7 @@ public class MusicEdit extends DialogFragment {
     SQLiteDatabase database;// 数据库
 
     public void initView() {
-        textView.setText(MainPlayer.mixList.mixSelected.size() + " mix selected");
+        textView.setText(MainPlayer.mixList.musicSelected.size() + " music selected");
     }
 
     @Override
@@ -50,7 +50,7 @@ public class MusicEdit extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        myView = inflater.inflate(R.layout.mix_edit, container);
+        myView = inflater.inflate(R.layout.music_edit, container);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(0x00000000));// 背景透明
 
         initData();
@@ -99,6 +99,7 @@ public class MusicEdit extends DialogFragment {
         try {
             database.execSQL(sql);
         } catch (SQLException e) {
+            e.printStackTrace();
             MainPlayer.infoLog("database error: " + sql);
             return -1;
         }

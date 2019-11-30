@@ -102,8 +102,7 @@ public class MixEdit extends DialogFragment {
         try {
             database.execSQL(sql);
         } catch (SQLException e) {
-            // TODO 数据库操作出错
-//            MainPlayer.infoToast(getContext(), "database error");
+            e.printStackTrace();
             MainPlayer.infoLog("database error: " + sql);
             return -1;
         }
