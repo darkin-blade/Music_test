@@ -41,11 +41,12 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
     public BluetoothAdapter bluetoothAdapter;// 蓝牙
 
     // TODO ui 界面
-    static public MixList mixList;// TODO 歌单管理
-    static public MusicAdd musicAdd;// TODO 添加音乐
+    static public MixList mixList;// 歌单管理
+    static public MusicAdd musicAdd;// 添加音乐(文件管理器)
     // TODO dialog 界面
     static public MixNew mixNew;// 新建歌单
-    static public MixEdit mixEdit;// TODO 编辑歌单
+    static public MixEdit mixEdit;// 编辑歌单
+    static public MusicEdit musicEdit;// TODO 编辑歌曲
 
     static public View button_1;// `播放/暂停`按钮
     static public View button_2;// `开启蓝牙`按钮
@@ -55,7 +56,8 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
     static final int MIX_LIST = 1;// 歌单管理
     static final int MUSIC_ADD = 2;// 文件管理器
     static final int MIX_NEW = 3;// 新建歌单
-    static final int MIX_EDIT = 3;// 操作歌单
+    static final int MIX_EDIT = 4;// 操作歌单
+    static final int MUSIC_EDIT = 5;// 操作歌单
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -291,12 +293,16 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
     public void onDismiss(DialogInterface dialog) {
         switch (window_num) {
             case MIX_EDIT:
-                mixList.listMix();// TODO 刷新歌单列表
+                mixList.listMix();
                 window_num = MIX_LIST;
                 break;
             case MUSIC_ADD:
                 mixList.listMusic(mixList.curMix);
                 window_num = MIX_LIST;
+                break;
+            case MUSIC_EDIT:
+                mixList.listMusic(mixList.curMix);
+                window_num = MUSIC_EDIT;
                 break;
         }
     }
