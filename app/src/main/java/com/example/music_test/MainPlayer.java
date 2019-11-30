@@ -111,7 +111,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
             @Override
             public void onCompletion(MediaPlayer mp) {
                 infoLog("TODO: complete");
-//                playList.changeMusic(null, 1);
+                playList.changeMusic(null, 1);
             }
         });
 
@@ -213,6 +213,14 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
         toast.show();
     }
 
+    public void updateUI() {// 更新ui
+        if (player.isPlaying()) {
+            button_1.setBackgroundResource(R.drawable.player_pause);
+        } else {
+            button_1.setBackgroundResource(R.drawable.player_play);
+        }
+    }
+
     static public int cmd(String sql) {// 操作数据库
         try {
             database.execSQL(sql);
@@ -302,9 +310,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
 
     @Override
     public void onDismiss(DialogInterface dialog) {
-        // 更新ui
-        playTime.updateBar();
-        playTime.updateTime();
+        updateUI();// 更新ui
 
         switch (window_num) {
             case MIX_EDIT:
