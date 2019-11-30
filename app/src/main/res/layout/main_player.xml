@@ -9,9 +9,16 @@
     android:orientation="vertical">
 
     <TextView
-        style="@style/bar_1"
+        style="@style/tab_3"
         android:text="Music Player">
     </TextView>
+    <TextView
+        style="@style/tab_1"
+        android:text="name">
+    </TextView>
+    <View
+        style="@style/line">
+    </View>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

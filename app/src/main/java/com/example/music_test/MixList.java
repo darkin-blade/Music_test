@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
-import android.graphics.ColorSpace;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -22,10 +20,12 @@ import android.widget.TextView;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MixList extends DialogFragment {
-    public List<String> musicSelected;// 当前在文件管理器中选中的所有音乐
+    public ArrayList<String> mixSelected;// 被选中的歌单
+    public ArrayList<String> musicSelected;// 被选中的歌曲
     public View myView;
 
     public Button button_back;
@@ -69,6 +69,8 @@ public class MixList extends DialogFragment {
     public void initData() {
         MainPlayer.window_num = MainPlayer.MUSIC_LISTS;// 修改窗口编号
         database = SQLiteDatabase.openOrCreateDatabase(MainPlayer.appPath + "/player.db", null);
+        mixSelected = new ArrayList<String>();
+        musicSelected = new ArrayList<String>();
     }
 
     public void initButton() {// TODO 初始化按钮
@@ -113,6 +115,7 @@ public class MixList extends DialogFragment {
 
     public void listMix() {
         // 清空
+        musicSelected.clear();
         LinearLayout layout = myView.findViewById(R.id.mix_list);
         layout.removeAllViews();
 
@@ -140,6 +143,7 @@ public class MixList extends DialogFragment {
 
     public void listMusic(String mix_name) {
         // 清空
+        mixSelected.clear();
         LinearLayout layout = myView.findViewById(R.id.mix_list);
         layout.removeAllViews();
 
@@ -240,26 +244,33 @@ public class MixList extends DialogFragment {
                     listMusic(item_name);// 点击查看对应歌单详情
                 }
             });
+
+            // TODO 复选功能
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (checkBox.isChecked()) {
+                        item.setBackgroundResource(R.color.grey_light);
+                        mixSelected.add(item_name);
+                        MainPlayer.infoLog("size: " + mixSelected.size());
+                    } else {
+                        item.setBackgroundResource(R.color.grey);
+                        mixSelected.remove(item_name);
+                        MainPlayer.infoLog("size: " + mixSelected.size());
+                    }
+                }
+            });
         } else if (mode == 1) {// 当前为歌曲列表
             // TODO 播放该专辑
-            MainPlayer.infoToast(getContext(), "todo play music");
-        }
-
-        // TODO 复选功能
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (checkBox.isChecked()) {
-                    item.setBackgroundResource(R.color.grey_light);
-//                    musicList.add(musicPaths.get(finalI));// TODO 添加到list
-//                    MainPlayer.infoLog("size: " + musicList.size());
-                } else {
-                    item.setBackgroundResource(R.color.grey);
-//                    boolean result = musicList.remove(musicPaths.get(finalI));// TODO 从list移出
-//                    MainPlayer.infoLog("size: " + musicList.size() + ", " + result);
+            item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MainPlayer.infoToast(getContext(), "todo play music");
                 }
-            }
-        });
+            });
+
+            // TODO 复选功能
+        }
 
         // TODO debug
         MainPlayer.infoLog("create item finished");

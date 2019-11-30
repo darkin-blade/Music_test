@@ -44,7 +44,8 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
     static public MixList mixList;// TODO 歌单管理
     static public MusicAdd musicAdd;// TODO 添加音乐
     // TODO dialog 界面
-    static public MixNew mixNew;// TODO 新建歌单
+    static public MixNew mixNew;// 新建歌单
+    static public MixEdit mixEdit;// TODO 编辑歌单
 
     static public View button_1;// `播放/暂停`按钮
     static public View button_2;// `开启蓝牙`按钮
@@ -54,6 +55,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
     static final int MUSIC_LISTS = 1;// 歌单管理
     static final int MUSIC_ADD = 2;// 文件管理器
     static final int MIX_NEW = 3;// 新建歌单
+    static final int MIX_EDIT = 3;// 操作歌单
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +86,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
         mixList = new MixList();
         // 初始化dialog
         mixNew = new MixNew();
+        mixEdit = new MixEdit();
     }
 
     public void initPlayer() {
