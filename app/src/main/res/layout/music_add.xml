@@ -9,8 +9,8 @@
     android:orientation="vertical">
 
     <TextView
-        android:text="Select images"
-        style="@style/tab_1">
+        android:text="Select music"
+        style="@style/tab_2">
     </TextView>
 
     <View

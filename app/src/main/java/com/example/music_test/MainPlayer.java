@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainPlayer extends AppCompatActivity implements DialogInterface.OnDismissListener {
     static public String appPath;
@@ -224,6 +226,38 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
         TextView textView = view.findViewById(android.R.id.message);
         textView.setTextColor(Color.rgb(0x00, 0x00, 0x00));
         toast.show();
+    }
+
+    static public String pathSimplify(String path) {// TODO 简化路径
+        path = path.replaceAll("/+\\./", "/");// 除去`/.`
+        infoLog("path: " + path);
+
+        Pattern pattern = Pattern.compile("/+\\.[\\.]+");
+        Matcher matcher = pattern.matcher(path);
+        int count = 0;
+        while (matcher.find()) {
+            count ++;
+        }
+
+        path = path.replaceAll("/+\\.[\\.]+", "");// 除去`/..`
+
+        int index = path.length() - 1;
+        if (path.charAt(index) == '/') {
+            index --;
+        }
+
+        while (index >= 0) {
+            if (path.charAt(index) == '/') {
+                count --;
+                if (count == 0) {
+                    infoLog("simplified path: " + path.substring(0, index));
+                    return path.substring(0, index);
+                }
+            }
+            index --;
+        }
+
+        return "/";
     }
 
     @Override
