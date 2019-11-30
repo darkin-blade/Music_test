@@ -82,10 +82,11 @@ public class MusicAdd extends FileManager {
             @Override
             public void onClick(View v) {
                 // TODO 添加到当前选定歌曲
+                // TODO 保存歌曲名
                 for (int i = 0; i < musicList.size(); i ++) {
                     cmd("insert into " + MainPlayer.mixList.curMix + " (path, name, count)\n" +
                             "  values\n" +
-                            "  ('" + musicList.get(i) + "', '" + musicList.get(i).replace(lastPath + "/", "")  + "', 0);");
+                            "  ('" + musicList.get(i) + "', '" + musicList.get(i).replaceAll(".*/", "")  + "', 0);");
                 }
                 musicList.clear();// 清空
                 dismiss();
@@ -97,7 +98,7 @@ public class MusicAdd extends FileManager {
         // 每次更换目录都要清空
         musicLayouts.clear();// 清空
         musicPaths.clear();
-        lastPath = dirPath;// TODO 路径记忆
+        lastPath = dirPath;
 
         // 特判根目录
         if (dirPath == null) {

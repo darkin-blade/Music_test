@@ -3,6 +3,7 @@ package com.example.music_test;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -140,12 +141,28 @@ public class MixAdd extends DialogFragment {
         item.addView(detail);
         layout.addView(item);
 
-        // TODO 添加到该歌单
         item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listMusic(item_name);// 点击查看对应歌单详情
+                // TODO 添加到该歌单
+                for (int i = 0; i < MainPlayer.mixList.musicSelected.size(); i ++) {
+                    String tmp = MainPlayer.mixList.musicSelected.get(i);
+                    cmd("insert into " + item_name + " (path, name, count)\n" +
+                            "  values\n" +
+                            "  ('" + tmp + "', '" + tmp.replaceAll(".*/", "") + "', 0);");
+                }
             }
         });
+    }
+
+    public int cmd(String sql) {
+        try {
+            database.execSQL(sql);
+        } catch (SQLException e) {
+            MainPlayer.infoLog("database error: " + sql);
+            e.printStackTrace();
+            return -1;
+        }
+        return 0;
     }
 }

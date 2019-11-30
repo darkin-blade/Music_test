@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 public class MixList extends DialogFragment {
     public ArrayList<String> mixSelected;// 被选中的歌单
-    public ArrayList<String> musicSelected;// 被选中的歌曲/在文件管理器中被选中的歌曲
+    public ArrayList<String> musicSelected;// 被选中的歌曲/在文件管理器中被选中的歌曲的绝对路径
     public View myView;
     public String curMix;// TODO 当前歌单名
 
