@@ -158,7 +158,7 @@ public class MixList extends DialogFragment {
         // TODO 列举所有歌曲;
         Cursor cursor = database.query(
                 mix_name,// 歌单详情
-                new String[]{"path"},
+                new String[]{"path", "count"},
                 null,
                 null,
                 null,

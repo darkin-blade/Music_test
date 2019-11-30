@@ -96,10 +96,15 @@ public class MixNew extends DialogFragment {
                 }
 
                 // 新建歌单`mix_name`
-                cmd("create table if not exists " + mix_name + " (\n" +
-                        "  uri varchar (128) not null,\n" +
-                        "  primary key (uri)\n" +
+                result = cmd("create table if not exists " + mix_name + " (\n" +
+                        "  path varchar (128) not null comment \"歌名\",\n" +
+                        "  count int default 0 comment \"播放次数\",\n" +
+                        "  primary key (path)" +
                         ");");
+
+                if (result == 0) {
+                    MainPlayer.infoToast(getContext(), mix_name + " create succeed");
+                }
 
                 dismiss();
             }
@@ -120,6 +125,7 @@ public class MixNew extends DialogFragment {
             // TODO 数据库操作出错
 //            MainPlayer.infoToast(getContext(), "database error");
             MainPlayer.infoLog("database error: " + sql);
+            e.printStackTrace();
             return -1;
         }
         return 0;
