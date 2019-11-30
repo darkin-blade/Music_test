@@ -282,6 +282,8 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
     @Override
     public void onDestroy() {
         receiver.unregisterReceiver(this);// TODO 貌似没用
+        unregisterReceiver(receiver);// TODO
+        infoLog("unregister");
         super.onDestroy();
     }
 
