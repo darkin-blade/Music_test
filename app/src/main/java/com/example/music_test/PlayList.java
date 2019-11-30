@@ -62,6 +62,8 @@ public class PlayList {
             } else {
                 stopMusic();
             }
+
+            MainPlayer.mainPlayerList.listMusic();
         }
 
         curMusic = nextMusic;
@@ -75,10 +77,6 @@ public class PlayList {
         MainPlayer.infoLog("player error");
         MainPlayer.playTime.reset();
         MainPlayer.updateUI();
-    }
-
-    public void startMusic(String nextMusic) {// TODO 第一次播放音乐
-        ;
     }
 
     public void changeMusic(String nextMusic, int mode) {

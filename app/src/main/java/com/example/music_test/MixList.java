@@ -184,7 +184,7 @@ public class MixList extends DialogFragment {
         changeButton(1);
     }
 
-    // TODO 列举歌单的参数
+    // 列举歌单的参数
     public static final int
             box_width = 60,
             item_height = 130,
@@ -254,7 +254,6 @@ public class MixList extends DialogFragment {
         params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);// 选框靠右
         checkBox.setLayoutParams(params);
 
-        // 查看详情
         if (mode == 0) {// 当前为歌单列表
             item.setOnClickListener(new View.OnClickListener() {
                 @Override

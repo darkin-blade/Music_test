@@ -14,10 +14,6 @@ public class PlayTime {
     public int total_time = 0;
     public int cur_time = 0;
 
-    public PlayTime() {
-        ;
-    }
-
     public PlayTime(Context context, Activity activity) {
         this.myContext = context;
         this.myActivity = activity;

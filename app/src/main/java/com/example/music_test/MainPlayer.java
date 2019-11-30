@@ -41,6 +41,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
 
     static public PlayList playList;// TODO 播放列表
     static public PlayTime playTime;// 音乐进度相关
+    static public MainPlayerList mainPlayerList;// 主页面ui控制辅助类
     public MediaReceiver receiver;// 接收`蓝牙/媒体`信号
     public BluetoothAdapter bluetoothAdapter;// 蓝牙
 
@@ -76,7 +77,6 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
         initButton();// 初始化按钮监听
         initSeekBar();// 初始化进度条
         initBluetooth();// 初始化蓝牙
-        mainToast("main: init complete");
     }
 
     public void initApp() {
@@ -120,6 +120,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
         curTime = findViewById(R.id.cur_time);
         playTime = new PlayTime(this, this);// 进度控制
         playList = new PlayList();// 播放列表控制
+        mainPlayerList = new MainPlayerList(getWindow().getDecorView().findViewById(android.R.id.content), this);
     }
 
     public void initSeekBar() {
