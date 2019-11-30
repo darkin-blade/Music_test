@@ -3,11 +3,10 @@ package com.example.music_test;
 import android.app.Activity;
 import android.content.Context;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class MusicTime {
+public class PlayTime {
     public Context myContext = null;
     public Activity myActivity = null;
     public Thread musicPlay;
@@ -15,11 +14,11 @@ public class MusicTime {
     public int total_time = 0;
     public int cur_time = 0;
 
-    public MusicTime() {
+    public PlayTime() {
         ;
     }
 
-    public MusicTime(Context context, Activity activity) {
+    public PlayTime(Context context, Activity activity) {
         this.myContext = context;
         this.myActivity = activity;
     }

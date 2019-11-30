@@ -39,15 +39,16 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
     static public Long myTime = System.currentTimeMillis();// 微秒时间
     static public int clickTimes = 0;// 耳机信号次数
 
-    public MusicTime musicTime;// 音乐进度相关
+    static public PlayList playList;// TODO 播放列表
     public MediaReceiver receiver;// 接收`蓝牙/媒体`信号
+    public PlayTime playTime;// 音乐进度相关
     public BluetoothAdapter bluetoothAdapter;// 蓝牙
 
-    // TODO ui 界面
+    // ui 界面
     static public MixList mixList;// 歌单管理
     static public MusicAdd musicAdd;// 添加音乐(文件管理器)
     static public MixAdd mixAdd;// 临时列举歌单(添加到歌单)
-    // TODO dialog 界面
+    // dialog 界面
     static public MixNew mixNew;// 新建歌单
     static public MixEdit mixEdit;// 编辑歌单
     static public MusicEdit musicEdit;// TODO 编辑歌曲
@@ -113,10 +114,11 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
             }
         });
 
-        // 初始化音乐进度
+        // 初始化播放器核心组件
         totalTime = findViewById(R.id.total_time);
         curTime = findViewById(R.id.cur_time);
-        musicTime = new MusicTime(this, this);
+        playTime = new PlayTime(this, this);// 进度控制
+        playList = new PlayList();// 播放列表控制
     }
 
     public void initSeekBar() {
@@ -135,7 +137,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {// 停止拖动
 //                if (player.isPlaying()) {// 在播放时才有效
-                    musicTime.setBar();// TODO 调整player进度
+                    playTime.setBar();// TODO 调整player进度
 //                }
             }
         });
@@ -151,10 +153,10 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
                     @Override
                     public void run() {
                         if (player.isPlaying() == false) {// TODO 判断的条件 正在暂停
-                            musicTime.play();
+                            playTime.play();
                             button_1.setBackgroundResource(R.drawable.player_pause);
                         } else {
-                            musicTime.pause();
+                            playTime.pause();
                             button_1.setBackgroundResource(R.drawable.player_play);
                         }
                     }
