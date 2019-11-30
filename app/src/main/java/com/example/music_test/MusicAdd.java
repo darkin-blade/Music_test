@@ -2,6 +2,7 @@ package com.example.music_test;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,8 @@ import com.example.music_test.Interfaces.IconManager;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class MusicAdd extends FileManager {
     public String lastPath = null;// 路径记忆
@@ -102,6 +105,8 @@ public class MusicAdd extends FileManager {
         // 遍历文件夹
         File dir = new File(dirPath);
         File[] items = dir.listFiles();
+        Arrays.sort(items);
+
         if (items != null) {
             for (int i = 0; i < items.length; i++) {
                 if (items[i].isDirectory()) {
@@ -111,6 +116,7 @@ public class MusicAdd extends FileManager {
                 }
             }
         }
+
 
         // 异步加载图片
         loadIcon();
@@ -256,6 +262,7 @@ public class MusicAdd extends FileManager {
         item.addView(type);
         detail.addView(name);
         item.addView(detail);
+        layout.addView(item);
 
         if (itemType == 2) {// 父文件夹
             item.setOnClickListener(new View.OnClickListener() {
@@ -273,8 +280,6 @@ public class MusicAdd extends FileManager {
                 }
             });
         }
-
-        layout.addView(item);
 
         return item;
     }

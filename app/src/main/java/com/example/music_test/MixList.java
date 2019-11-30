@@ -136,10 +136,10 @@ public class MixList extends DialogFragment {
                 "name");
 
         if (cursor.moveToFirst()) {// TODO 判断非空
-            for (int i = 0; i < cursor.getCount(); i ++) {
+            do {
                 String mix_name = cursor.getString(0);// 获取歌单名
                 create_item(mix_name, 0);// TODO 列举歌单
-            }
+            } while (cursor.moveToNext());
         } else {
             MainPlayer.infoToast(getContext(), "no mix");
         }
