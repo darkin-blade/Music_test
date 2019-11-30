@@ -69,9 +69,10 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
     static final int MUSIC_ADD = 2;// 文件管理器
     static final int MIX_NEW = 3;// 新建歌单
     static final int MIX_EDIT = 4;// 操作歌单
-    static final int MUSIC_EDIT = 5;// 操作歌单
+    static final int MUSIC_EDIT = 5;// 操作歌曲
     static final int MIX_TO_MIX = 6;// 从`歌单`添加至`歌单`
     static final int MAIN_TO_MIX = 7;// 从`主页面`添加至`歌单`
+    static final int MAIN_EDIT = 8;// 主页面操作歌曲
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -367,9 +368,10 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
                 mixList.listMusic(mixList.curMix);
                 window_num = MIX_LIST;
                 break;
-            case MAIN_TO_MIX:
+            case MAIN_EDIT:
                 mainPlayerList.listMusic();
                 window_num = MAIN_PALYER;
+                playList.loadList(playList.curMix, playList.curMusic);
                 break;
         }
     }

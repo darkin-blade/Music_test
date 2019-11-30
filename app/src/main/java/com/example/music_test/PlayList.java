@@ -32,44 +32,49 @@ public class PlayList {
     }
 
     public void loadList(String nextMix, String nextMusic) {// 加载专辑曲目,并播放特定歌曲
-        if (nextMix == curMix && nextMusic == curMusic) {// 相同的歌曲和专辑
-            return;
+        if (nextMusic == null) {// 异常处理
+            curMusic = curMusicList.get(0);
+        } else {
+//            curMusic = nextMusic;// 在之后会判重
         }
 
-        if (curMix != nextMix) {
-            curMix = nextMix;
+        curMix = nextMix;
 
-            // 清空
-            curMusicList.clear();
-            curMixLen = 0;
+        // 清空
+        curMusicList.clear();
+        curMixLen = 0;
 
-            Cursor cursor = MainPlayer.database.query(
-                    curMix,// 当前歌单
-                    new String[]{"path", "name", "count"},
-                    null,
-                    null,
-                    null,
-                    null,
-                    "name");
+        Cursor cursor = MainPlayer.database.query(
+                curMix,// 当前歌单
+                new String[]{"path", "name", "count"},
+                null,
+                null,
+                null,
+                null,
+                "name");
 
-            if (cursor.moveToFirst()) {// 非空
-                do {
-                    String music_name = cursor.getString(0);// 获取歌名
-                    curMusicList.add(music_name);
-                    curMixLen ++;
-                    MainPlayer.infoLog("add to play list: " + music_name);
-                } while (cursor.moveToNext());
-            } else {
-                stopMusic();
-            }
-
-            MainPlayer.mainPlayerList.listMusic();
+        if (cursor.moveToFirst()) {// 非空
+            do {
+                String music_name = cursor.getString(0);// 获取歌名
+                curMusicList.add(music_name);
+                curMixLen ++;
+                MainPlayer.infoLog("add to play list: " + music_name);
+            } while (cursor.moveToNext());
+        } else {
+            stopMusic();
         }
 
-        curMusic = nextMusic;
-        curMusicIndex = curMusicList.indexOf(curMusic);// 获取当前播放的音乐的索引
+        MainPlayer.mainPlayerList.listMusic();
+
+        curMusicIndex = curMusicList.indexOf(curMusic);// 获取当前播放的音乐的索引 此步可能会重复
 
         MainPlayer.infoLog("[" + curMix + "][" + curMusicIndex + "/" + curMixLen + "][" + curMusic + "]");
+        if (curMusic == nextMusic && curMix == nextMix) {// TODO 歌单仍然有效
+            if (curMusicIndex >= 0 && MainPlayer.player.isPlaying()) {
+                return;
+            }
+        }
+        curMusic = nextMusic;
         changeMusic(curMusic, 0);
     }
 
@@ -95,6 +100,7 @@ public class PlayList {
             } else if (mode == 3) {// 重新播放
                 if (curMusicList.size() <= 0) {
                     stopMusic();// TODO 异常
+                    return;
                 }
                 curMusic = curMusicList.get(0);
             } else if (mode == 0) {// 指定播放
@@ -103,9 +109,14 @@ public class PlayList {
 
             if (curMusic == null) {
                 stopMusic();// TODO 异常
+                return;
             }
 
             curMusicIndex = curMusicList.indexOf(curMusic);
+            if (curMusicIndex < 0) {
+                loadList(curMix, null);
+            }
+
             MainPlayer.infoLog("try to play " + curMusic + " [" + curMusicIndex  + "/" + curMixLen + "]");
             File tmp = new File(curMusic);
             if (tmp.exists()) {// 如果文件存在
@@ -117,8 +128,9 @@ public class PlayList {
                 MainPlayer.playTime.play();
             } else {// TODO 歌曲不存在
                 stopMusic();
-                MainPlayer.musicDelete(curMusic, curMix);// 从歌单中删除不存在的歌曲
-                loadList(curMix, null);// 重新加载歌单
+                return;
+//                MainPlayer.musicDelete(curMusic, curMix);// 从歌单中删除不存在的歌曲
+//                loadList(curMix, null);// 重新加载歌单
 //                changeMusic(null, 3);
             }
         } catch (IOException e) {

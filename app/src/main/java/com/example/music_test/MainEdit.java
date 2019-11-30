@@ -46,7 +46,7 @@ public class MainEdit extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        myView = inflater.inflate(R.layout.music_edit, container);
+        myView = inflater.inflate(R.layout.main_edit, container);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(0x00000000));// 背景透明
 
         initData();
@@ -57,7 +57,7 @@ public class MainEdit extends DialogFragment {
     }
 
     public void initData() {
-        MainPlayer.window_num = MainPlayer.MUSIC_EDIT;// 修改窗口编号
+        MainPlayer.window_num = MainPlayer.MAIN_EDIT;// 修改窗口编号
     }
 
     public void initButton() {// TODO 初始化按钮监听/其他ui
