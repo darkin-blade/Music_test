@@ -10,12 +10,12 @@ public class PlayList {
     // 每次加载必须要恢复的数据
     String curMix;// 当前歌单
     String curMusic;// TODO 当前播放的歌曲
-    int curMusicIndex;
-    int curMixLen;
-    ArrayList<String> curMusicList;// 当前歌单的所有歌曲
     int playMode;// 播放模式
 
-    int is_start = 0;// 是否启动播放器
+    ArrayList<String> curMusicList;// 当前歌单的所有歌曲
+    int curMusicIndex;
+    int curMixLen;
+    int is_start;// TODO 是否已经启动播放器
 
     static final int CIRCULATE = 0,// 顺序播放
             RANDOM = 1,// 随机
@@ -32,6 +32,10 @@ public class PlayList {
     }
 
     public void loadList(String nextMix, String nextMusic) {// 加载专辑曲目
+        if (nextMix == null) {
+            stopMusic();
+        }
+
         curMusicIndex = curMusicList.indexOf(curMusic);// 获取当前播放的音乐的索引
 
         if (nextMix == curMix) {
@@ -40,7 +44,7 @@ public class PlayList {
             }
 
             if (nextMusic != curMusic) {
-                changeMusic(nextMusic);
+                changeMusic(nextMusic, 0);
             }
             return;
         }
@@ -65,15 +69,41 @@ public class PlayList {
                 curMixLen ++;
                 MainPlayer.infoLog("add to play list: " + music_name);
             } while (cursor.moveToNext());
+        } else {
+            stopMusic();
         }
+
+        MainPlayer.infoLog("[" + curMix + "][" + curMusicIndex + "/" + curMixLen + "][" + curMusic + "]");
+    }
+
+    public void stopMusic() {// TODO 异常处理
+        MainPlayer.infoLog("player error");
     }
 
     public void startMusic(String nextMusic) {// TODO 第一次播放音乐
         ;
     }
 
-    public void changeMusic(String nextMusic) {// 切换到特定歌曲
+    public void changeMusic(String nextMusic, int mode) {
+        // mode: 0: 指定跳转, 1: 向后跳转, 2: 向前跳转, 3: 异常情况下的跳转 TODO
+        // TODO 播放模式
         try {
+            if (mode == 1) {// 往后播放
+                nextMusic = curMusicList.get((curMusicIndex + 1) % curMixLen);
+            } else if (mode == 2) {// 往前播放
+                nextMusic = curMusicList.get((curMusicIndex + curMixLen - 1) % curMixLen);
+            } else if (mode == 3) {// 重新播放
+                if (curMusicList.size() <= 0) {
+                    stopMusic();// TODO 异常
+                }
+                nextMusic = curMusicList.get(0);
+            } else if (mode == 0) {// 指定播放
+            }
+
+            if (nextMusic == null) {
+                stopMusic();// TODO 异常
+            }
+
             File tmp = new File(nextMusic);
             if (tmp.exists()) {// 如果文件存在
                 MainPlayer.player.setDataSource(nextMusic);// TODO 异常
@@ -82,12 +112,14 @@ public class PlayList {
                 MainPlayer.player.start();
             } else {// TODO 歌曲不存在
                 MainPlayer.musicDelete(nextMusic, curMix);// 从歌单中删除不存在的歌曲
-                loadList(curMix, null);
+                loadList(curMix, null);// 重新加载歌单
+                changeMusic(null, 3);
             }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (IllegalStateException e) {
             e.printStackTrace();
         }
+
     }
 }

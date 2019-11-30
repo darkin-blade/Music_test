@@ -104,12 +104,12 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
 
     public void initPlayer() {
         player = new MediaPlayer();
-        player.setLooping(false);// TODO 不循环播放
-        player.setAudioStreamType(AudioManager.STREAM_MUSIC);// TODO 设置为音频
+        player.setLooping(false);// TODO 循环播放
+        player.setAudioStreamType(AudioManager.STREAM_MUSIC);// 设置为音频
         player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {// 播放完毕回调函数
             @Override
             public void onCompletion(MediaPlayer mp) {
-                mainToast("play finished");
+                playList.changeMusic(null, 1);
             }
         });
 
