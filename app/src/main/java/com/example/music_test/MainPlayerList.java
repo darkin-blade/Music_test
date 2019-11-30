@@ -21,6 +21,7 @@ public class MainPlayerList {
     public MainPlayerList(View view, Context context) {
         myView = view;
         myContext = context;
+        musicSelected = new ArrayList<String>();
     }
 
     public void listMusic() {// 更新主界面的ui
@@ -64,7 +65,7 @@ public class MainPlayerList {
         // mode: 0:歌单 1:歌曲
         // item_detail: {[歌名], [播放次数], [绝对路径]} {[歌单名], [歌曲数目]}
 
-        LinearLayout layout = myView.findViewById(R.id.mix_list);
+        LinearLayout layout = myView.findViewById(R.id.music_list);
         // 每一项 LL
         LinearLayout.LayoutParams itemParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, item_height);
         // 每一项,用于定位 RL
