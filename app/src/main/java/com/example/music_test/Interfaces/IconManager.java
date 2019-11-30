@@ -52,7 +52,7 @@ public class IconManager {
         if (cursor.moveToFirst()) {
             do {
                 path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
-                if (path == musicPath) {
+                if (path.equals(musicPath)) {
                     album_id = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID));// TODO 返回album_id便于查找
                     break;
                 }
@@ -81,6 +81,7 @@ public class IconManager {
 
     public Bitmap LoadThumb(final String musicPath, final int width, final int height) {// 加载缩略图
         int album_id = isMusic(musicPath);
+        MainPlayer.infoLog(musicPath + " id: " + album_id);
         if (album_id == -1) {// 不是音乐
             return null;
         }

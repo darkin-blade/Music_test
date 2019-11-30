@@ -44,7 +44,14 @@ public class MusicAdd extends FileManager {
 
         // 调用文件管理器
         if (lastPath == null) {
-            lastPath = MainPlayer.appPath;
+            lastPath = MainPlayer.appPath + "/../../../..";// 根目录
+            String tmp = lastPath;
+            do {
+                lastPath = tmp;
+//                tmp = lastPath.replace("/.+/+\\.\\.", "");
+            } while (tmp.equals(lastPath) == false);
+            lastPath.replaceAll("/\\.", "");
+            MainPlayer.infoLog("lastPath: " + lastPath);
         }
         readPath(lastPath);
 
