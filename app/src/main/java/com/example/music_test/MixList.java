@@ -24,8 +24,9 @@ import java.util.ArrayList;
 
 public class MixList extends DialogFragment {
     public ArrayList<String> mixSelected;// 被选中的歌单
-    public ArrayList<String> musicSelected;// 被选中的歌曲
+    public ArrayList<String> musicSelected;// 被选中的歌曲/在文件管理器中被选中的歌曲
     public View myView;
+    public String curMix;// TODO 当前歌单名
 
     public Button button_back;
     public Button button_edit;
@@ -138,7 +139,7 @@ public class MixList extends DialogFragment {
         if (cursor.moveToFirst()) {// TODO 判断非空
             do {
                 String mix_name = cursor.getString(0);// 获取歌单名
-                create_item(mix_name, 0);// TODO 列举歌单
+                create_item(mix_name, "TODO", 0);// TODO 列举歌单
             } while (cursor.moveToNext());
         } else {
             MainPlayer.infoToast(getContext(), "no mix");
@@ -152,22 +153,24 @@ public class MixList extends DialogFragment {
         mixSelected.clear();
         LinearLayout layout = myView.findViewById(R.id.mix_list);
         layout.removeAllViews();
+        curMix = mix_name;// TODO 刷新歌单名
 
         // TODO 列举所有歌曲;
         Cursor cursor = database.query(
                 mix_name,// 歌单详情
-                new String[]{"uri"},
+                new String[]{"path"},
                 null,
                 null,
                 null,
                 null,
-                "uri");
+                "path");
 
-        if (cursor.moveToFirst()) {// 歌单飞空
-            for (int i = 0; i < cursor.getCount(); i ++) {
+        if (cursor.moveToFirst()) {// 歌单非空
+            do {
                 String music_name = cursor.getString(0);// 获取歌单名
-                create_item(music_name, 1);// TODO 列举歌曲
-            }
+                int play_times = cursor.getInt(1);// 获取播放次数
+                create_item(music_name, "play times: " + play_times,1);// TODO 列举歌曲
+            } while (cursor.moveToNext());
         } else {
             MainPlayer.infoToast(getContext(), "no music");
         }
@@ -184,7 +187,7 @@ public class MixList extends DialogFragment {
             box_margin_top = 35,
             box_margin_right = 10;
 
-    public void create_item(final String item_name, int mode) {// mode: 0:歌单 1:歌曲
+    public void create_item(final String item_name, final String item_detail, int mode) {// mode: 0:歌单 1:歌曲
         LinearLayout layout = myView.findViewById(R.id.mix_list);
         // 每一项 LL
         LinearLayout.LayoutParams itemParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, item_height);
@@ -222,7 +225,7 @@ public class MixList extends DialogFragment {
         name.setLayoutParams(nameParam);
 
         number.setGravity(Gravity.CENTER);
-        number.setText("TODO");
+        number.setText(item_detail);
         number.setLayoutParams(numberParam);
 
         checkboxParam.setMargins(box_margin_right, box_margin_top, box_margin_right, box_margin_top);

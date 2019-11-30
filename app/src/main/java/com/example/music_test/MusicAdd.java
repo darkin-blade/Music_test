@@ -1,5 +1,7 @@
 package com.example.music_test;
 
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -21,7 +23,6 @@ import com.example.music_test.Interfaces.IconManager;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 
 public class MusicAdd extends FileManager {
     public String lastPath = null;// 路径记忆
@@ -36,6 +37,8 @@ public class MusicAdd extends FileManager {
     public ArrayList<String> musicPaths;// TODO 当前目录所有的文件
 
     public IconManager iconManager;// 文件缩略图处理
+
+    public SQLiteDatabase database;// 数据库
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,6 +59,7 @@ public class MusicAdd extends FileManager {
 
     public void initData() {
         MainPlayer.window_num = MainPlayer.MUSIC_ADD;
+        database = SQLiteDatabase.openOrCreateDatabase(MainPlayer.appPath + "/player.db", null);
         musicList = new ArrayList<String>();
         musicLayouts = new ArrayList<>();// TODO 优化加载
         musicPaths = new ArrayList<String>();
@@ -76,8 +80,13 @@ public class MusicAdd extends FileManager {
 
         select.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {// TODO 返回所有选中的音乐路径
-                MainPlayer.mixList.musicSelected.addAll(musicList);// TODO 添加到当前选定歌曲
+            public void onClick(View v) {
+                // TODO 添加到当前选定歌曲
+                for (int i = 0; i < musicList.size(); i ++) {
+                    cmd("insert ignore into " + MainPlayer.mixList.curMix + " (path, count)\n" +
+                            "  values\n" +
+                            "  (" + musicList.get(i) + ", 0);");
+                }
                 musicList.clear();// 清空
                 dismiss();
             }
@@ -105,7 +114,7 @@ public class MusicAdd extends FileManager {
         // 遍历文件夹
         File dir = new File(dirPath);
         File[] items = dir.listFiles();
-        Arrays.sort(items);
+        Arrays.sort(items);// 对内容进行排序
 
         if (items != null) {
             for (int i = 0; i < items.length; i++) {
@@ -117,8 +126,7 @@ public class MusicAdd extends FileManager {
             }
         }
 
-
-        // 异步加载图片
+        // TODO 异步加载图片
         loadIcon();
     }
 
@@ -139,10 +147,10 @@ public class MusicAdd extends FileManager {
             public void run() {
                 for (int i = 0; i < musicLayouts.size(); i ++) {// 逐个异步加载图片
                     // 生成缩略图 TODO 判断是否为音乐
-                    final Bitmap bitmap = iconManager.LoadThumb(musicPaths.get(i), 60, 60);// TODO 大小
-                    if (bitmap == null) {// 不是图片 TODO
-                        continue;
-                    }
+//                    final Bitmap bitmap = iconManager.LoadThumb(musicPaths.get(i), 60, 60);// TODO 大小
+//                    if (bitmap == null) {// 不是图片 TODO
+//                        continue;
+//                    }
 
                     // TODO 是音乐
 
@@ -169,8 +177,8 @@ public class MusicAdd extends FileManager {
                         @Override
                         public void run() {
                             // TODO 动态生成缩略图
-                            icon.setImageBitmap(bitmap);
-                            icon.setBackgroundResource(R.color.transparent);
+//                            icon.setImageBitmap(bitmap);
+//                            icon.setBackgroundResource(R.color.transparent);
 
                             // 复选功能
                             // 点击外部
@@ -282,5 +290,17 @@ public class MusicAdd extends FileManager {
         }
 
         return item;
+    }
+
+    public int cmd(String sql) {
+        try {
+            database.execSQL(sql);
+        } catch (SQLException e) {
+            // TODO 数据库操作出错
+//            MainPlayer.infoToast(getContext(), "database error");
+            MainPlayer.infoLog("database error: " + sql);
+            return -1;
+        }
+        return 0;
     }
 }
