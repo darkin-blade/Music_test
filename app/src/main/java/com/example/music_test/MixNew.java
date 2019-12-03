@@ -19,6 +19,8 @@ import androidx.fragment.app.FragmentManager;
 
 import java.util.List;
 
+// dialog: 在歌单界面新建歌单
+
 public class MixNew extends DialogFragment {
     public View myView;
     public Button button_create;

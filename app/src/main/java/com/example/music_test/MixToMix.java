@@ -16,6 +16,8 @@ import android.widget.TextView;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
+// ui: 将在歌单选中的音乐添加到指定歌单
+
 public class MixToMix extends DialogFragment {
     public View myView;
 

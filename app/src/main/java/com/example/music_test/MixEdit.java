@@ -16,6 +16,8 @@ import android.widget.TextView;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
+// dialog: 编辑歌单列表中选中的歌单
+
 public class MixEdit extends DialogFragment {
     public View myView;
     public Button button_delete;

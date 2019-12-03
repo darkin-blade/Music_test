@@ -1,5 +1,6 @@
 package com.example.music_test;
 
+import android.content.Context;
 import android.database.Cursor;
 
 import java.io.File;
@@ -16,6 +17,7 @@ public class PlayList {
     int curMusicIndex;
     int curMixLen;
     int is_start;// TODO 是否已经启动播放器
+    Context myContext;
 
     static final int CIRCULATE = 0,// 顺序播放
             RANDOM = 1,// 随机
@@ -24,6 +26,11 @@ public class PlayList {
             POLARIZATION = 4;
 
     public PlayList() {
+        curMusicList = new ArrayList<String>();
+    }
+
+    public PlayList(Context context) {
+        myContext = context;
         curMusicList = new ArrayList<String>();
     }
 
@@ -141,7 +148,13 @@ public class PlayList {
             }
         } catch (IOException e) {
             MainPlayer.infoLog("prepare failed: " + curMusic);
+            MainPlayer.infoToast(myContext, "invalid");
             MainPlayer.musicDelete(curMusic, curMix);
+            if (MainPlayer.window_num == MainPlayer.MAIN_PALYER) {// 留在主界面
+                ;
+            } else if (MainPlayer.window_num == MainPlayer.MIX_LIST) {// 歌单界面
+                ;
+            }
             e.printStackTrace();
         } catch (IllegalStateException e) {// TODO
             e.printStackTrace();

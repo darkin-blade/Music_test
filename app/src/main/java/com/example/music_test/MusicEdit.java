@@ -13,6 +13,8 @@ import android.widget.TextView;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
+// dialog: 编辑歌单中选中的音乐
+
 public class MusicEdit extends DialogFragment {
     public View myView;
     public Button button_delete;

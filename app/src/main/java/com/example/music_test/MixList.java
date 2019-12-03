@@ -21,6 +21,8 @@ import androidx.fragment.app.FragmentManager;
 
 import java.util.ArrayList;
 
+// ui: 歌单界面
+
 public class MixList extends DialogFragment {
     public ArrayList<String> mixSelected;// 被选中的歌单
     public ArrayList<String> musicSelected;// 被选中的歌曲/在文件管理器中被选中的歌曲的绝对路径

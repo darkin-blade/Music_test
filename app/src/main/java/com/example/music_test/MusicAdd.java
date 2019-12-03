@@ -20,6 +20,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+// ui: 文件浏览器,选择歌曲
+
 public class MusicAdd extends FileManager {
     public String lastPath = null;// 路径记忆
 

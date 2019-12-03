@@ -348,30 +348,36 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
         updateUI();// 更新ui
 
         switch (window_num) {
-            case MIX_EDIT:
-                mixList.listMix();
-                window_num = MIX_LIST;
-                break;
-            case MUSIC_ADD:
-                mixList.listMusic(mixList.curMix);
-                window_num = MIX_LIST;
-                break;
-            case MIX_NEW:
-                mixList.listMix();
-                window_num = MIX_LIST;
-                break;
-            case MUSIC_EDIT:
-                mixList.listMusic(mixList.curMix);
-                window_num = MIX_LIST;
-                break;
-            case MIX_TO_MIX:
-                mixList.listMusic(mixList.curMix);
-                window_num = MIX_LIST;
-                break;
-            case MAIN_EDIT:
+            case MAIN_EDIT:// dialog: 主界面歌曲编辑
                 mainPlayerList.listMusic();
-                window_num = MAIN_PALYER;
+                window_num = MAIN_PALYER;// 返回主界面
                 playList.loadList(playList.curMix, playList.curMusic);
+                break;
+            case MAIN_TO_MIX:// ui: 将主界面选择的歌曲添加到一个歌单里
+                window_num = MAIN_PALYER;// 返回主界面
+                break;
+            case MIX_NEW:// dialog: 在歌单界面新建歌单
+                mixList.listMix();
+                window_num = MIX_LIST;// 刷新歌单
+                break;
+            case MIX_EDIT:// dialog: 编辑歌单列表中选中的歌单
+                mixList.listMix();
+                window_num = MIX_LIST;// 刷新歌单
+                break;
+            case MUSIC_EDIT:// dialog: 编辑歌单中选中的音乐
+                mixList.listMusic(mixList.curMix);
+                window_num = MIX_LIST;// 刷新歌单
+                break;
+            case MIX_TO_MIX:// ui: 将在歌单选中的音乐添加到指定歌单
+                mixList.listMusic(mixList.curMix);
+                window_num = MIX_LIST;// 刷新歌单
+                break;
+            case MUSIC_ADD:// ui: 文件浏览器,选择歌曲
+                mixList.listMusic(mixList.curMix);
+                window_num = MIX_LIST;// 刷新歌单
+                break;
+            case MIX_LIST:// ui: 歌单界面
+                window_num = MAIN_PALYER;// 返回主界面
                 break;
         }
     }
