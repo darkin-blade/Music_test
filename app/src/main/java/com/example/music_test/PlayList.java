@@ -3,6 +3,8 @@ package com.example.music_test;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.graphics.Color;
+import android.widget.TextView;
 
 import java.io.File;
 import java.io.IOException;
@@ -134,6 +136,7 @@ public class PlayList {
     }
 
     public void loadMix(String nextMix, String nextMusic) {// 加载专辑曲目,并播放特定歌曲
+
         lastMix = curMix;// 记录之前正在播放的歌单
         lastMusic = curMusic;// 记录之前正在播放的音乐
         MainPlayer.infoLog("last play: " + lastMix + ", " + lastMusic);

@@ -3,6 +3,7 @@ package com.example.music_test;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -227,8 +228,8 @@ public class MixList extends DialogFragment {
         final LinearLayout item = new LinearLayout(getContext());
         RelativeLayout contain = new RelativeLayout(getContext());
         LinearLayout detail = new LinearLayout(getContext());
-        TextView name = new TextView(getContext());
-        TextView number = new TextView(getContext());
+        final TextView name = new TextView(getContext());
+        final TextView number = new TextView(getContext());
         final CheckBox checkBox = new CheckBox(getContext());
 
         item.setBackgroundResource(R.color.grey);
@@ -294,6 +295,7 @@ public class MixList extends DialogFragment {
             item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    MainPlayer.infoLog("mix list play music");
                     MainPlayer.playList.loadMix(curMix, item_detail[2]);// TODO 加载专辑曲目并播放歌曲
                 }
             });

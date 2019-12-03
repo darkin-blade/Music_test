@@ -2,6 +2,7 @@ package com.example.music_test;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.CheckBox;
@@ -84,8 +85,8 @@ public class MainPlayerList {
         final LinearLayout item = new LinearLayout(myContext);
         RelativeLayout contain = new RelativeLayout(myContext);
         LinearLayout detail = new LinearLayout(myContext);
-        TextView name = new TextView(myContext);
-        TextView number = new TextView(myContext);
+        final TextView name = new TextView(myContext);
+        final TextView number = new TextView(myContext);
         final CheckBox checkBox = new CheckBox(myContext);
 
         item.setBackgroundResource(R.color.grey);
