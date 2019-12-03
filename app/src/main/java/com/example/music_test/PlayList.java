@@ -51,12 +51,15 @@ public class PlayList {
                 null,
                 "cur_music");// 没用
 
+        MainPlayer.infoLog("cursor size: " + cursor.getCount());
         if (cursor.moveToFirst()) {// 之前有保存应用数据
             curMix = cursor.getString(0);
             curMusic = cursor.getString(1);
             playMode = cursor.getInt(2);
-            loadList(curMix, curMusic);// 恢复歌单
-            stopMusic();// TODO
+            if (curMix.length() > 0 && curMusic.length() > 0) {// 有效数据
+                loadList(curMix, curMusic);// 恢复歌单
+                stopMusic();// TODO
+            }
             MainPlayer.infoLog("[" + curMix + "][" + curMusicIndex + "/" + curMixLen + "][" + curMusic + "]");
         } else {
             MainPlayer.infoLog("cannot find user data");
@@ -65,8 +68,8 @@ public class PlayList {
     }
 
     public void save() {// TODO 保存应用数据到数据库
-        int result = MainPlayer.cmd("delete from user_data;\n" +
-                "insert into user_data (cur_mix, cur_music, play_mode)\n" +
+        MainPlayer.cmd("delete from user_data;");
+        int result = MainPlayer.cmd("insert into user_data (cur_mix, cur_music, play_mode)\n" +
                 "  values ('" + curMix + "', '" + curMusic + "', " + playMode + ");");
         if (result == 0) {
             MainPlayer.infoLog("save user data succeed");

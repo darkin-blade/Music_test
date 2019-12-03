@@ -81,9 +81,10 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
 
         initApp();
         initPlayer();// 初始化播放器
-        initButton();// 初始化按钮监听
+        initUI();// 初始化按钮监听
         initSeekBar();// 初始化进度条
         initBluetooth();// 初始化蓝牙
+        initData();//
     }
 
     public void initApp() {
@@ -130,9 +131,6 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
         playTime = new PlayTime(this, this);// 进度控制
         playList = new PlayList();// 播放列表控制
         mainPlayerList = new MainPlayerList(getWindow().getDecorView().findViewById(android.R.id.content), this);
-
-        // 调用核心组件初始化函数
-        playList.initData();// 恢复应用数据
     }
 
     public void initSeekBar() {
@@ -157,7 +155,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
         });
     }
 
-    public void initButton() {
+    public void initUI() {
         musicName = findViewById(R.id.music_name);// 音乐名
         musicName.setSelected(true);// TODO
 
@@ -241,6 +239,11 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
 
         registerReceiver(this.receiver, intentFilter);// 注册广播 TODO 有报错
         receiver.registerReceiver(this);// 初始化广播
+    }
+
+    public void initData() {
+        // 调用核心组件初始化函数
+        playList.initData();// 恢复应用数据
     }
 
     public void mainToast(String log) {
