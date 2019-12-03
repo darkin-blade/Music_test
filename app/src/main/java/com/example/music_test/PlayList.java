@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.graphics.Color;
+import android.view.View;
 import android.widget.TextView;
 
 import java.io.File;
@@ -100,8 +101,6 @@ public class PlayList {
                     MainPlayer.mainPlayerList.listMusic();// TODO 加载歌单
                     loadMusic();
                 }
-                MainPlayer.infoLog("[" + curMix + "][" + curMusicIndex + "/" + curMixLen + "][" + curMusic + "]["
-                        + MainPlayer.playTime.cur_time + "][" + MainPlayer.playTime.total_time + "]");
             } else {
                 MainPlayer.infoLog("cannot find user data");
             }
@@ -127,19 +126,14 @@ public class PlayList {
                 "  values ('" + curMix + "', '" + curMusic + "', " + playMode + ", "
                 + MainPlayer.playTime.cur_time +", " + MainPlayer.playTime.total_time +");");
 
-        MainPlayer.infoLog("[" + curMix + "][" + curMusicIndex + "/" + curMixLen + "][" + curMusic + "]["
-                + MainPlayer.playTime.cur_time + "][" + MainPlayer.playTime.total_time + "]");
-
         if (result == 0) {
             MainPlayer.infoLog("save user data succeed");
         }
     }
 
     public void loadMix(String nextMix, String nextMusic) {// 加载专辑曲目,并播放特定歌曲
-
         lastMix = curMix;// 记录之前正在播放的歌单
         lastMusic = curMusic;// 记录之前正在播放的音乐
-        MainPlayer.infoLog("last play: " + lastMix + ", " + lastMusic);
 
         if (nextMusic == null) {// 异常处理
             curMusic = curMusicList.get(0);
@@ -177,7 +171,7 @@ public class PlayList {
 
         curMusicIndex = curMusicList.indexOf(curMusic);// 获取当前播放的音乐的索引 此步可能会重复 TODO 且如果没有播放音乐时该索引可能为负
 
-        MainPlayer.infoLog("load " + curMix + ", " + curMusic + ", " + curMusicIndex);
+//        MainPlayer.infoLog("load " + curMix + ", " + curMusic + ", " + curMusicIndex);
 
         if (lastMusic.equals(nextMusic) && lastMix.equals(nextMix)) {// TODO 歌单仍然有效
             if (curMusicIndex >= 0) {
@@ -208,7 +202,7 @@ public class PlayList {
                 MainPlayer.infoLog("prepare failed: " + curMusic);
                 MainPlayer.musicDelete(curMusic, curMix);
 
-                updateUI();
+                updateUI();// 刷新歌单
 
                 e.printStackTrace();
                 return -1;
@@ -235,6 +229,7 @@ public class PlayList {
             case MainPlayer.MIX_LIST:
                 if (MainPlayer.mixList.curMix == curMix) {// 如果正在浏览当前歌单
                     MainPlayer.mixList.listMusic(curMix);
+                    MainPlayer.mixList.updateUI();
                 }
                 break;
         }
@@ -257,11 +252,10 @@ public class PlayList {
         // TODO 累计播放时间
         if (lastMix != null && lastMusic != null) {
             MainPlayer.cmd("update " + lastMix + " set count = count + " + MainPlayer.playTime.cumulate_time + " where path = '" + lastMusic + "';");
-            MainPlayer.infoLog("update cumulative time: " + lastMix + ", " + lastMusic + ", " + MainPlayer.playTime.cumulate_time);
+//            MainPlayer.infoLog("update cumulative time: " + lastMix + ", " + lastMusic + ", " + MainPlayer.playTime.cumulate_time);
             MainPlayer.playTime.cumulate_time = 0;// 重置时间
 
-            // ui: 刷新累计时间
-            updateUI();
+            updateUI();// 新累计时间
         }
 
         if (mode == 1) {// 往后播放
@@ -287,7 +281,7 @@ public class PlayList {
         if (curMusicIndex < 0) {
             loadMix(curMix, null);
         } else {
-            MainPlayer.infoLog("change music " + curMusic + " [" + curMusicIndex  + "/" + curMixLen + "]");
+//            MainPlayer.infoLog("change music " + curMusic + " [" + curMusicIndex  + "/" + curMixLen + "]");
             if (MainPlayer.player.isPlaying()) {
                 is_playing = 1;
             } else if (is_complete == 1) {// TODO 自动播放下一首

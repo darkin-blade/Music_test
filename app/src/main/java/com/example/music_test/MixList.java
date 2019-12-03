@@ -78,6 +78,23 @@ public class MixList extends DialogFragment {
         button_new = myView.findViewById(R.id.button_3);
     }
 
+    public void updateUI() {
+        View view = getActivity().getWindow().getDecorView();
+
+        ArrayList<View> views = new ArrayList<View>();
+        if (view instanceof ViewGroup) {
+            ViewGroup vp = (ViewGroup) view;
+            for (int i = 0; i < vp.getChildCount(); i++) {
+                View child = vp.getChildAt(i);
+                views.add(child);
+                MainPlayer.infoLog("view child " + child.toString());
+            }
+        }
+
+
+        return;
+    }
+
     public void changeButton(int mode) {// mode: 0: 歌单, 1: 歌曲
         if (mode == 0) {
             button_back.setOnClickListener(new View.OnClickListener() {// 返回主界面
