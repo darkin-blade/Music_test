@@ -19,24 +19,12 @@ public class PlayTime {
         this.myActivity = activity;
     }
 
-    public int load() {// 放放之前进行加载
-        if (MainPlayer.playList.curMusicList == null || MainPlayer.playList.curMusicList.size() <= 0) {// TODO 异常处理
-            return -1;
-        }
-
-        total_time = MainPlayer.player.getDuration();
-        cur_time = 0;// TODO 多余
-        updateTime();
-
-        return 0;
-    }
-
-    public void play() {// 播放
+    public void play() {
         if (MainPlayer.player.isPlaying()) {
             MainPlayer.infoLog("still playing!");
         }
 
-        if (load() != 0) {// TODO 加载失败
+        if (MainPlayer.playList.curMusicList == null || MainPlayer.playList.curMusicList.size() <= 0) {// TODO 异常处理
             return;
         }
 
@@ -48,11 +36,12 @@ public class PlayTime {
             public void run() {
                 // 启动播放
                 MainPlayer.player.start();
+                total_time = MainPlayer.player.getDuration();
 
                 myActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        setBar();// 在播放之前就已经调整进度
+                        setBar();// TODO 在播放之前就已经调整进度
                     }
                 });
 
