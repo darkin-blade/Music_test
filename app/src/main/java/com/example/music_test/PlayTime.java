@@ -75,9 +75,10 @@ public class PlayTime {
         musicPlay.start();
     }
 
-    public void reset() {// TODO 切歌
+    public void reset() {// 切歌,将进度置0
         MainPlayer.player.reset();
-        MainPlayer.seekBar.setProgress(0);// TODO
+        MainPlayer.seekBar.setProgress(0);
+        cur_time = 0;// TODO
     }
 
     public void pause() {

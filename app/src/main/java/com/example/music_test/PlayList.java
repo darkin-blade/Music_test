@@ -183,15 +183,15 @@ public class PlayList {
 
     public int loadMusic() {// 加载音乐并更新ui
         try {
-            MainPlayer.playTime.reset();// 切歌
             MainPlayer.player.setDataSource(curMusic);
             MainPlayer.player.prepare();
 
             // TODO 更新ui
             MainPlayer.musicName.setText(curMix + "    " + curMusic.replaceAll(".*/+", ""));// 更新歌名
+
+            // 如果是切歌的话应当在loadMusic函数之前置0进度
             MainPlayer.playTime.updateTime();// 更新音乐时长
             MainPlayer.playTime.updateBar();// 更新seekBar
-
         } catch (IOException e) {// TODO prepare出错,强制删除音乐
             MainPlayer.infoLog("prepare failed: " + curMusic);
             MainPlayer.musicDelete(curMusic, curMix);
@@ -214,7 +214,7 @@ public class PlayList {
 
     public void stopMusic() {// TODO 异常处理
         MainPlayer.infoLog("force stop");
-        MainPlayer.playTime.reset();
+        MainPlayer.playTime.reset();// 进度置0
         MainPlayer.updateUI();
     }
 
@@ -257,6 +257,8 @@ public class PlayList {
                     is_playing = 1;
                 }
 
+                MainPlayer.playTime.reset();// TODO 切歌,进度置0
+
                 int result = loadMusic();// 加载但不播放
                 if (result != 0) {// TODO 加载失败
                     stopMusic();
@@ -267,7 +269,8 @@ public class PlayList {
                 if (is_playing == 1) {
                     MainPlayer.playTime.play();
                 }
-            } else {// TODO 歌曲不存在
+            } else {// TODO 歌曲不存在,删除并自动切换
+                MainPlayer.infoLog(curMusic + "not exists");
                 stopMusic();
                 return;
 //                MainPlayer.musicDelete(curMusic, curMix);// 从歌单中删除不存在的歌曲
