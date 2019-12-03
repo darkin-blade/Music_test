@@ -89,8 +89,9 @@ public class PlayList {
 
                     curMusicIndex = curMusicList.indexOf(curMusic);// 获取当前播放的音乐的索引 此步可能会重复 且如果没有播放音乐时该索引可能为负
                     MainPlayer.mainPlayerList.listMusic();// TODO 加载歌单
-                    MainPlayer.playTime.updateTime();// 更新音乐时长
-                    MainPlayer.playTime.updateBar();// 更新seekBar
+                    MainPlayer.playTime.updateTime();
+                    MainPlayer.playTime.updateBar();
+                    changeMusic(curMusic, 0);
                 }
                 MainPlayer.infoLog("[" + curMix + "][" + curMusicIndex + "/" + curMixLen + "][" + curMusic + "]["
                         + MainPlayer.playTime.cur_time + "][" + MainPlayer.playTime.total_time + "]");
@@ -127,7 +128,7 @@ public class PlayList {
         }
     }
 
-    public void loadList(String nextMix, String nextMusic) {// 加载专辑曲目,并播放特定歌曲
+    public void loadMix(String nextMix, String nextMusic) {// 加载专辑曲目,并播放特定歌曲
         if (nextMusic == null) {// 异常处理
             curMusic = curMusicList.get(0);
         } else {
@@ -180,6 +181,10 @@ public class PlayList {
         changeMusic(curMusic, 0);
     }
 
+    public void loadMusic() {// 加载音乐并更新ui
+        ;
+    }
+
     public void stopMusic() {// TODO 异常处理
         MainPlayer.infoLog("force stop");
         MainPlayer.playTime.reset();
@@ -217,22 +222,33 @@ public class PlayList {
 
             curMusicIndex = curMusicList.indexOf(curMusic);
             if (curMusicIndex < 0) {
-                loadList(curMix, null);
+                loadMix(curMix, null);
             } else {
                 MainPlayer.infoLog("try to play " + curMusic + " [" + curMusicIndex  + "/" + curMixLen + "]");
                 File tmp = new File(curMusic);
                 if (tmp.exists()) {// 如果文件存在
+                    int is_playing = 0;
+                    if (MainPlayer.player.isPlaying()) {
+                        is_playing = 1;
+                    }
                     MainPlayer.playTime.reset();// 切歌
                     MainPlayer.player.setDataSource(curMusic);
                     MainPlayer.player.prepare();
-                    // TODO 启动播放
+
+                    // TODO 更新ui
                     MainPlayer.musicName.setText(curMix + "    " + curMusic.replaceAll(".*/+", ""));// 更新歌名
-                    MainPlayer.playTime.play();
+                    MainPlayer.playTime.updateTime();// 更新音乐时长
+                    MainPlayer.playTime.updateBar();// 更新seekBar
+
+                    // 如果在播放时切歌,那么立即播放下一首,否则不进行播放
+                    if (is_playing == 1) {
+                        MainPlayer.playTime.play();
+                    }
                 } else {// TODO 歌曲不存在
                     stopMusic();
                     return;
 //                MainPlayer.musicDelete(curMusic, curMix);// 从歌单中删除不存在的歌曲
-//                loadList(curMix, null);// 重新加载歌单
+//                loadMix(curMix, null);// 重新加载歌单
 //                changeMusic(null, 3);
                 }
             }

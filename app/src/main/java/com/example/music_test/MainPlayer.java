@@ -359,7 +359,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
             case MAIN_EDIT:// dialog: 主界面歌曲编辑
                 mainPlayerList.listMusic();
                 window_num = MAIN_PALYER;// 返回主界面
-                playList.loadList(playList.curMix, playList.curMusic);
+                playList.loadMix(playList.curMix, playList.curMusic);
                 break;
             case MAIN_TO_MIX:// ui: 将主界面选择的歌曲添加到一个歌单里
                 window_num = MAIN_PALYER;// 返回主界面
