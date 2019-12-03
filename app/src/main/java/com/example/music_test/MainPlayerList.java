@@ -54,6 +54,32 @@ public class MainPlayerList {
         cursor.close();
     }
 
+    public void updateUI() {
+        LinearLayout layout = myView.findViewById(R.id.music_list);
+        int music_num = layout.getChildCount();
+
+        for (int i = 0; i < music_num; i++) {
+            try {
+                LinearLayout item = (LinearLayout) layout.getChildAt(i);
+                RelativeLayout contain = (RelativeLayout) item.getChildAt(0);
+                LinearLayout detail = (LinearLayout) contain.getChildAt(1);
+                TextView name = (TextView) detail.getChildAt(0);
+                TextView count = (TextView) detail.getChildAt(1);
+                if (i == MainPlayer.playList.curMusicIndex) {// 相同歌曲
+                    // TODO 必须保证相同歌单
+                    name.setTextColor(Color.rgb(230, 100, 60));
+                    count.setTextColor(Color.rgb(230, 100, 60));
+                } else {
+                    name.setTextColor(Color.rgb(0, 0, 0));
+                    count.setTextColor(Color.rgb(0, 0, 0));
+                }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+                break;
+            }
+        }
+    }
+
     // 列举歌单的参数
     public static final int
             box_width = 60,

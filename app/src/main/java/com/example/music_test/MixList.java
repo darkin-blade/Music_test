@@ -79,18 +79,31 @@ public class MixList extends DialogFragment {
     }
 
     public void updateUI() {
-        View view = getActivity().getWindow().getDecorView();
+        if (MainPlayer.playList.curMix.equals(curMix)) {// TODO 如果正在播放浏览的歌单, 肯能会重复判断
+            LinearLayout layout = myView.findViewById(R.id.mix_list);
+            int music_num = layout.getChildCount();
 
-        ArrayList<View> views = new ArrayList<View>();
-        if (view instanceof ViewGroup) {
-            ViewGroup vp = (ViewGroup) view;
-            for (int i = 0; i < vp.getChildCount(); i++) {
-                View child = vp.getChildAt(i);
-                views.add(child);
-                MainPlayer.infoLog("view child " + child.toString());
+            for (int i = 0; i < music_num; i++) {
+                try {
+                    LinearLayout item = (LinearLayout) layout.getChildAt(i);
+                    RelativeLayout contain = (RelativeLayout) item.getChildAt(0);
+                    LinearLayout detail = (LinearLayout) contain.getChildAt(1);
+                    TextView name = (TextView) detail.getChildAt(0);
+                    TextView count = (TextView) detail.getChildAt(1);
+                    if (i == MainPlayer.playList.curMusicIndex) {// 相同歌曲
+                        // TODO 必须保证相同歌单
+                        name.setTextColor(Color.rgb(230, 100, 60));
+                        count.setTextColor(Color.rgb(230, 100, 60));
+                    } else {
+                        name.setTextColor(Color.rgb(0, 0, 0));
+                        count.setTextColor(Color.rgb(0, 0, 0));
+                    }
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                    break;
+                }
             }
         }
-
 
         return;
     }
@@ -211,6 +224,8 @@ public class MixList extends DialogFragment {
         }
         cursor.close();
 
+        updateUI();
+
         changeButton(1);
     }
 
@@ -312,7 +327,6 @@ public class MixList extends DialogFragment {
             item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MainPlayer.infoLog("mix list play music");
                     MainPlayer.playList.loadMix(curMix, item_detail[2]);// TODO 加载专辑曲目并播放歌曲
                 }
             });

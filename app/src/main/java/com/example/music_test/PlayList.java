@@ -100,6 +100,7 @@ public class PlayList {
                     curMusicIndex = curMusicList.indexOf(curMusic);// 获取当前播放的音乐的索引 此步可能会重复 且如果没有播放音乐时该索引可能为负
                     MainPlayer.mainPlayerList.listMusic();// TODO 加载歌单
                     loadMusic();
+                    updateUI();// 高亮正在播放的歌曲
                 }
             } else {
                 MainPlayer.infoLog("cannot find user data");
@@ -225,6 +226,7 @@ public class PlayList {
         switch (MainPlayer.window_num) {
             case MainPlayer.MAIN_PALYER:
                 MainPlayer.mainPlayerList.listMusic();
+                MainPlayer.mainPlayerList.updateUI();
                 break;
             case MainPlayer.MIX_LIST:
                 if (MainPlayer.mixList.curMix == curMix) {// 如果正在浏览当前歌单
