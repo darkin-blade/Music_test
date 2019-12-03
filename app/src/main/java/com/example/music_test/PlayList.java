@@ -22,6 +22,9 @@ public class PlayList {
     int curMixLen;
     Context myContext;
 
+    int is_playing;
+    public int is_complete;// TODO 切歌时继续下一首
+
     static public final int CIRCULATE = 0,// 顺序播放
             RANDOM = 1,// 随机
             SINGLE = 2,// 单曲循环
@@ -36,6 +39,9 @@ public class PlayList {
     }
 
     public void initData() {
+        is_playing = 0;
+        is_complete = 0;
+
         curMix = "";
         curMusic = "";
         curMusicList = new ArrayList<String>();
@@ -260,9 +266,11 @@ public class PlayList {
             loadMix(curMix, null);
         } else {
             MainPlayer.infoLog("change music " + curMusic + " [" + curMusicIndex  + "/" + curMixLen + "]");
-            int is_playing = 0;
             if (MainPlayer.player.isPlaying()) {
                 is_playing = 1;
+            } else if (is_complete == 1) {// TODO 自动播放下一首
+                is_playing = 1;
+                is_complete = 0;
             }
 
             MainPlayer.playTime.reset();// TODO 切歌,进度置0

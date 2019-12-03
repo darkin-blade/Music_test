@@ -121,6 +121,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
             @Override
             public void onCompletion(MediaPlayer mp) {
                 infoLog("TODO: complete");
+                playList.is_complete = 1;
                 playList.changeMusic(null, 1);
             }
         });
@@ -148,9 +149,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {// 停止拖动
-//                if (player.isPlaying()) {// 在播放时才有效
                 playTime.setBar();// TODO 调整player进度
-//                }
             }
         });
     }
