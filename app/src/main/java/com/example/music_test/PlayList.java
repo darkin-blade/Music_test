@@ -167,10 +167,10 @@ public class PlayList {
         }
         cursor.close();
 
-        // TODO ui: 刷新播放次数
-        MainPlayer.mainPlayerList.listMusic();
-
         curMusicIndex = curMusicList.indexOf(curMusic);// 获取当前播放的音乐的索引 此步可能会重复 TODO 且如果没有播放音乐时该索引可能为负
+
+        // TODO ui: 刷新播放次数
+        MainPlayer.mainPlayerList.listMusic();// 要放在获取index之后,否则会在updateUI数组越界
 
 //        MainPlayer.infoLog("load " + curMix + ", " + curMusic + ", " + curMusicIndex);
 
@@ -224,15 +224,13 @@ public class PlayList {
 
     public void updateUI() {// 当歌单发生变化时更新ui
         switch (MainPlayer.window_num) {
-            case MainPlayer.MAIN_PALYER:
-                MainPlayer.mainPlayerList.listMusic();
-                MainPlayer.mainPlayerList.updateUI();
-                break;
             case MainPlayer.MIX_LIST:
                 if (MainPlayer.mixList.curMix == curMix) {// 如果正在浏览当前歌单
                     MainPlayer.mixList.listMusic(curMix);
-                    MainPlayer.mixList.updateUI();
                 }
+                break;
+            case MainPlayer.MAIN_PALYER:
+                MainPlayer.mainPlayerList.listMusic();
                 break;
         }
     }

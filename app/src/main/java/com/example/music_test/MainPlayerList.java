@@ -52,6 +52,8 @@ public class MainPlayerList {
             MainPlayer.infoToast(myContext, "no music");
         }
         cursor.close();
+
+        updateUI();
     }
 
     public void updateUI() {
