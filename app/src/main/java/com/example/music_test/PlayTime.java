@@ -90,6 +90,11 @@ public class PlayTime {
     public void updateTime() {// 刷新时间
         SimpleDateFormat format = new SimpleDateFormat("mm:ss");
 
+        if ((cur_time - 1) * 2 < total_time && cur_time * 2 > total_time) {// TODO 统计播放次数
+            MainPlayer.cmd("update " + MainPlayer.playList.curMix + " set count = count + 1\n" +
+                    "  where path = '" + MainPlayer.playList.curMusic + "';");
+        }
+
         // 设置当前进度
         Date tmp = new Date(cur_time);
         String formatTime = format.format(tmp);

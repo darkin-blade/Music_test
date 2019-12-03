@@ -160,7 +160,7 @@ public class PlayList {
         }
         cursor.close();
 
-        MainPlayer.mainPlayerList.listMusic();
+        MainPlayer.mainPlayerList.listMusic();// TODO 刷新播放次数
 
         curMusicIndex = curMusicList.indexOf(curMusic);// 获取当前播放的音乐的索引 此步可能会重复 且如果没有播放音乐时该索引可能为负
 
