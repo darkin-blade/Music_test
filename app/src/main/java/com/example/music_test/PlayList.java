@@ -86,7 +86,6 @@ public class PlayList {
                             String music_name = cursor.getString(0);// 获取歌名
                             curMusicList.add(music_name);
                             curMixLen ++;
-                            MainPlayer.infoLog("add to play list: " + music_name);
                         } while (cursor.moveToNext());
                     } else {
                         ;// TODO 出现异常
@@ -133,12 +132,23 @@ public class PlayList {
     }
 
     public void loadMix(String nextMix, String nextMusic) {// 加载专辑曲目,并播放特定歌曲
+        String tmpMix = curMix;// 记录之前正在播放的歌单
+        String tmpMusic = curMusic;// 记录之前正在播放的音乐
+
+        if (curMix == nextMix && curMusic == nextMusic) {
+            ;
+        } else {
+            // 累计播放时间
+            MainPlayer.cmd("update " + curMix + " set count = count + " + MainPlayer.playTime.cumulate_time + " where path = '" + curMusic + "';");
+            MainPlayer.infoLog("update cumulative time: " + curMix + ", " + curMusic + ", " + MainPlayer.playTime.cumulate_time);
+            MainPlayer.playTime.cumulate_time = 0;// 重置时间
+        }
+
         if (nextMusic == null) {// 异常处理
             curMusic = curMusicList.get(0);
         } else {
-//            curMusic = nextMusic;// 在之后会判重
+            curMusic = nextMusic;// 在之后会判重
         }
-
         curMix = nextMix;
 
         // 清空
@@ -159,27 +169,19 @@ public class PlayList {
                 String music_name = cursor.getString(0);// 获取歌名
                 curMusicList.add(music_name);
                 curMixLen ++;
-                MainPlayer.infoLog("add to play list: " + music_name);
             } while (cursor.moveToNext());
         } else {
             stopMusic();
         }
         cursor.close();
 
-        MainPlayer.mainPlayerList.listMusic();// TODO 刷新播放次数
+        MainPlayer.mainPlayerList.listMusic();// TODO ui: 刷新播放次数
+        curMusicIndex = curMusicList.indexOf(curMusic);// 获取当前播放的音乐的索引 此步可能会重复 TODO 且如果没有播放音乐时该索引可能为负
 
-        curMusicIndex = curMusicList.indexOf(curMusic);// 获取当前播放的音乐的索引 此步可能会重复 且如果没有播放音乐时该索引可能为负
-
-        if (curMusic == nextMusic && curMix == nextMix) {// TODO 歌单仍然有效
-            if (curMusicIndex >= 0 && MainPlayer.player.isPlaying()) {
+        if (tmpMusic == nextMusic && tmpMix == nextMix) {// TODO 歌单仍然有效
+            if (curMusicIndex >= 0) {
                 return;
             }
-        }
-
-        if (nextMusic != null) {
-            curMusic = nextMusic;
-        } else {// 重新播放
-            ;
         }
 
         changeMusic(curMusic, 0);
@@ -235,13 +237,13 @@ public class PlayList {
     }
 
     public void changeMusic(String nextMusic, int mode) {
-        MainPlayer.infoLog("change to " + nextMusic);
         // mode: 0: 指定跳转, 1: 向后跳转, 2: 向前跳转, 3: 重新播放 TODO
         // TODO 播放模式
         if (curMusicList == null || curMusicList.size() <= 0) {
             stopMusic();
             return;
         }
+
         if (mode == 1) {// 往后播放
             curMusic = curMusicList.get((curMusicIndex + 1) % curMixLen);
         } else if (mode == 2) {// 往前播放

@@ -9,10 +9,11 @@ import java.util.Date;
 public class PlayTime {
     public Context myContext = null;
     public Activity myActivity = null;
-    public Thread musicPlay;
+    public static Thread musicPlay;
 
     public int total_time = 0;
     public int cur_time = 0;
+    public int cumulate_time = 0;
 
     public PlayTime(Context context, Activity activity) {
         this.myContext = context;
@@ -31,6 +32,9 @@ public class PlayTime {
         MainPlayer.button_play.setBackgroundResource(R.drawable.player_pause);
 
         // 初始化音乐播放
+        if (musicPlay != null && musicPlay.isAlive()) {
+            musicPlay.interrupt();
+        }
         musicPlay = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -57,13 +61,16 @@ public class PlayTime {
 
                         // 每一秒更新一次
                         Thread.sleep(1000);
+
+                        cumulate_time ++;// TODO 累计播放时间
+                        MainPlayer.infoLog("update time: " + cumulate_time);
                     } catch (InterruptedException e) {
                         MainPlayer.infoLog("pause music");
                         e.printStackTrace();
                     }
 
                     if (MainPlayer.player.isPlaying() == false) {// TODO 多余
-                        Thread.currentThread().interrupt();// 暂停
+                        musicPlay.interrupt();// 暂停
                     }
                 }
             }
@@ -86,17 +93,6 @@ public class PlayTime {
 
     public void updateTime() {// 刷新时间
         SimpleDateFormat format = new SimpleDateFormat("mm:ss");
-
-        MainPlayer.infoLog("cur time [" + cur_time + ", " + total_time + "]");
-        if ((cur_time - 1000) * 2 < total_time && cur_time * 2 > total_time) {// TODO 统计播放次数
-            int result = MainPlayer.cmd("update " + MainPlayer.playList.curMix + " set count = count + 1\n" +
-                    "  where path = '" + MainPlayer.playList.curMusic + "';");
-            if (result == 0) {
-                MainPlayer.infoLog(MainPlayer.playList.curMusic + " count ++");
-            } else {
-                MainPlayer.infoLog("count failed");
-            }
-        }
 
         // 设置当前进度
         Date tmp = new Date(cur_time);

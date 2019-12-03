@@ -128,7 +128,7 @@ public class MainPlayerList {
             @Override
             public void onClick(View v) {
                 // TODO 播放歌曲
-                MainPlayer.playList.changeMusic(item_detail[2], 0);
+                MainPlayer.playList.loadMix(MainPlayer.playList.curMix, item_detail[2]);
             }
         });
 
