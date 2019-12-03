@@ -186,6 +186,9 @@ public class PlayList {
             MainPlayer.player.setDataSource(curMusic);
             MainPlayer.player.prepare();
 
+            // TODO 获取音乐总时长
+            MainPlayer.playTime.total_time = MainPlayer.player.getDuration();
+
             // TODO 更新ui
             MainPlayer.musicName.setText(curMix + "    " + curMusic.replaceAll(".*/+", ""));// 更新歌名
 
