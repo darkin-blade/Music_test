@@ -207,13 +207,9 @@ public class PlayList {
             } catch (IOException e) {// TODO prepare出错,强制删除音乐
                 MainPlayer.infoLog("prepare failed: " + curMusic);
                 MainPlayer.musicDelete(curMusic, curMix);
-                if (MainPlayer.window_num == MainPlayer.MAIN_PALYER) {// 留在主界面
-                    MainPlayer.mainPlayerList.listMusic();// 刷新歌单
-                } else if (MainPlayer.window_num == MainPlayer.MIX_LIST) {// 歌单界面
-                    if (MainPlayer.mixList.curMix == curMix) {// TODO 删除的歌曲在目前正在浏览的歌单里
-                        MainPlayer.mixList.listMusic(curMix);
-                    }
-                }
+
+                updateUI();
+
                 e.printStackTrace();
                 return -1;
             } catch (IllegalStateException e) {// TODO
@@ -229,6 +225,19 @@ public class PlayList {
         }
 
         return 0;
+    }
+
+    public void updateUI() {// 当歌单发生变化时更新ui
+        switch (MainPlayer.window_num) {
+            case MainPlayer.MAIN_PALYER:
+                MainPlayer.mainPlayerList.listMusic();
+                break;
+            case MainPlayer.MIX_LIST:
+                if (MainPlayer.mixList.curMix == curMix) {// 如果正在浏览当前歌单
+                    MainPlayer.mixList.listMusic(curMix);
+                }
+                break;
+        }
     }
 
     public void stopMusic() {// TODO 异常处理
@@ -250,17 +259,9 @@ public class PlayList {
             MainPlayer.cmd("update " + lastMix + " set count = count + " + MainPlayer.playTime.cumulate_time + " where path = '" + lastMusic + "';");
             MainPlayer.infoLog("update cumulative time: " + lastMix + ", " + lastMusic + ", " + MainPlayer.playTime.cumulate_time);
             MainPlayer.playTime.cumulate_time = 0;// 重置时间
+
             // ui: 刷新累计时间
-            switch (MainPlayer.window_num) {
-                case MainPlayer.MAIN_PALYER:
-                    MainPlayer.mainPlayerList.listMusic();
-                    break;
-                case MainPlayer.MIX_LIST:
-                    if (MainPlayer.mixList.curMix == curMix) {// 如果正在浏览当前歌单
-                        MainPlayer.mixList.listMusic(curMix);
-                    }
-                    break;
-            }
+            updateUI();
         }
 
         if (mode == 1) {// 往后播放
