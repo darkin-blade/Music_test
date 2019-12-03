@@ -36,6 +36,8 @@ public class PlayList {
     }
 
     public void initData() {
+        curMix = "";
+        curMusic = "";
         curMusicList = new ArrayList<String>();
         recover();// 恢复数据
     }
@@ -87,6 +89,7 @@ public class PlayList {
 
                     curMusicIndex = curMusicList.indexOf(curMusic);// 获取当前播放的音乐的索引 此步可能会重复 且如果没有播放音乐时该索引可能为负
                     MainPlayer.mainPlayerList.listMusic();// TODO 加载歌单
+                    MainPlayer.playTime.updateTime();// 更新音乐时长
                     MainPlayer.playTime.updateBar();// 更新seekBar
                 }
                 MainPlayer.infoLog("[" + curMix + "][" + curMusicIndex + "/" + curMixLen + "][" + curMusic + "]["
@@ -111,6 +114,7 @@ public class PlayList {
                 "  cur_time int default 0,\n" +
                 "  total_time int default 0\n" +
                 ");");// 用户数据存储
+
         int result = MainPlayer.cmd("insert into user_data (cur_mix, cur_music, play_mode, cur_time, total_time)\n" +
                 "  values ('" + curMix + "', '" + curMusic + "', " + playMode + ", "
                 + MainPlayer.playTime.cur_time +", " + MainPlayer.playTime.total_time +");");
@@ -218,9 +222,9 @@ public class PlayList {
                 MainPlayer.infoLog("try to play " + curMusic + " [" + curMusicIndex  + "/" + curMixLen + "]");
                 File tmp = new File(curMusic);
                 if (tmp.exists()) {// 如果文件存在
-                    MainPlayer.playTime.reset();// TODO 切歌
-                    MainPlayer.player.setDataSource(curMusic);// TODO 异常
-                    MainPlayer.player.prepare();// TODO 异常
+                    MainPlayer.playTime.reset();// 切歌
+                    MainPlayer.player.setDataSource(curMusic);
+                    MainPlayer.player.prepare();
                     // TODO 启动播放
                     MainPlayer.musicName.setText(curMix + "    " + curMusic.replaceAll(".*/+", ""));// 更新歌名
                     MainPlayer.playTime.play();
