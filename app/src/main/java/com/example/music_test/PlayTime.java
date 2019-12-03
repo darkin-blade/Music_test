@@ -38,30 +38,30 @@ public class PlayTime {
                 MainPlayer.player.start();
                 total_time = MainPlayer.player.getDuration();
 
-                myActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        setBar();// TODO 在播放之前就已经调整进度
-                    }
-                });
+                // 在播放之前就已经调整进度
+                // player的进度调整不能够有延迟
+                setBar();
 
                 // 更新音乐进度
                 while (Thread.currentThread().isInterrupted() == false) {
                     try {
+                        MainPlayer.infoLog("cur time [" + cur_time + ", " + total_time + "]");
                         cur_time = MainPlayer.player.getCurrentPosition();// 当前进度
 
-                        myActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                updateBar();// TODO 修改进度条
-                                updateTime();// TODO 修改当前进度
-                            }
-                        });
+                        if (MainPlayer.player.isPlaying()) {// TODO 启动播放后
+                            myActivity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    updateBar();// 修改进度条
+                                    updateTime();// 修改当前进度
+                                }
+                            });
+                        }
 
                         // 每一秒更新一次
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
-                        MainPlayer.infoLog("pause");
+                        MainPlayer.infoLog("pause music");
                         e.printStackTrace();
                     }
 
@@ -111,6 +111,12 @@ public class PlayTime {
         int maxProgress = MainPlayer.seekBar.getMax();
 
         MainPlayer.player.seekTo(curProgress * total_time / maxProgress);// TODO 调整时间
-        updateTime();// TODO
+
+        myActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                updateTime();// TODO
+            }
+        });
     }
 }
