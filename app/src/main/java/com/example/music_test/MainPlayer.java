@@ -405,6 +405,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
                 break;
             case MIX_LIST:// ui: 歌单界面
                 window_num = MAIN_PALYER;// 返回主界面
+                mainPlayerList.listMusic();// 刷新歌曲
                 break;
         }
     }
