@@ -17,6 +17,8 @@ public class PlayList {
     // 总时长
     // seekBar
 
+    String lastMix;
+    String lastMusic;
     ArrayList<String> curMusicList;// 当前歌单的所有歌曲
     int curMusicIndex;
     int curMixLen;
@@ -132,8 +134,9 @@ public class PlayList {
     }
 
     public void loadMix(String nextMix, String nextMusic) {// 加载专辑曲目,并播放特定歌曲
-        String tmpMix = curMix;// 记录之前正在播放的歌单
-        String tmpMusic = curMusic;// 记录之前正在播放的音乐
+        lastMix = curMix;// 记录之前正在播放的歌单
+        lastMusic = curMusic;// 记录之前正在播放的音乐
+        MainPlayer.infoLog("last play: " + lastMix + ", " + lastMusic);
 
         if (nextMusic == null) {// 异常处理
             curMusic = curMusicList.get(0);
@@ -173,16 +176,11 @@ public class PlayList {
 
         MainPlayer.infoLog("load " + curMix + ", " + curMusic + ", " + curMusicIndex);
 
-        if (tmpMusic.equals(nextMusic) && tmpMix.equals(nextMix)) {// TODO 歌单仍然有效
+        if (lastMusic.equals(nextMusic) && lastMix.equals(nextMix)) {// TODO 歌单仍然有效
             if (curMusicIndex >= 0) {
                 return;
             }
         }
-
-        // 累计播放时间
-        MainPlayer.cmd("update " + tmpMix + " set count = count + " + MainPlayer.playTime.cumulate_time + " where path = '" + tmpMusic + "';");
-        MainPlayer.infoLog("update cumulative time: " + tmpMix + ", " + tmpMusic + ", " + MainPlayer.playTime.cumulate_time);
-        MainPlayer.playTime.cumulate_time = 0;// 重置时间
 
         changeMusic(curMusic, 0);
     }
@@ -244,6 +242,24 @@ public class PlayList {
             return;
         }
 
+        // TODO 累计播放时间
+        if (lastMix != null && lastMusic != null) {
+            MainPlayer.cmd("update " + lastMix + " set count = count + " + MainPlayer.playTime.cumulate_time + " where path = '" + lastMusic + "';");
+            MainPlayer.infoLog("update cumulative time: " + lastMix + ", " + lastMusic + ", " + MainPlayer.playTime.cumulate_time);
+            MainPlayer.playTime.cumulate_time = 0;// 重置时间
+            // ui: 刷新累计时间
+            switch (MainPlayer.window_num) {
+                case MainPlayer.MAIN_PALYER:
+                    MainPlayer.mainPlayerList.listMusic();
+                    break;
+                case MainPlayer.MIX_LIST:
+                    if (MainPlayer.mixList.curMix == curMix) {// 如果正在浏览当前歌单
+                        MainPlayer.mixList.listMusic(curMix);
+                    }
+                    break;
+            }
+        }
+
         if (mode == 1) {// 往后播放
             curMusic = curMusicList.get((curMusicIndex + 1) % curMixLen);
         } else if (mode == 2) {// 往前播放
@@ -274,7 +290,7 @@ public class PlayList {
                 is_playing = 1;
                 is_complete = 0;
             } else {
-                is_playing = 0;
+                is_playing = 1;// 1: 取消暂停时的播放
             }
 
             MainPlayer.playTime.reset();// TODO 切歌,进度置0

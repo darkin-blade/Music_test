@@ -64,7 +64,7 @@ public class PlayTime {
                         Thread.sleep(1000);
 
                         cumulate_time ++;// TODO 累计播放时间
-                        MainPlayer.infoLog("update time[" + Thread.currentThread().toString() + "]: " + cumulate_time);
+//                        MainPlayer.infoLog("update time[" + Thread.currentThread().toString() + "]: " + cumulate_time);
                     } catch (InterruptedException e) {
                         MainPlayer.infoLog("pause music");
                         e.printStackTrace();

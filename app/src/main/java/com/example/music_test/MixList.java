@@ -127,6 +127,7 @@ public class MixList extends DialogFragment {
 
     public void listMix() {
         // 清空
+        curMix = null;
         musicSelected.clear();
         LinearLayout layout = myView.findViewById(R.id.mix_list);
         layout.removeAllViews();

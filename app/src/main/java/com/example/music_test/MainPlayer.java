@@ -121,7 +121,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
             @Override
             public void onCompletion(MediaPlayer mp) {
                 infoLog("TODO: complete");
-                playList.is_complete = 1;
+                playList.is_complete = 1;// TODO
                 playList.changeMusic(null, 1);
             }
         });
