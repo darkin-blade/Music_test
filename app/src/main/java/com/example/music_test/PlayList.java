@@ -2,6 +2,7 @@ package com.example.music_test;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,58 +41,65 @@ public class PlayList {
     }
 
     public void recover() {// 每次启动app时进行数据恢复
-        Cursor cursor = MainPlayer.database.query(
-                "user_data",
-                new String[] {"cur_mix", "cur_music", "play_mode"},
-                null,
-                null,
-                null,
-                null,
-                "cur_music");// 没用
-
-        MainPlayer.infoLog("cursor size: " + cursor.getCount());
-        if (cursor.moveToFirst()) {// 有之前的应用数据
-            // 恢复数据
-            curMix = cursor.getString(0);
-            curMusic = cursor.getString(1);
-            playMode = cursor.getInt(2);
-            cursor.close();
-
-            // 获取
-
-            // 手动加载歌单
-            if (curMix.length() > 0 && curMusic.length() > 0) {// 有效数据
-                curMusicList.clear();
-                curMixLen = 0;
-
-                cursor = MainPlayer.database.query(
-                        curMix,// 当前歌单
-                        new String[]{"path", "name", "count"},
-                        null,
-                        null,
-                        null,
-                        null,
-                        "name");
-
-                if (cursor.moveToFirst()) {// 歌单非空
-                    do {
-                        String music_name = cursor.getString(0);// 获取歌名
-                        curMusicList.add(music_name);
-                        curMixLen ++;
-                        MainPlayer.infoLog("add to play list: " + music_name);
-                    } while (cursor.moveToNext());
-                } else {
-                    ;// TODO
-                }
+        try {
+            Cursor cursor = MainPlayer.database.query(
+                    "user_data",
+                    new String[] {"cur_mix", "cur_music", "play_mode", "cur_time", "total_time"},
+                    null,
+                    null,
+                    null,
+                    null,
+                    "cur_music");// 没用
+            if (cursor.moveToFirst()) {// 有之前的应用数据
+                // 恢复数据
+                curMix = cursor.getString(0);
+                curMusic = cursor.getString(1);
+                playMode = cursor.getInt(2);
+                MainPlayer.playTime.cur_time = cursor.getInt(3);
+                MainPlayer.playTime.total_time = cursor.getInt(4);
                 cursor.close();
 
-                MainPlayer.mainPlayerList.listMusic();
-                curMusicIndex = curMusicList.indexOf(curMusic);// 获取当前播放的音乐的索引 此步可能会重复 且如果没有播放音乐时该索引可能为负
+                // 手动加载歌单
+                if (curMix.length() > 0 && curMusic.length() > 0) {// 有效数据
+                    curMusicList.clear();
+                    curMixLen = 0;
+
+                    cursor = MainPlayer.database.query(
+                            curMix,// 当前歌单
+                            new String[]{"path", "name", "count"},
+                            null,
+                            null,
+                            null,
+                            null,
+                            "name");
+
+                    if (cursor.moveToFirst()) {// 歌单非空
+                        do {
+                            String music_name = cursor.getString(0);// 获取歌名
+                            curMusicList.add(music_name);
+                            curMixLen ++;
+                            MainPlayer.infoLog("add to play list: " + music_name);
+                        } while (cursor.moveToNext());
+                    } else {
+                        ;// TODO 出现异常
+                    }
+                    cursor.close();
+
+                    curMusicIndex = curMusicList.indexOf(curMusic);// 获取当前播放的音乐的索引 此步可能会重复 且如果没有播放音乐时该索引可能为负
+                    MainPlayer.mainPlayerList.listMusic();// TODO 加载歌单
+                    MainPlayer.playTime.updateBar();// 更新seekBar
+                }
+                MainPlayer.infoLog("[" + curMix + "][" + curMusicIndex + "/" + curMixLen + "][" + curMusic + "]["
+                        + MainPlayer.playTime.cur_time + "][" + MainPlayer.playTime.total_time + "]");
+            } else {
+                MainPlayer.infoLog("cannot find user data");
             }
-            MainPlayer.infoLog("[" + curMix + "][" + curMusicIndex + "/" + curMixLen + "][" + curMusic + "]");
-        } else {
-            MainPlayer.infoLog("cannot find user data");
+        } catch (SQLException e) {// TODO 用于更新user_data
+            e.printStackTrace();
+            MainPlayer.infoLog("cannot find table");
+            return;
         }
+
     }
 
     public void save() {// TODO 保存应用数据到数据库
@@ -99,10 +107,17 @@ public class PlayList {
         MainPlayer.cmd("create table if not exists user_data (\n" +
                 "  cur_mix varchar(32) default \"\",\n" +
                 "  cur_music varchar(128) default \"\",\n" +
-                "  play_mode int default 0\n" +
+                "  play_mode int default 0,\n" +
+                "  cur_time int default 0,\n" +
+                "  total_time int default 0\n" +
                 ");");// 用户数据存储
-        int result = MainPlayer.cmd("insert into user_data (cur_mix, cur_music, play_mode)\n" +
-                "  values ('" + curMix + "', '" + curMusic + "', " + playMode + ");");
+        int result = MainPlayer.cmd("insert into user_data (cur_mix, cur_music, play_mode, cur_time, total_time)\n" +
+                "  values ('" + curMix + "', '" + curMusic + "', " + playMode + ", "
+                + MainPlayer.playTime.cur_time +", " + MainPlayer.playTime.total_time +");");
+
+        MainPlayer.infoLog("[" + curMix + "][" + curMusicIndex + "/" + curMixLen + "][" + curMusic + "]["
+                + MainPlayer.playTime.cur_time + "][" + MainPlayer.playTime.total_time + "]");
+
         if (result == 0) {
             MainPlayer.infoLog("save user data succeed");
         }
