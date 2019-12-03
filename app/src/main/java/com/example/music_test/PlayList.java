@@ -55,14 +55,24 @@ public class PlayList {
             curMix = cursor.getString(0);
             curMusic = cursor.getString(1);
             playMode = cursor.getInt(2);
-            MainPlayer.mainPlayerList.listMusic();// 恢复歌单
+            loadList(curMix, curMusic);// 恢复歌单
+            stopMusic();// TODO
+            MainPlayer.infoLog("[" + curMix + "][" + curMusicIndex + "/" + curMixLen + "][" + curMusic + "]");
+        } else {
+            MainPlayer.infoLog("cannot find user data");
         }
+        cursor.close();
     }
 
     public void save() {// TODO 保存应用数据到数据库
-        MainPlayer.cmd("delete from user_data;\n" +
+        int result = MainPlayer.cmd("delete from user_data;\n" +
                 "insert into user_data (cur_mix, cur_music, play_mode)\n" +
                 "  values ('" + curMix + "', '" + curMusic + "', " + playMode + ");");
+        if (result == 0) {
+            MainPlayer.infoLog("save user data succeed");
+        }
+
+        recover();// TODO debug
     }
 
     public void loadList(String nextMix, String nextMusic) {// 加载专辑曲目,并播放特定歌曲
@@ -101,9 +111,8 @@ public class PlayList {
 
         MainPlayer.mainPlayerList.listMusic();
 
-        curMusicIndex = curMusicList.indexOf(curMusic);// 获取当前播放的音乐的索引 此步可能会重复
+        curMusicIndex = curMusicList.indexOf(curMusic);// 获取当前播放的音乐的索引 此步可能会重复 且如果没有播放音乐时该索引可能为负
 
-        MainPlayer.infoLog("[" + curMix + "][" + curMusicIndex + "/" + curMixLen + "][" + curMusic + "]");
         if (curMusic == nextMusic && curMix == nextMix) {// TODO 歌单仍然有效
             if (curMusicIndex >= 0 && MainPlayer.player.isPlaying()) {
                 return;
@@ -120,7 +129,7 @@ public class PlayList {
     }
 
     public void stopMusic() {// TODO 异常处理
-        MainPlayer.infoLog("player error");
+        MainPlayer.infoLog("force stop");
         MainPlayer.playTime.reset();
         MainPlayer.updateUI();
     }

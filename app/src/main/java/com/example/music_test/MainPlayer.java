@@ -330,6 +330,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
     @Override
     public void onPause() {
         infoLog("on pause");
+        playList.save();
         super.onPause();
     }
 
