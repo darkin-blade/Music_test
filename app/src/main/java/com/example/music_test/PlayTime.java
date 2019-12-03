@@ -45,7 +45,6 @@ public class PlayTime {
                 // 更新音乐进度
                 while (Thread.currentThread().isInterrupted() == false) {
                     try {
-                        MainPlayer.infoLog("cur time [" + cur_time + ", " + total_time + "]");
                         cur_time = MainPlayer.player.getCurrentPosition();// 当前进度
 
                         myActivity.runOnUiThread(new Runnable() {
@@ -88,9 +87,15 @@ public class PlayTime {
     public void updateTime() {// 刷新时间
         SimpleDateFormat format = new SimpleDateFormat("mm:ss");
 
-        if ((cur_time - 1) * 2 < total_time && cur_time * 2 > total_time) {// TODO 统计播放次数
-            MainPlayer.cmd("update " + MainPlayer.playList.curMix + " set count = count + 1\n" +
+        MainPlayer.infoLog("cur time [" + cur_time + ", " + total_time + "]");
+        if ((cur_time - 1000) * 2 < total_time && cur_time * 2 > total_time) {// TODO 统计播放次数
+            int result = MainPlayer.cmd("update " + MainPlayer.playList.curMix + " set count = count + 1\n" +
                     "  where path = '" + MainPlayer.playList.curMusic + "';");
+            if (result == 0) {
+                MainPlayer.infoLog(MainPlayer.playList.curMusic + " count ++");
+            } else {
+                MainPlayer.infoLog("count failed");
+            }
         }
 
         // 设置当前进度
