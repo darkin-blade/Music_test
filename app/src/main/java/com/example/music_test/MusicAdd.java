@@ -125,10 +125,9 @@ public class MusicAdd extends FileManager {
         loadIcon();
     }
 
-    public int item_padding = 40;
+    public int item_height = 130;
     public int type_padding = 20;
     public int name_padding = 30;
-    public int name_margin = 10;
     public int box_width = 60;
     public int icon_height = 90;
     public int box_top = 35;
@@ -141,11 +140,8 @@ public class MusicAdd extends FileManager {
             @Override
             public void run() {
                 for (int i = 0; i < musicLayouts.size(); i ++) {// 逐个异步加载图片
-                    // 生成缩略图 TODO 判断是否为音乐
-//                    final Bitmap bitmap = iconManager.LoadThumb(musicPaths.get(i), 60, 60);// TODO 大小
-//                    if (bitmap == null) {// 不是图片 TODO
-//                        continue;
-//                    }
+                    // 生成缩略图
+                    // TODO 判断是否为音乐
 
                     // TODO 是音乐
 
@@ -171,8 +167,6 @@ public class MusicAdd extends FileManager {
                         @Override
                         public void run() {
                             // TODO 动态生成缩略图
-//                            icon.setImageBitmap(bitmap);
-//                            icon.setBackgroundResource(R.color.transparent);
 
                             // 复选功能
                             // 点击外部
@@ -244,7 +238,7 @@ public class MusicAdd extends FileManager {
         if (itemType == 0) {// 文件
             icon.setBackgroundResource(R.drawable.item_file);
 
-            // 记录所有需要加载的文件
+            // TODO 记录所有需要加载的文件
             musicLayouts.add(item);// 记录ui
             musicPaths.add(itemPath + "/" + itemName);// 记录路径
         } else {// 文件夹

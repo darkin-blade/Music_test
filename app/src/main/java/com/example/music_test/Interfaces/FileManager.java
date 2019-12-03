@@ -11,12 +11,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 public class FileManager extends DialogFragment {
-    // TODO 删掉这些没用的
-    public int item_height = 130;
-    public int item_padding = 40;
-    public int type_padding = 20;
-    public int name_padding = 30;
-    public int name_margin = 10;
 
     @Override
     public void show(FragmentManager fragmentManager, String tag) {

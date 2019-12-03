@@ -140,6 +140,8 @@ public class PlayList {
                 }
             }
         } catch (IOException e) {
+            MainPlayer.infoLog("prepare failed: " + curMusic);
+            MainPlayer.musicDelete(curMusic, curMix);
             e.printStackTrace();
         } catch (IllegalStateException e) {// TODO
             e.printStackTrace();

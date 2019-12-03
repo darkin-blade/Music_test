@@ -4,17 +4,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.provider.MediaStore;
 
 import com.example.music_test.MainPlayer;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.function.BiFunction;
 
 public class IconManager {
     public Context myContext;
