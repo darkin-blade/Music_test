@@ -19,6 +19,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,12 +29,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MainPlayer extends AppCompatActivity implements DialogInterface.OnDismissListener {
+    // 公共变量
     static public String appPath;
+    static public SQLiteDatabase database;// 数据库
+
+    // layout 部件
     static public MediaPlayer player;// 媒体播放器
     static public SeekBar seekBar;// 进度条
     static public TextView totalTime;// 音乐总时长
     static public TextView curTime;// 音乐已播放时长
-    static public SQLiteDatabase database;// 数据库
+    static public ScrollView scrollView;// 滚动界面
 
     // TODO media多次点击
     static public Long myTime = System.currentTimeMillis();// 微秒时间
@@ -156,12 +162,26 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
 
     public void initUI() {
         musicName = findViewById(R.id.music_name);// 音乐名
-        musicName.setSelected(true);// TODO
+        scrollView = findViewById(R.id.music_scroll);// 滚动界面
 
         button_prev = findViewById(R.id.button_prev);// 上一曲
         button_next = findViewById(R.id.button_next);// 下一曲
         button_play = findViewById(R.id.button_play);// 播放按钮
         main_to_mix = findViewById(R.id.main_to_mix);// 添加至歌单
+
+        musicName.setSelected(true);// TODO 跑马灯
+
+        musicName.setOnClickListener(new View.OnClickListener() {// 点击滚动到指定歌曲
+            @Override
+            public void onClick(View v) {
+                LinearLayout layout = findViewById(R.id.music_list);
+                LinearLayout item = (LinearLayout) layout.getChildAt(playList.curMusicIndex);
+                if (item == null) return;
+                else {
+                    scrollView.scrollTo(0, item.getTop());// TODO 滚动到当前播放的音乐
+                }
+            }
+        });
 
         button_play.setOnClickListener(new View.OnClickListener() {// `播放/暂停`功能
             @Override

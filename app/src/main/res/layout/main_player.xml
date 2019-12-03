@@ -33,6 +33,7 @@
         android:background="@color/grey">
 
         <ScrollView
+            android:id="@+id/music_scroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="100dp">
