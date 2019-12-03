@@ -48,15 +48,13 @@ public class PlayTime {
                         MainPlayer.infoLog("cur time [" + cur_time + ", " + total_time + "]");
                         cur_time = MainPlayer.player.getCurrentPosition();// 当前进度
 
-                        if (MainPlayer.player.isPlaying()) {// TODO 启动播放后
-                            myActivity.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    updateBar();// 修改进度条
-                                    updateTime();// 修改当前进度
-                                }
-                            });
-                        }
+                        myActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                updateBar();// 修改进度条
+                                updateTime();// 修改当前进度
+                            }
+                        });
 
                         // 每一秒更新一次
                         Thread.sleep(1000);
@@ -115,7 +113,8 @@ public class PlayTime {
         int curProgress = MainPlayer.seekBar.getProgress();
         int maxProgress = MainPlayer.seekBar.getMax();
 
-        MainPlayer.player.seekTo(curProgress * total_time / maxProgress);// TODO 调整时间
+        cur_time = curProgress * total_time / maxProgress;
+        MainPlayer.player.seekTo(cur_time);// TODO 调整时间
 
         myActivity.runOnUiThread(new Runnable() {
             @Override
