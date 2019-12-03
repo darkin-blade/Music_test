@@ -130,6 +130,9 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
         playTime = new PlayTime(this, this);// 进度控制
         playList = new PlayList();// 播放列表控制
         mainPlayerList = new MainPlayerList(getWindow().getDecorView().findViewById(android.R.id.content), this);
+
+        // 调用核心组件初始化函数
+        playList.initData();// 恢复应用数据
     }
 
     public void initSeekBar() {
@@ -326,6 +329,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
 
     @Override
     public void onPause() {
+        infoLog("on pause");
         super.onPause();
     }
 

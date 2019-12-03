@@ -149,6 +149,7 @@ public class MixList extends DialogFragment {
         } else {
             MainPlayer.infoToast(getContext(), "no mix");
         }
+        cursor.close();
 
         changeButton(0);
     }
@@ -181,6 +182,7 @@ public class MixList extends DialogFragment {
         } else {
             MainPlayer.infoToast(getContext(), "no music");
         }
+        cursor.close();
 
         changeButton(1);
     }

@@ -72,7 +72,8 @@ public class MixNew extends DialogFragment {
                 EditText editText = myView.findViewById(R.id.mix_name);
                 String mix_name = editText.getText().toString();
 
-                if (mix_name == null || mix_name.length() == 0 || mix_name.length() >= 32 || mix_name.equals("mix_list")) {// 歌单名不能为空
+                if (mix_name == null || mix_name.length() == 0 || mix_name.length() >= 32
+                        || mix_name.equals("mix_list") || mix_name.equals("user_data")) {// 歌单名不能为空 TODO 歌单名不能为关键字
                     MainPlayer.infoToast(getContext(), "mix name invalid");
                     return;
                 }

@@ -50,6 +50,7 @@ public class MainPlayerList {
         } else {
             MainPlayer.infoToast(myContext, "no music");
         }
+        cursor.close();
     }
 
     // 列举歌单的参数

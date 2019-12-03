@@ -93,6 +93,7 @@ public class MainToMix extends DialogFragment {
         } else {
             MainPlayer.infoToast(getContext(), "no mix");
         }
+        cursor.close();
 
     }
 

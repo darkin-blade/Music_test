@@ -16,26 +16,53 @@ public class PlayList {
     ArrayList<String> curMusicList;// 当前歌单的所有歌曲
     int curMusicIndex;
     int curMixLen;
-    int is_start;// TODO 是否已经启动播放器
     Context myContext;
 
-    static final int CIRCULATE = 0,// 顺序播放
+    static public final int CIRCULATE = 0,// 顺序播放
             RANDOM = 1,// 随机
             SINGLE = 2,// 单曲循环
             AVERAGE = 3,// 平均
             POLARIZATION = 4;
 
     public PlayList() {
-        curMusicList = new ArrayList<String>();
     }
 
     public PlayList(Context context) {
         myContext = context;
+    }
+
+    public void initData() {
         curMusicList = new ArrayList<String>();
+        recover();// 恢复数据
     }
 
     public void recover() {// 每次启动app时进行数据恢复
-        // TODO
+        MainPlayer.cmd("create table if not exists user_data (\n" +
+                "  cur_mix varchar(32) default \"\",\n" +
+                "  cur_music varchar(128) default \"\",\n" +
+                "  play_mode int default 0\n" +
+                ");");// 用户数据存储
+        Cursor cursor = MainPlayer.database.query(
+                "user_data",
+                new String[] {"cur_mix", "cur_music", "play_mode"},
+                null,
+                null,
+                null,
+                null,
+                "cur_music");// 没用
+
+        if (cursor.moveToFirst()) {// 之前有保存应用数据
+            curMix = cursor.getString(0);
+            curMusic = cursor.getString(1);
+            playMode = cursor.getInt(2);
+            MainPlayer.mainPlayerList.listMusic();// 恢复歌单
+        }
+    }
+
+    public void save() {// TODO 保存应用数据到数据库
+        MainPlayer.cmd("delete from user_data;\n" +
+                "insert into user_data (cur_mix, cur_music, play_mode)\n" +
+                "  values ('" + curMix + "', '" + curMusic + "', " + playMode + ");");
     }
 
     public void loadList(String nextMix, String nextMusic) {// 加载专辑曲目,并播放特定歌曲
@@ -70,6 +97,7 @@ public class PlayList {
         } else {
             stopMusic();
         }
+        cursor.close();
 
         MainPlayer.mainPlayerList.listMusic();
 
