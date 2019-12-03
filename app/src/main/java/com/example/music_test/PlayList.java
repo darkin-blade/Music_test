@@ -135,15 +135,6 @@ public class PlayList {
         String tmpMix = curMix;// 记录之前正在播放的歌单
         String tmpMusic = curMusic;// 记录之前正在播放的音乐
 
-        if (curMix == nextMix && curMusic == nextMusic) {
-            ;
-        } else {
-            // 累计播放时间
-            MainPlayer.cmd("update " + curMix + " set count = count + " + MainPlayer.playTime.cumulate_time + " where path = '" + curMusic + "';");
-            MainPlayer.infoLog("update cumulative time: " + curMix + ", " + curMusic + ", " + MainPlayer.playTime.cumulate_time);
-            MainPlayer.playTime.cumulate_time = 0;// 重置时间
-        }
-
         if (nextMusic == null) {// 异常处理
             curMusic = curMusicList.get(0);
         } else {
@@ -175,14 +166,23 @@ public class PlayList {
         }
         cursor.close();
 
-        MainPlayer.mainPlayerList.listMusic();// TODO ui: 刷新播放次数
+        // TODO ui: 刷新播放次数
+        MainPlayer.mainPlayerList.listMusic();
+
         curMusicIndex = curMusicList.indexOf(curMusic);// 获取当前播放的音乐的索引 此步可能会重复 TODO 且如果没有播放音乐时该索引可能为负
 
-        if (tmpMusic == nextMusic && tmpMix == nextMix) {// TODO 歌单仍然有效
+        MainPlayer.infoLog("load " + curMix + ", " + curMusic + ", " + curMusicIndex);
+
+        if (tmpMusic.equals(nextMusic) && tmpMix.equals(nextMix)) {// TODO 歌单仍然有效
             if (curMusicIndex >= 0) {
                 return;
             }
         }
+
+        // 累计播放时间
+        MainPlayer.cmd("update " + tmpMix + " set count = count + " + MainPlayer.playTime.cumulate_time + " where path = '" + tmpMusic + "';");
+        MainPlayer.infoLog("update cumulative time: " + tmpMix + ", " + tmpMusic + ", " + MainPlayer.playTime.cumulate_time);
+        MainPlayer.playTime.cumulate_time = 0;// 重置时间
 
         changeMusic(curMusic, 0);
     }
