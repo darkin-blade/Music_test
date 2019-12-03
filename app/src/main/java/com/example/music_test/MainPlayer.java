@@ -169,7 +169,7 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
         button_play = findViewById(R.id.button_play);// 播放按钮
         main_to_mix = findViewById(R.id.main_to_mix);// 添加至歌单
 
-        musicName.setSelected(true);// TODO 跑马灯
+        musicName.setSelected(true);
         musicName.setOnClickListener(new View.OnClickListener() {// 点击滚动到指定歌曲
             @Override
             public void onClick(View v) {
