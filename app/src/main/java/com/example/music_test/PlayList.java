@@ -146,15 +146,17 @@ public class PlayList {
 //                changeMusic(null, 3);
                 }
             }
-        } catch (IOException e) {
+        } catch (IOException e) {// TODO prepare出错
             MainPlayer.infoLog("prepare failed: " + curMusic);
-            MainPlayer.infoToast(myContext, "invalid");
             MainPlayer.musicDelete(curMusic, curMix);
             if (MainPlayer.window_num == MainPlayer.MAIN_PALYER) {// 留在主界面
-                ;
+                MainPlayer.mainPlayerList.listMusic();// 刷新歌单
             } else if (MainPlayer.window_num == MainPlayer.MIX_LIST) {// 歌单界面
-                ;
+                if (MainPlayer.mixList.curMix == curMix) {// TODO 删除的歌曲在目前正在浏览的歌单里
+                    MainPlayer.mixList.listMusic(curMix);
+                }
             }
+            stopMusic();// 强制暂停
             e.printStackTrace();
         } catch (IllegalStateException e) {// TODO
             e.printStackTrace();
