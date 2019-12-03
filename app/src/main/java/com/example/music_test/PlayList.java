@@ -271,6 +271,8 @@ public class PlayList {
             } else if (is_complete == 1) {// TODO 自动播放下一首
                 is_playing = 1;
                 is_complete = 0;
+            } else {
+                is_playing = 0;
             }
 
             MainPlayer.playTime.reset();// TODO 切歌,进度置0
