@@ -145,7 +145,15 @@ public class MixList extends DialogFragment {
         if (cursor.moveToFirst()) {// TODO 判断非空
             do {
                 String mix_name = cursor.getString(0);// 获取歌单名
-                create_item(new String[]{mix_name, "TODO"}, 0);// TODO 列举歌单
+                Cursor cursor_count = MainPlayer.database.query(
+                        mix_name,// 歌单详情
+                        new String[]{"path", "name", "count"},
+                        null,
+                        null,
+                        null,
+                        null,
+                        "name");// 统计歌单内歌曲数目
+                create_item(new String[]{mix_name, "total: " + cursor_count.getCount()}, 0);// TODO 列举歌单
             } while (cursor.moveToNext());
         } else {
             MainPlayer.infoToast(getContext(), "no mix");
