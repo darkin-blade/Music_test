@@ -51,20 +51,51 @@ public class PlayList {
                 null,
                 "cur_music");// 没用
 
+        if (1 == 1) {
+            return;
+        }
+
         MainPlayer.infoLog("cursor size: " + cursor.getCount());
-        if (cursor.moveToFirst()) {// 之前有保存应用数据
+        if (cursor.moveToFirst()) {// 有之前的应用数据
             curMix = cursor.getString(0);
             curMusic = cursor.getString(1);
             playMode = cursor.getInt(2);
+            cursor.close();
+
+            // 手动加载歌单
             if (curMix.length() > 0 && curMusic.length() > 0) {// 有效数据
-                loadList(curMix, curMusic);// 恢复歌单
-                stopMusic();// TODO
+                curMusicList.clear();
+                curMixLen = 0;
+
+                cursor = MainPlayer.database.query(
+                        curMix,// 当前歌单
+                        new String[]{"path", "name", "count"},
+                        null,
+                        null,
+                        null,
+                        null,
+                        "name");
+
+                if (cursor.moveToFirst()) {// 歌单非空
+                    do {
+                        String music_name = cursor.getString(0);// 获取歌名
+                        curMusicList.add(music_name);
+                        curMixLen ++;
+                        MainPlayer.infoLog("add to play list: " + music_name);
+                    } while (cursor.moveToNext());
+                } else {
+                    ;// TODO
+                }
+                cursor.close();
+
+                MainPlayer.mainPlayerList.listMusic();
+                curMusicIndex = curMusicList.indexOf(curMusic);// 获取当前播放的音乐的索引 此步可能会重复 且如果没有播放音乐时该索引可能为负
+                MainPlayer.playTime.load();
             }
             MainPlayer.infoLog("[" + curMix + "][" + curMusicIndex + "/" + curMixLen + "][" + curMusic + "]");
         } else {
             MainPlayer.infoLog("cannot find user data");
         }
-        cursor.close();
     }
 
     public void save() {// TODO 保存应用数据到数据库
@@ -74,8 +105,6 @@ public class PlayList {
         if (result == 0) {
             MainPlayer.infoLog("save user data succeed");
         }
-
-        recover();// TODO debug
     }
 
     public void loadList(String nextMix, String nextMusic) {// 加载专辑曲目,并播放特定歌曲
@@ -138,6 +167,7 @@ public class PlayList {
     }
 
     public void changeMusic(String nextMusic, int mode) {
+        MainPlayer.infoLog("change to " + nextMusic);
         // mode: 0: 指定跳转, 1: 向后跳转, 2: 向前跳转, 3: 重新播放 TODO
         // TODO 播放模式
         if (curMusicList == null || curMusicList.size() <= 0) {
