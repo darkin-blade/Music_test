@@ -31,10 +31,11 @@ public class PlayTime {
 
         MainPlayer.button_play.setBackgroundResource(R.drawable.player_pause);
 
-        // 初始化音乐播放
+        // 中断正在播放的线程
         if (musicPlay != null && musicPlay.isAlive()) {
             musicPlay.interrupt();
         }
+        // 初始化音乐播放
         musicPlay = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -63,14 +64,14 @@ public class PlayTime {
                         Thread.sleep(1000);
 
                         cumulate_time ++;// TODO 累计播放时间
-                        MainPlayer.infoLog("update time: " + cumulate_time);
+                        MainPlayer.infoLog("update time[" + Thread.currentThread().toString() + "]: " + cumulate_time);
                     } catch (InterruptedException e) {
                         MainPlayer.infoLog("pause music");
                         e.printStackTrace();
                     }
 
                     if (MainPlayer.player.isPlaying() == false) {// TODO 多余
-                        musicPlay.interrupt();// 暂停
+                        Thread.currentThread().interrupt();// 暂停(一定要用curThread)
                     }
                 }
             }
