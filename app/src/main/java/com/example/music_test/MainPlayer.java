@@ -170,10 +170,10 @@ public class MainPlayer extends AppCompatActivity implements DialogInterface.OnD
         main_to_mix = findViewById(R.id.main_to_mix);// 添加至歌单
 
         musicName.setSelected(true);// TODO 跑马灯
-
         musicName.setOnClickListener(new View.OnClickListener() {// 点击滚动到指定歌曲
             @Override
             public void onClick(View v) {
+                infoLog("music name clicked");
                 LinearLayout layout = findViewById(R.id.music_list);
                 LinearLayout item = (LinearLayout) layout.getChildAt(playList.curMusicIndex);
                 if (item == null) return;
